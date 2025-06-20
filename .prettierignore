@@ -1,0 +1,5 @@
+# PNPM files
+pnpm-lock.yaml
+
+# TanStack Start files
+src/routeTree.gen.ts
