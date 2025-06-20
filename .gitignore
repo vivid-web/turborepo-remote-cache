@@ -1,0 +1,6 @@
+/.idea
+/.tanstack
+/.vite
+/node_modules
+
+count.txt
