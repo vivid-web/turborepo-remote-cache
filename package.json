@@ -24,8 +24,12 @@
 		"@tanstack/react-router-devtools": "^1.127.3",
 		"@tanstack/react-router-with-query": "^1.127.3",
 		"@tanstack/react-start": "^1.127.4",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"lucide-react": "^0.525.0",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"tailwind-merge": "^3.3.1"
 	},
 	"devDependencies": {
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
@@ -47,6 +51,7 @@
 		"prettier": "^3.6.2",
 		"prettier-plugin-tailwindcss": "^0.6.14",
 		"tailwindcss": "^4.1.11",
+		"tw-animate-css": "^1.3.5",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.36.0",
 		"vite": "^7.0.4",
