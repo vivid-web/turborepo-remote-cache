@@ -1,0 +1,35 @@
+{
+  "name": "turborepo-remote-cache",
+  "description": "The admin panel for Turborepo cache",
+  "keywords": [
+    "Turborepo",
+    "cache",
+    "remote",
+    "admin"
+  ],
+  "author": "Peter van Meijgaard <peter@vivid-web.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.127.3",
+    "@tanstack/react-router-devtools": "^1.127.3",
+    "@tanstack/react-start": "^1.127.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.4",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "packageManager": "pnpm@10.12.1"
+}
