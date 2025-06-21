@@ -86,6 +86,7 @@ export default ts.config(
 					varsIgnorePattern: "^_",
 				},
 			],
+			"@typescript-eslint/only-throw-error": "off",
 			"@typescript-eslint/prefer-nullish-coalescing": [
 				"error",
 				{
