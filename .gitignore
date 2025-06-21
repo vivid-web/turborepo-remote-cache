@@ -4,3 +4,5 @@
 /.tanstack
 /.vite
 /node_modules
+
+.eslintcache
