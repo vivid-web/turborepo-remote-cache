@@ -1,7 +1,6 @@
-// src/routes/index.tsx
-import * as fs from "node:fs";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
+import * as fs from "node:fs";
 
 const filePath = "count.txt";
 
@@ -21,6 +20,7 @@ const updateCount = createServerFn({ method: "POST" })
 	.validator((d: number) => d)
 	.handler(async ({ data }) => {
 		const count = await readCount();
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		await fs.promises.writeFile(filePath, `${count + data}`);
 	});
 
@@ -35,12 +35,12 @@ function Home() {
 
 	return (
 		<button
-			type="button"
 			onClick={() => {
-				updateCount({ data: 1 }).then(() => {
-					router.invalidate();
+				void updateCount({ data: 1 }).then(() => {
+					void router.invalidate();
 				});
 			}}
+			type="button"
 		>
 			Add 1 to {state}?
 		</button>
