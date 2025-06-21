@@ -1,11 +1,11 @@
-import * as React from "react";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import {
 	createRootRoute,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import * as React from "react";
 
 export const Route = createRootRoute({
 	head: () => ({
