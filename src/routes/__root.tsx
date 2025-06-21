@@ -1,15 +1,19 @@
 // src/routes/__root.tsx
 import type { ReactNode } from "react";
 
+import { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
-	createRootRoute,
+	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+}>()({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -37,6 +41,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<body>
 				{children}
 				<TanStackRouterDevtools position="bottom-right" />
+				<ReactQueryDevtools buttonPosition="bottom-left" />
 				<Scripts />
 			</body>
 		</html>
