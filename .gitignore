@@ -3,4 +3,5 @@
 /.vite
 /node_modules
 
+.eslintcache
 count.txt

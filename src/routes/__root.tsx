@@ -1,12 +1,13 @@
 // src/routes/__root.tsx
 import type { ReactNode } from "react";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
 import {
 	createRootRoute,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 export const Route = createRootRoute({
 	head: () => ({
