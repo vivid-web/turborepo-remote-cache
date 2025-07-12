@@ -12,5 +12,5 @@ const client = neon(process.env.DATABASE_URL!);
 export const db = drizzle({
 	casing: "snake_case",
 	client,
-	schema,
+	schema
 });
