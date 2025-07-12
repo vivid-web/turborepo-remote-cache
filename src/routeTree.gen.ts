@@ -14,7 +14,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as GuestRouteRouteImport } from './routes/_guest/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as GuestLoginRouteRouteImport } from './routes/_guest.login/route'
+import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authenticated.users/route'
 import { Route as AuthenticatedIndexRouteRouteImport } from './routes/_authenticated.index/route'
+import { Route as AuthenticatedUsersIndexRouteRouteImport } from './routes/_authenticated.users.index/route'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -32,11 +34,22 @@ const GuestLoginRouteRoute = GuestLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => GuestRouteRoute,
 } as any)
+const AuthenticatedUsersRouteRoute = AuthenticatedUsersRouteRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedIndexRouteRoute = AuthenticatedIndexRouteRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedUsersIndexRouteRoute =
+  AuthenticatedUsersIndexRouteRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedUsersRouteRoute,
+  } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -45,30 +58,37 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRouteRoute
+  '/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/login': typeof GuestLoginRouteRoute
+  '/users/': typeof AuthenticatedUsersIndexRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRouteRoute
   '/login': typeof GuestLoginRouteRoute
+  '/users': typeof AuthenticatedUsersIndexRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_guest': typeof GuestRouteRouteWithChildren
   '/_authenticated/': typeof AuthenticatedIndexRouteRoute
+  '/_authenticated/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/_guest/login': typeof GuestLoginRouteRoute
+  '/_authenticated/users/': typeof AuthenticatedUsersIndexRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths: '/' | '/users' | '/login' | '/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
+  to: '/' | '/login' | '/users'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_guest'
     | '/_authenticated/'
+    | '/_authenticated/users'
     | '/_guest/login'
+    | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -120,12 +140,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestLoginRouteRouteImport
       parentRoute: typeof GuestRouteRoute
     }
+    '/_authenticated/users': {
+      id: '/_authenticated/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedUsersRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/': {
       id: '/_authenticated/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/users/': {
+      id: '/_authenticated/users/'
+      path: '/'
+      fullPath: '/users/'
+      preLoaderRoute: typeof AuthenticatedUsersIndexRouteRouteImport
+      parentRoute: typeof AuthenticatedUsersRouteRoute
     }
   }
 }
@@ -141,12 +175,28 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AuthenticatedUsersRouteRouteChildren {
+  AuthenticatedUsersIndexRouteRoute: typeof AuthenticatedUsersIndexRouteRoute
+}
+
+const AuthenticatedUsersRouteRouteChildren: AuthenticatedUsersRouteRouteChildren =
+  {
+    AuthenticatedUsersIndexRouteRoute: AuthenticatedUsersIndexRouteRoute,
+  }
+
+const AuthenticatedUsersRouteRouteWithChildren =
+  AuthenticatedUsersRouteRoute._addFileChildren(
+    AuthenticatedUsersRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRouteRoute: typeof AuthenticatedIndexRouteRoute
+  AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRouteRoute: AuthenticatedIndexRouteRoute,
+  AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
