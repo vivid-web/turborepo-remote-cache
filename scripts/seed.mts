@@ -1,5 +1,12 @@
 import { db } from "drizzle/db";
-import { account, session, user, verification } from "drizzle/schema";
+import {
+	account,
+	artifact,
+	session,
+	team,
+	user,
+	verification,
+} from "drizzle/schema";
 
 import { auth } from "@/lib/auth";
 
@@ -9,6 +16,8 @@ async function seed() {
 
 	console.time("🧹 Cleaned up the database...");
 
+	await db.delete(artifact);
+	await db.delete(team);
 	await db.delete(verification);
 	await db.delete(session);
 	await db.delete(account);
@@ -23,6 +32,16 @@ async function seed() {
 			password: "Test@1234",
 		},
 	});
+
+	const [insertedTeam] = await db
+		.insert(team)
+		.values({
+			name: "Dream Team",
+			description: "The most awesome team on the planet",
+		})
+		.returning();
+
+	await db.insert(artifact).values({ teamId: insertedTeam.id });
 
 	console.timeEnd(`🌱 Database has been seeded`);
 }
