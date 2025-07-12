@@ -16,7 +16,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as GuestLoginRouteImport } from './routes/_guest/login'
 import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authenticated/users.route'
+import { Route as AuthenticatedTeamsRouteRouteImport } from './routes/_authenticated/teams.route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users.index'
+import { Route as AuthenticatedTeamsIndexRouteImport } from './routes/_authenticated/teams.index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -44,10 +46,20 @@ const AuthenticatedUsersRouteRoute = AuthenticatedUsersRouteRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTeamsRouteRoute = AuthenticatedTeamsRouteRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedUsersRouteRoute,
+} as any)
+const AuthenticatedTeamsIndexRoute = AuthenticatedTeamsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedTeamsRouteRoute,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
@@ -56,37 +68,44 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/teams': typeof AuthenticatedTeamsRouteRouteWithChildren
   '/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/teams/': typeof AuthenticatedTeamsIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/teams': typeof AuthenticatedTeamsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_guest': typeof GuestRouteRouteWithChildren
+  '/_authenticated/teams': typeof AuthenticatedTeamsRouteRouteWithChildren
   '/_authenticated/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/_guest/login': typeof GuestLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/teams/': typeof AuthenticatedTeamsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/users' | '/login' | '/' | '/users/'
+  fullPaths: '/teams' | '/users' | '/login' | '/' | '/teams/' | '/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/users'
+  to: '/login' | '/' | '/teams' | '/users'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_guest'
+    | '/_authenticated/teams'
     | '/_authenticated/users'
     | '/_guest/login'
     | '/_authenticated/'
+    | '/_authenticated/teams/'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }
@@ -153,12 +172,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/teams': {
+      id: '/_authenticated/teams'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof AuthenticatedTeamsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/'
       fullPath: '/users/'
       preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
       parentRoute: typeof AuthenticatedUsersRouteRoute
+    }
+    '/_authenticated/teams/': {
+      id: '/_authenticated/teams/'
+      path: '/'
+      fullPath: '/teams/'
+      preLoaderRoute: typeof AuthenticatedTeamsIndexRouteImport
+      parentRoute: typeof AuthenticatedTeamsRouteRoute
     }
   }
 }
@@ -173,6 +206,20 @@ declare module '@tanstack/react-start/server' {
     }
   }
 }
+
+interface AuthenticatedTeamsRouteRouteChildren {
+  AuthenticatedTeamsIndexRoute: typeof AuthenticatedTeamsIndexRoute
+}
+
+const AuthenticatedTeamsRouteRouteChildren: AuthenticatedTeamsRouteRouteChildren =
+  {
+    AuthenticatedTeamsIndexRoute: AuthenticatedTeamsIndexRoute,
+  }
+
+const AuthenticatedTeamsRouteRouteWithChildren =
+  AuthenticatedTeamsRouteRoute._addFileChildren(
+    AuthenticatedTeamsRouteRouteChildren,
+  )
 
 interface AuthenticatedUsersRouteRouteChildren {
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
@@ -189,11 +236,13 @@ const AuthenticatedUsersRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedTeamsRouteRoute: typeof AuthenticatedTeamsRouteRouteWithChildren
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedTeamsRouteRoute: AuthenticatedTeamsRouteRouteWithChildren,
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
