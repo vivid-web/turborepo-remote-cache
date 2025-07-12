@@ -5,7 +5,7 @@ import {
 	Outlet,
 	redirect,
 } from "@tanstack/react-router";
-import { DatabaseZapIcon, UserIcon } from "lucide-react";
+import { DatabaseZapIcon, UserIcon, UsersIcon } from "lucide-react";
 import * as React from "react";
 
 import { Separator } from "@/components/ui/separator";
@@ -86,6 +86,14 @@ function PathlessLayoutComponent() {
 										<Link to="/users">
 											<UserIcon />
 											<span>Users</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Teams" asChild>
+										<Link to="/teams">
+											<UsersIcon />
+											<span>Teams</span>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
