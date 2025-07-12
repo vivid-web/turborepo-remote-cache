@@ -5,7 +5,7 @@ import {
 	Outlet,
 	redirect,
 } from "@tanstack/react-router";
-import { DatabaseZapIcon } from "lucide-react";
+import { DatabaseZapIcon, UserIcon } from "lucide-react";
 import * as React from "react";
 
 import { RouteBreadcrumb } from "@/components/route-breadcrumb";
@@ -14,6 +14,8 @@ import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
 	SidebarHeader,
 	SidebarInset,
 	SidebarMenu,
@@ -74,7 +76,22 @@ function PathlessLayoutComponent() {
 					</SidebarMenu>
 				</SidebarHeader>
 
-				<SidebarContent>{/*todo: place content*/}</SidebarContent>
+				<SidebarContent>
+					<SidebarGroup>
+						<SidebarGroupContent className="flex flex-col gap-2">
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Users" asChild>
+										<Link to="/users">
+											<UserIcon />
+											<span>Users</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				</SidebarContent>
 
 				<SidebarFooter>
 					<SidebarMenu>
