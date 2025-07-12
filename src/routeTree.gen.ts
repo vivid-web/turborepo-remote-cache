@@ -18,6 +18,9 @@ import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTeamsRouteRouteImport } from './routes/_authenticated.teams/route'
 import { Route as AuthenticatedArtifactsRouteRouteImport } from './routes/_authenticated.artifacts/route'
 import { Route as AuthenticatedIndexRouteRouteImport } from './routes/_authenticated.index/route'
+import { Route as AuthenticatedUsersUserIdRouteRouteImport } from './routes/_authenticated.users.$userId/route'
+import { Route as AuthenticatedTeamsTeamIdRouteRouteImport } from './routes/_authenticated.teams.$teamId/route'
+import { Route as AuthenticatedArtifactsArtifactIdRouteRouteImport } from './routes/_authenticated.artifacts.$artifactId/route'
 import { Route as AuthenticatedUsersIndexRouteRouteImport } from './routes/_authenticated.users.index/route'
 import { Route as AuthenticatedTeamsIndexRouteRouteImport } from './routes/_authenticated.teams.index/route'
 import { Route as AuthenticatedArtifactsIndexRouteRouteImport } from './routes/_authenticated.artifacts.index/route'
@@ -59,6 +62,24 @@ const AuthenticatedIndexRouteRoute = AuthenticatedIndexRouteRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedUsersUserIdRouteRoute =
+  AuthenticatedUsersUserIdRouteRouteImport.update({
+    id: '/$userId',
+    path: '/$userId',
+    getParentRoute: () => AuthenticatedUsersRouteRoute,
+  } as any)
+const AuthenticatedTeamsTeamIdRouteRoute =
+  AuthenticatedTeamsTeamIdRouteRouteImport.update({
+    id: '/$teamId',
+    path: '/$teamId',
+    getParentRoute: () => AuthenticatedTeamsRouteRoute,
+  } as any)
+const AuthenticatedArtifactsArtifactIdRouteRoute =
+  AuthenticatedArtifactsArtifactIdRouteRouteImport.update({
+    id: '/$artifactId',
+    path: '/$artifactId',
+    getParentRoute: () => AuthenticatedArtifactsRouteRoute,
+  } as any)
 const AuthenticatedUsersIndexRouteRoute =
   AuthenticatedUsersIndexRouteRouteImport.update({
     id: '/',
@@ -92,6 +113,9 @@ export interface FileRoutesByFullPath {
   '/artifacts/': typeof AuthenticatedArtifactsIndexRouteRoute
   '/teams/': typeof AuthenticatedTeamsIndexRouteRoute
   '/users/': typeof AuthenticatedUsersIndexRouteRoute
+  '/artifacts/$artifactId': typeof AuthenticatedArtifactsArtifactIdRouteRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRouteRoute
+  '/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRouteRoute
@@ -99,6 +123,9 @@ export interface FileRoutesByTo {
   '/artifacts': typeof AuthenticatedArtifactsIndexRouteRoute
   '/teams': typeof AuthenticatedTeamsIndexRouteRoute
   '/users': typeof AuthenticatedUsersIndexRouteRoute
+  '/artifacts/$artifactId': typeof AuthenticatedArtifactsArtifactIdRouteRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRouteRoute
+  '/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,6 +139,9 @@ export interface FileRoutesById {
   '/_authenticated/artifacts/': typeof AuthenticatedArtifactsIndexRouteRoute
   '/_authenticated/teams/': typeof AuthenticatedTeamsIndexRouteRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRouteRoute
+  '/_authenticated/artifacts/$artifactId': typeof AuthenticatedArtifactsArtifactIdRouteRoute
+  '/_authenticated/teams/$teamId': typeof AuthenticatedTeamsTeamIdRouteRoute
+  '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,8 +154,19 @@ export interface FileRouteTypes {
     | '/artifacts/'
     | '/teams/'
     | '/users/'
+    | '/artifacts/$artifactId'
+    | '/teams/$teamId'
+    | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/artifacts' | '/teams' | '/users'
+  to:
+    | '/'
+    | '/login'
+    | '/artifacts'
+    | '/teams'
+    | '/users'
+    | '/artifacts/$artifactId'
+    | '/teams/$teamId'
+    | '/users/$userId'
   id:
     | '__root__'
     | '/_authenticated'
@@ -138,6 +179,9 @@ export interface FileRouteTypes {
     | '/_authenticated/artifacts/'
     | '/_authenticated/teams/'
     | '/_authenticated/users/'
+    | '/_authenticated/artifacts/$artifactId'
+    | '/_authenticated/teams/$teamId'
+    | '/_authenticated/users/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -217,6 +261,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/users/$userId': {
+      id: '/_authenticated/users/$userId'
+      path: '/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof AuthenticatedUsersUserIdRouteRouteImport
+      parentRoute: typeof AuthenticatedUsersRouteRoute
+    }
+    '/_authenticated/teams/$teamId': {
+      id: '/_authenticated/teams/$teamId'
+      path: '/$teamId'
+      fullPath: '/teams/$teamId'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdRouteRouteImport
+      parentRoute: typeof AuthenticatedTeamsRouteRoute
+    }
+    '/_authenticated/artifacts/$artifactId': {
+      id: '/_authenticated/artifacts/$artifactId'
+      path: '/$artifactId'
+      fullPath: '/artifacts/$artifactId'
+      preLoaderRoute: typeof AuthenticatedArtifactsArtifactIdRouteRouteImport
+      parentRoute: typeof AuthenticatedArtifactsRouteRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/'
@@ -254,12 +319,15 @@ declare module '@tanstack/react-start/server' {
 
 interface AuthenticatedArtifactsRouteRouteChildren {
   AuthenticatedArtifactsIndexRouteRoute: typeof AuthenticatedArtifactsIndexRouteRoute
+  AuthenticatedArtifactsArtifactIdRouteRoute: typeof AuthenticatedArtifactsArtifactIdRouteRoute
 }
 
 const AuthenticatedArtifactsRouteRouteChildren: AuthenticatedArtifactsRouteRouteChildren =
   {
     AuthenticatedArtifactsIndexRouteRoute:
       AuthenticatedArtifactsIndexRouteRoute,
+    AuthenticatedArtifactsArtifactIdRouteRoute:
+      AuthenticatedArtifactsArtifactIdRouteRoute,
   }
 
 const AuthenticatedArtifactsRouteRouteWithChildren =
@@ -269,11 +337,13 @@ const AuthenticatedArtifactsRouteRouteWithChildren =
 
 interface AuthenticatedTeamsRouteRouteChildren {
   AuthenticatedTeamsIndexRouteRoute: typeof AuthenticatedTeamsIndexRouteRoute
+  AuthenticatedTeamsTeamIdRouteRoute: typeof AuthenticatedTeamsTeamIdRouteRoute
 }
 
 const AuthenticatedTeamsRouteRouteChildren: AuthenticatedTeamsRouteRouteChildren =
   {
     AuthenticatedTeamsIndexRouteRoute: AuthenticatedTeamsIndexRouteRoute,
+    AuthenticatedTeamsTeamIdRouteRoute: AuthenticatedTeamsTeamIdRouteRoute,
   }
 
 const AuthenticatedTeamsRouteRouteWithChildren =
@@ -283,11 +353,13 @@ const AuthenticatedTeamsRouteRouteWithChildren =
 
 interface AuthenticatedUsersRouteRouteChildren {
   AuthenticatedUsersIndexRouteRoute: typeof AuthenticatedUsersIndexRouteRoute
+  AuthenticatedUsersUserIdRouteRoute: typeof AuthenticatedUsersUserIdRouteRoute
 }
 
 const AuthenticatedUsersRouteRouteChildren: AuthenticatedUsersRouteRouteChildren =
   {
     AuthenticatedUsersIndexRouteRoute: AuthenticatedUsersIndexRouteRoute,
+    AuthenticatedUsersUserIdRouteRoute: AuthenticatedUsersUserIdRouteRoute,
   }
 
 const AuthenticatedUsersRouteRouteWithChildren =
