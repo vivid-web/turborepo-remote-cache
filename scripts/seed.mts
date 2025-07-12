@@ -1,13 +1,28 @@
-// eslint-disable-next-line @typescript-eslint/require-await
+import { db } from "drizzle/db";
+import { account, session, user, verification } from "drizzle/schema";
+
+import { auth } from "@/lib/auth";
+
 async function seed() {
 	console.log("🌱 Seeding...");
 	console.time(`🌱 Database has been seeded`);
 
 	console.time("🧹 Cleaned up the database...");
 
-	// Nothing to migrate...
+	await db.delete(verification);
+	await db.delete(session);
+	await db.delete(account);
+	await db.delete(user);
 
 	console.timeEnd("🧹 Cleaned up the database...");
+
+	await auth.api.signUpEmail({
+		body: {
+			name: "John Doe",
+			email: "admin@example.com",
+			password: "Test@1234",
+		},
+	});
 
 	console.timeEnd(`🌱 Database has been seeded`);
 }
