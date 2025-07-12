@@ -7,13 +7,29 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { createServerFn } from "@tanstack/react-start";
+import { getWebRequest } from "@tanstack/react-start/server";
 import * as React from "react";
 
+import { auth } from "@/lib/auth";
 import appCss from "@/styles/app.css?url";
+
+const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
+	const { headers } = getWebRequest();
+
+	const session = await auth.api.getSession({ headers });
+
+	return session?.user ?? null;
+});
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
 }>()({
+	beforeLoad: async () => {
+		const user = await fetchUser();
+
+		return { user };
+	},
 	head: () => ({
 		links: [{ rel: "stylesheet", href: appCss }],
 		meta: [
