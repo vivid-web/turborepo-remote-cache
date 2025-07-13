@@ -5,7 +5,14 @@ import { user } from "drizzle/schema";
 
 import { auth } from "@/middlewares/auth";
 
-import { RemoveUserSchema, SearchSchema } from "./-schemas";
+import { AddNewUserSchema, RemoveUserSchema, SearchSchema } from "./-schemas";
+
+const addNewUser = createServerFn({ method: "POST" })
+	.middleware([auth])
+	.validator(AddNewUserSchema)
+	.handler(async ({ data }) => {
+		await db.insert(user).values(data);
+	});
 
 const getAllUsers = createServerFn({ method: "GET" })
 	.middleware([auth])
@@ -42,4 +49,4 @@ const removeUser = createServerFn({ method: "POST" })
 		await db.delete(user).where(eq(user.id, data.id));
 	});
 
-export { getAllUsers, getTotalUsers, removeUser };
+export { addNewUser, getAllUsers, getTotalUsers, removeUser };
