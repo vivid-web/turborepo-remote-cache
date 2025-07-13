@@ -1,6 +1,14 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getTotalUsers } from "./-server-fns";
+import { SearchInput } from "./-schemas";
+import { getAllUsers, getTotalUsers } from "./-server-fns";
+
+function allUsersQueryOptions({ query }: SearchInput) {
+	return queryOptions({
+		queryFn: async () => getAllUsers({ data: { query } }),
+		queryKey: ["all-users", query],
+	});
+}
 
 function totalUsersQueryOptions() {
 	return queryOptions({
@@ -9,4 +17,4 @@ function totalUsersQueryOptions() {
 	});
 }
 
-export { totalUsersQueryOptions };
+export { allUsersQueryOptions, totalUsersQueryOptions };
