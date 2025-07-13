@@ -6,7 +6,19 @@ import { z } from "zod";
 
 import { auth } from "@/middlewares/auth";
 
-import { EditUserSchema, RemoveUserSchema, SearchSchema } from "./-schemas";
+import {
+	AddNewUserSchema,
+	EditUserSchema,
+	RemoveUserSchema,
+	SearchSchema,
+} from "./-schemas";
+
+const addNewUser = createServerFn({ method: "POST" })
+	.middleware([auth])
+	.validator(AddNewUserSchema)
+	.handler(async ({ data }) => {
+		await db.insert(user).values(data);
+	});
 
 const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
@@ -76,4 +88,11 @@ const removeUser = createServerFn({ method: "POST" })
 		await db.delete(user).where(eq(user.id, data.id));
 	});
 
-export { checkIfEmailUnique, editUser, getAllUsers, getTotalUsers, removeUser };
+export {
+	addNewUser,
+	checkIfEmailUnique,
+	editUser,
+	getAllUsers,
+	getTotalUsers,
+	removeUser,
+};
