@@ -5,7 +5,31 @@ import { user } from "drizzle/schema";
 
 import { auth } from "@/middlewares/auth";
 
-import { RemoveUserSchema } from "./-schemas";
+import { RemoveUserSchema, SearchSchema } from "./-schemas";
+
+const getAllUsers = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(SearchSchema)
+	.handler(async ({ data: { query } }) => {
+		return await db.query.user.findMany({
+			where: (users, { ilike, or }) => {
+				if (!query) {
+					return undefined;
+				}
+
+				return or(
+					ilike(users.email, `%${query}%`),
+					ilike(users.name, `%${query}%`),
+				);
+			},
+			columns: {
+				id: true,
+				name: true,
+				image: true,
+				email: true,
+			},
+		});
+	});
 
 const getTotalUsers = createServerFn({ method: "GET" })
 	.middleware([auth])
@@ -18,4 +42,4 @@ const removeUser = createServerFn({ method: "POST" })
 		await db.delete(user).where(eq(user.id, data.id));
 	});
 
-export { getTotalUsers, removeUser };
+export { getAllUsers, getTotalUsers, removeUser };

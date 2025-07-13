@@ -4,8 +4,14 @@ const RemoveUserSchema = z.object({
 	id: z.string(),
 });
 
+const SearchSchema = z.object({
+	query: z.string().optional(),
+});
+
 type RemoveUserInput = z.input<typeof RemoveUserSchema>;
 
-export { RemoveUserSchema };
+type SearchInput = z.input<typeof SearchSchema>;
 
-export type { RemoveUserInput };
+export { RemoveUserSchema, SearchSchema };
+
+export type { RemoveUserInput, SearchInput };

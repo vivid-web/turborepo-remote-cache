@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { PropsWithChildren } from "react";
@@ -16,9 +17,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useAppForm } from "@/components/ui/form";
 
-import { totalUsersQueryOptions } from "../-queries";
+import { allUsersQueryOptions, totalUsersQueryOptions } from "../-queries";
 import { RemoveUserInput, RemoveUserSchema } from "../-schemas";
 import { removeUser } from "../-server-fns";
+
+const route = getRouteApi("/_authenticated/users/");
 
 const REMOVE_USER_FORM_ID = "remove-user-form";
 
@@ -26,6 +29,7 @@ function RemoveUserDialog({ children, id }: PropsWithChildren<{ id: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
+	const search = route.useSearch();
 
 	const mutation = useMutation({
 		mutationFn: async (data: RemoveUserInput) => {
@@ -33,6 +37,7 @@ function RemoveUserDialog({ children, id }: PropsWithChildren<{ id: string }>) {
 		},
 		onSuccess: async () => {
 			await Promise.all([
+				queryClient.invalidateQueries(allUsersQueryOptions(search)),
 				queryClient.invalidateQueries(totalUsersQueryOptions()),
 			]);
 
