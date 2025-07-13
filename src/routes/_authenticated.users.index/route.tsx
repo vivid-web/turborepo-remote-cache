@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { UserPlusIcon } from "lucide-react";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
+
+import { AddNewUserDialog } from "./-components/add-new-user-dialog";
 import { AllUsersCard } from "./-components/all-users-card";
 import { TotalUsersCard } from "./-components/total-users-card";
 import { allUsersQueryOptions, totalUsersQueryOptions } from "./-queries";
@@ -31,6 +35,12 @@ function RouteComponent() {
 						Manage users and their access to the Turborepo cache
 					</p>
 				</div>
+				<AddNewUserDialog>
+					<Button className="gap-2">
+						<UserPlusIcon className="h-4 w-4" />
+						Add User
+					</Button>
+				</AddNewUserDialog>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
