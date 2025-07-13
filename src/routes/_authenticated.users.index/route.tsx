@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { AllUsersCard } from "./-components/all-users-card";
 import { TotalUsersCard } from "./-components/total-users-card";
-import { totalUsersQueryOptions } from "./-queries";
+import { allUsersQueryOptions, totalUsersQueryOptions } from "./-queries";
 
 const SearchSchema = z.object({
 	query: z.string().optional(),
@@ -12,8 +13,9 @@ export const Route = createFileRoute("/_authenticated/users/")({
 	component: RouteComponent,
 	validateSearch: SearchSchema,
 	loaderDeps: ({ search }) => search,
-	loader: async ({ context }) => {
+	loader: async ({ context, deps: search }) => {
 		await Promise.all([
+			context.queryClient.ensureQueryData(allUsersQueryOptions(search)),
 			context.queryClient.ensureQueryData(totalUsersQueryOptions()),
 		]);
 	},
@@ -34,6 +36,8 @@ function RouteComponent() {
 			<div className="grid gap-4 md:grid-cols-3">
 				<TotalUsersCard />
 			</div>
+
+			<AllUsersCard />
 		</div>
 	);
 }
