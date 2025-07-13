@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 
 import { TotalUsersCard } from "./-components/total-users-card";
 import { totalUsersQueryOptions } from "./-queries";
 
+const SearchSchema = z.object({
+	query: z.string().optional(),
+});
+
 export const Route = createFileRoute("/_authenticated/users/")({
 	component: RouteComponent,
+	validateSearch: SearchSchema,
+	loaderDeps: ({ search }) => search,
 	loader: async ({ context }) => {
 		await Promise.all([
 			context.queryClient.ensureQueryData(totalUsersQueryOptions()),
