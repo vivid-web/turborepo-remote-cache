@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
@@ -18,8 +18,8 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { allUsersQueryOptions, totalUsersQueryOptions } from "../-queries";
-import { AddNewUserInput, AddNewUserSchema } from "../-schemas";
-import { addNewUser } from "../-server-fns";
+import { AddNewUserSchema } from "../-schemas";
+import { addNewUser, checkIfEmailUnique } from "../-server-fns";
 
 const route = getRouteApi("/_authenticated/users/");
 
@@ -31,22 +31,6 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const queryClient = useQueryClient();
 	const search = route.useSearch();
 
-	const mutation = useMutation({
-		mutationFn: async (data: AddNewUserInput) => {
-			await addNewUser({ data });
-		},
-		onSuccess: async () => {
-			form.reset();
-
-			await Promise.all([
-				queryClient.invalidateQueries(allUsersQueryOptions(search)),
-				queryClient.invalidateQueries(totalUsersQueryOptions()),
-			]);
-
-			setIsOpen(false);
-		},
-	});
-
 	const form = useAppForm({
 		defaultValues: {
 			name: "",
@@ -55,8 +39,17 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 		validators: {
 			onChange: AddNewUserSchema,
 		},
-		onSubmit: async ({ value }) => {
-			await mutation.mutateAsync(value);
+		onSubmit: async ({ value: data, formApi }) => {
+			await addNewUser({ data });
+
+			await Promise.all([
+				queryClient.invalidateQueries(allUsersQueryOptions(search)),
+				queryClient.invalidateQueries(totalUsersQueryOptions()),
+			]);
+
+			setIsOpen(false);
+
+			formApi.reset();
 		},
 	});
 
@@ -90,6 +83,7 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 									<field.FormControl>
 										<Input
 											placeholder="John Doe"
+											name={field.name}
 											value={field.state.value}
 											onChange={(e) => {
 												field.handleChange(e.target.value);
@@ -105,12 +99,25 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 
 						<form.AppField
 							name="email"
+							validators={{
+								onSubmitAsync: async ({ value: data }) => {
+									if (await checkIfEmailUnique({ data })) {
+										return null;
+									}
+
+									return {
+										message:
+											"Email already exists. Please use a different email address.",
+									};
+								},
+							}}
 							children={(field) => (
 								<field.FormItem>
 									<field.FormLabel>Email</field.FormLabel>
 									<field.FormControl>
 										<Input
 											placeholder="john@doe.com"
+											name={field.name}
 											value={field.state.value}
 											onChange={(e) => {
 												field.handleChange(e.target.value);

@@ -49,11 +49,12 @@ function SearchUsersForm() {
 								<Input
 									placeholder="Search users..."
 									className="pl-10"
+									name={field.name}
+									value={field.state.value}
 									onChange={(e) => {
 										field.handleChange(e.target.value);
 									}}
 									onBlur={field.handleBlur}
-									value={field.state.value}
 								/>
 							</field.FormControl>
 						</field.FormItem>

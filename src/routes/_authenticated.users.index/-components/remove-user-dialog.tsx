@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
@@ -18,7 +18,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 
 import { allUsersQueryOptions, totalUsersQueryOptions } from "../-queries";
-import { RemoveUserInput, RemoveUserSchema } from "../-schemas";
+import { RemoveUserSchema } from "../-schemas";
 import { removeUser } from "../-server-fns";
 
 const route = getRouteApi("/_authenticated/users/");
@@ -31,27 +31,20 @@ function RemoveUserDialog({ children, id }: PropsWithChildren<{ id: string }>) {
 	const queryClient = useQueryClient();
 	const search = route.useSearch();
 
-	const mutation = useMutation({
-		mutationFn: async (data: RemoveUserInput) => {
-			await removeUser({ data });
+	const form = useAppForm({
+		defaultValues: { id },
+		validators: {
+			onSubmit: RemoveUserSchema,
 		},
-		onSuccess: async () => {
+		onSubmit: async ({ value: data }) => {
+			await removeUser({ data });
+
 			await Promise.all([
 				queryClient.invalidateQueries(allUsersQueryOptions(search)),
 				queryClient.invalidateQueries(totalUsersQueryOptions()),
 			]);
 
 			setIsOpen(false);
-		},
-	});
-
-	const form = useAppForm({
-		defaultValues: { id },
-		validators: {
-			onSubmit: RemoveUserSchema,
-		},
-		onSubmit: async ({ value }) => {
-			await mutation.mutateAsync(value);
 		},
 	});
 
@@ -86,14 +79,7 @@ function RemoveUserDialog({ children, id }: PropsWithChildren<{ id: string }>) {
 							name="id"
 							children={(field) => (
 								<field.FormControl>
-									<input
-										type="hidden"
-										value={field.state.value}
-										onChange={(e) => {
-											field.handleChange(e.target.value);
-										}}
-										onBlur={field.handleBlur}
-									/>
+									<input type="hidden" value={field.state.value} />
 								</field.FormControl>
 							)}
 						/>

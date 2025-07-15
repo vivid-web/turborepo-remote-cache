@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
+import { z } from "zod";
 
 import { auth } from "@/middlewares/auth";
 
@@ -11,7 +12,28 @@ const addNewUser = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(AddNewUserSchema)
 	.handler(async ({ data }) => {
+		const foundUser = await db.query.user.findFirst({
+			columns: { id: true },
+			where: (users, { eq }) => eq(users.email, data.email),
+		});
+
+		if (foundUser) {
+			throw new Error("User with this email already exists.");
+		}
+
 		await db.insert(user).values(data);
+	});
+
+const checkIfEmailUnique = createServerFn({ method: "POST" })
+	.middleware([auth])
+	.validator(z.email())
+	.handler(async ({ data: email }) => {
+		const foundUser = await db.query.user.findFirst({
+			columns: { id: true },
+			where: (users, { eq }) => eq(users.email, email),
+		});
+
+		return !foundUser;
 	});
 
 const getAllUsers = createServerFn({ method: "GET" })
@@ -49,4 +71,10 @@ const removeUser = createServerFn({ method: "POST" })
 		await db.delete(user).where(eq(user.id, data.id));
 	});
 
-export { addNewUser, getAllUsers, getTotalUsers, removeUser };
+export {
+	addNewUser,
+	checkIfEmailUnique,
+	getAllUsers,
+	getTotalUsers,
+	removeUser,
+};
