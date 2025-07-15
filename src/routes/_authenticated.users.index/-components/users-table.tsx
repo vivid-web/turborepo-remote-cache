@@ -1,6 +1,14 @@
+import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -9,6 +17,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+
+import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 
 type User = {
 	email: string;
@@ -41,6 +51,27 @@ function FilledRow(user: User) {
 					</div>
 				</div>
 			</TableCell>
+			<TableCell>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="ghost" size="sm">
+							<MoreHorizontalIcon className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<RemoveUserAlertDialog {...user}>
+							<DropdownMenuItem
+								className="text-destructive"
+								onSelect={(e) => {
+									e.preventDefault();
+								}}
+							>
+								Remove User
+							</DropdownMenuItem>
+						</RemoveUserAlertDialog>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</TableCell>
 		</TableRow>
 	);
 }
@@ -48,7 +79,7 @@ function FilledRow(user: User) {
 function EmptyRow() {
 	return (
 		<TableRow>
-			<TableCell>No users found...</TableCell>
+			<TableCell colSpan={2}>No users found...</TableCell>
 		</TableRow>
 	);
 }
@@ -59,6 +90,7 @@ function Layout({ children }: React.PropsWithChildren) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>User</TableHead>
+					<TableHead className="w-[50px]"></TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>{children}</TableBody>
