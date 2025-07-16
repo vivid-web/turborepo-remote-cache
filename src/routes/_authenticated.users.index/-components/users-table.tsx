@@ -18,6 +18,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+import { EditUserDialog } from "./edit-user-dialog";
 import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 
 type User = {
@@ -59,6 +60,15 @@ function FilledRow(user: User) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
+						<EditUserDialog {...user}>
+							<DropdownMenuItem
+								onSelect={(e) => {
+									e.preventDefault();
+								}}
+							>
+								Edit User
+							</DropdownMenuItem>
+						</EditUserDialog>
 						<RemoveUserAlertDialog {...user}>
 							<DropdownMenuItem
 								className="text-destructive"
