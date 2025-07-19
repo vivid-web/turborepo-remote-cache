@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
@@ -60,6 +61,11 @@ function FilledRow(user: User) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
+						<DropdownMenuItem asChild>
+							<Link to="/users/$userId" params={{ userId: user.id }}>
+								View Details
+							</Link>
+						</DropdownMenuItem>
 						<EditUserDialog {...user}>
 							<DropdownMenuItem
 								onSelect={(e) => {

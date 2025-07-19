@@ -16,6 +16,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as GuestLoginRouteRouteImport } from './routes/_guest.login/route'
 import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authenticated.users/route'
 import { Route as AuthenticatedIndexRouteRouteImport } from './routes/_authenticated.index/route'
+import { Route as AuthenticatedUsersUserIdRouteRouteImport } from './routes/_authenticated.users.$userId/route'
 import { Route as AuthenticatedUsersIndexRouteRouteImport } from './routes/_authenticated.users.index/route'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
@@ -44,6 +45,12 @@ const AuthenticatedIndexRouteRoute = AuthenticatedIndexRouteRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedUsersUserIdRouteRoute =
+  AuthenticatedUsersUserIdRouteRouteImport.update({
+    id: '/$userId',
+    path: '/$userId',
+    getParentRoute: () => AuthenticatedUsersRouteRoute,
+  } as any)
 const AuthenticatedUsersIndexRouteRoute =
   AuthenticatedUsersIndexRouteRouteImport.update({
     id: '/',
@@ -61,11 +68,13 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/login': typeof GuestLoginRouteRoute
   '/users/': typeof AuthenticatedUsersIndexRouteRoute
+  '/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRouteRoute
   '/login': typeof GuestLoginRouteRoute
   '/users': typeof AuthenticatedUsersIndexRouteRoute
+  '/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -75,12 +84,13 @@ export interface FileRoutesById {
   '/_authenticated/users': typeof AuthenticatedUsersRouteRouteWithChildren
   '/_guest/login': typeof GuestLoginRouteRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRouteRoute
+  '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/users' | '/login' | '/users/'
+  fullPaths: '/' | '/users' | '/login' | '/users/' | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/users'
+  to: '/' | '/login' | '/users' | '/users/$userId'
   id:
     | '__root__'
     | '/_authenticated'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/_authenticated/users'
     | '/_guest/login'
     | '/_authenticated/users/'
+    | '/_authenticated/users/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -154,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/users/$userId': {
+      id: '/_authenticated/users/$userId'
+      path: '/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof AuthenticatedUsersUserIdRouteRouteImport
+      parentRoute: typeof AuthenticatedUsersRouteRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/'
@@ -177,11 +195,13 @@ declare module '@tanstack/react-start/server' {
 
 interface AuthenticatedUsersRouteRouteChildren {
   AuthenticatedUsersIndexRouteRoute: typeof AuthenticatedUsersIndexRouteRoute
+  AuthenticatedUsersUserIdRouteRoute: typeof AuthenticatedUsersUserIdRouteRoute
 }
 
 const AuthenticatedUsersRouteRouteChildren: AuthenticatedUsersRouteRouteChildren =
   {
     AuthenticatedUsersIndexRouteRoute: AuthenticatedUsersIndexRouteRoute,
+    AuthenticatedUsersUserIdRouteRoute: AuthenticatedUsersUserIdRouteRoute,
   }
 
 const AuthenticatedUsersRouteRouteWithChildren =
