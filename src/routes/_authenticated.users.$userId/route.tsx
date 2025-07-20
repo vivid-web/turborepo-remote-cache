@@ -4,6 +4,7 @@ import { UserPenIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { EditUserDialog } from "./-components/edit-user-dialog";
+import { UserInfoCard } from "./-components/user-info-card";
 import { singleUserQueryOptions } from "./-queries";
 import { ParamsSchema } from "./-schemas";
 
@@ -40,6 +41,8 @@ function RouteComponent() {
 					</Button>
 				</EditUserDialog>
 			</div>
+
+			<UserInfoCard />
 		</div>
 	);
 }
