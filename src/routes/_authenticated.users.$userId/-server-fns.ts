@@ -39,11 +39,19 @@ const getSingleUser = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
+		const session = await db.query.session.findFirst({
+			columns: { createdAt: true },
+			where: (session, { eq }) => eq(session.userId, userId),
+			orderBy: (session, { desc }) => [desc(session.createdAt)],
+		});
+
 		const user = await db.query.user.findFirst({
 			columns: {
 				id: true,
 				email: true,
 				name: true,
+				image: true,
+				createdAt: true,
 			},
 			where: (user, { eq }) => eq(user.id, userId),
 		});
@@ -52,7 +60,10 @@ const getSingleUser = createServerFn({ method: "GET" })
 			throw notFound();
 		}
 
-		return user;
+		return {
+			...user,
+			lastLoggedInAt: session?.createdAt ?? null,
+		};
 	});
 
 export { checkIfEmailUnique, editUser, getSingleUser };
