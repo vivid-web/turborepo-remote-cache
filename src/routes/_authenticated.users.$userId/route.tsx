@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { UserPenIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+
+import { EditUserDialog } from "./-components/edit-user-dialog";
 import { singleUserQueryOptions } from "./-queries";
 import { ParamsSchema } from "./-schemas";
 
@@ -29,6 +33,12 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
+				<EditUserDialog>
+					<Button className="gap-2">
+						<UserPenIcon className="h-4 w-4" />
+						Edit User
+					</Button>
+				</EditUserDialog>
 			</div>
 		</div>
 	);
