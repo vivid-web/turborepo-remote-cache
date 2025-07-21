@@ -5,6 +5,7 @@ import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import { z } from "zod";
 
+import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { EditUserSchema, ParamsSchema } from "./-schemas";
@@ -14,7 +15,7 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.validator(
 		z.object({
 			email: z.email(),
-			id: z.string().min(1),
+			id: IdSchema,
 		}),
 	)
 	.handler(async ({ data: { email, id } }) => {

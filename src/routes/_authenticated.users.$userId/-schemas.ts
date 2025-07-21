@@ -1,7 +1,9 @@
 import { z } from "zod";
 
+import { IdSchema } from "@/lib/schemas";
+
 const EditUserSchema = z.object({
-	id: z.string(),
+	id: IdSchema,
 	name: z
 		.string()
 		.min(1, "Name is required")
@@ -10,7 +12,7 @@ const EditUserSchema = z.object({
 });
 
 const ParamsSchema = z.object({
-	userId: z.string().min(1),
+	userId: IdSchema,
 });
 
 type EditUserInput = z.input<typeof EditUserSchema>;
