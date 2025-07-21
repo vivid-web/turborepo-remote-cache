@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { and, asc, eq, ilike, not, or, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import { z } from "zod";
@@ -30,20 +30,17 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 		}),
 	)
 	.handler(async ({ data: { email, id } }) => {
-		const foundUser = await db.query.user.findFirst({
-			columns: { id: true },
-			where: (users, { eq, and, not }) => {
-				const emailQuery = eq(users.email, email);
+		const filters: Array<SQL> = [];
 
-				if (!id) {
-					return emailQuery;
-				}
+		filters.push(eq(user.email, email));
 
-				return and(emailQuery, not(eq(users.id, id)));
-			},
-		});
+		if (id) {
+			filters.push(not(eq(user.id, id)));
+		}
 
-		return !foundUser;
+		const count = await db.$count(user, and(...filters));
+
+		return !count;
 	});
 
 const editUser = createServerFn({ method: "POST" })
@@ -63,25 +60,23 @@ const getAllUsers = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(z.object({ query: QuerySchema.optional() }))
 	.handler(async ({ data: { query } }) => {
-		return await db.query.user.findMany({
-			columns: {
-				id: true,
-				name: true,
-				image: true,
-				email: true,
-			},
-			orderBy: (users, { asc }) => asc(users.name),
-			where: (users, { ilike, or }) => {
-				if (!query) {
-					return undefined;
-				}
+		const filters: Array<SQL> = [];
 
-				return or(
-					ilike(users.email, `%${query}%`),
-					ilike(users.name, `%${query}%`),
-				);
-			},
-		});
+		if (query) {
+			filters.push(ilike(user.email, `%${query}%`));
+			filters.push(ilike(user.name, `%${query}%`));
+		}
+
+		return db
+			.select({
+				id: user.id,
+				name: user.name,
+				image: user.image,
+				email: user.email,
+			})
+			.from(user)
+			.where(or(...filters))
+			.orderBy(asc(user.name));
 	});
 
 const getTotalUsers = createServerFn({ method: "GET" })
