@@ -1,6 +1,13 @@
 import { seed } from "drizzle-seed";
 import { db } from "drizzle/db";
-import { account, session, user, verification } from "drizzle/schema";
+import {
+	account,
+	session,
+	team,
+	teamMember,
+	user,
+	verification,
+} from "drizzle/schema";
 
 import { auth } from "@/lib/auth";
 
@@ -10,6 +17,8 @@ async function run() {
 
 	console.time("🧹 Cleaned up the database...");
 
+	await db.delete(teamMember);
+	await db.delete(team);
 	await db.delete(verification);
 	await db.delete(session);
 	await db.delete(account);
@@ -25,7 +34,7 @@ async function run() {
 		},
 	});
 
-	await seed(db, { user }).refine((f) => ({
+	await seed(db, { user, team, teamMember }).refine((f) => ({
 		user: {
 			columns: { image: f.default({ defaultValue: null }) },
 		},

@@ -1,6 +1,12 @@
 import { createId as cuid } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	pgTable,
+	primaryKey,
+	text,
+	timestamp,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
 	id: text()
@@ -66,9 +72,38 @@ export const verification = pgTable("verification", {
 	updatedAt: timestamp().$defaultFn(() => /* @__PURE__ */ new Date()),
 });
 
+export const team = pgTable("team", {
+	id: text()
+		.primaryKey()
+		.$defaultFn(() => cuid()),
+	name: text().notNull(),
+	slug: text().notNull().unique(),
+	description: text(),
+	createdAt: timestamp()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.notNull(),
+	updatedAt: timestamp()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.notNull(),
+});
+
+export const teamMember = pgTable(
+	"team_member",
+	{
+		teamId: text()
+			.notNull()
+			.references(() => team.id, { onDelete: "cascade" }),
+		userId: text()
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+	},
+	(t) => [primaryKey({ columns: [t.teamId, t.userId] })],
+);
+
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
 	accounts: many(account),
+	teamMembers: many(teamMember),
 }));
 
 export const accountRelations = relations(account, ({ one }) => ({
@@ -81,6 +116,21 @@ export const accountRelations = relations(account, ({ one }) => ({
 export const sessionRelations = relations(session, ({ one }) => ({
 	user: one(user, {
 		fields: [session.userId],
+		references: [user.id],
+	}),
+}));
+
+export const teamRelations = relations(team, ({ many }) => ({
+	teamMembers: many(teamMember),
+}));
+
+export const teamMemberRelations = relations(teamMember, ({ one }) => ({
+	team: one(team, {
+		fields: [teamMember.teamId],
+		references: [team.id],
+	}),
+	user: one(user, {
+		fields: [teamMember.userId],
 		references: [user.id],
 	}),
 }));
