@@ -16,7 +16,7 @@ function formatCreatedDate(date: Date) {
 	}).format(date);
 }
 
-function formatLastLoginDate(date: Date | null) {
+function formatLastLoginDate(date: Date | undefined) {
 	if (!date) {
 		return "-";
 	}

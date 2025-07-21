@@ -1,31 +1,35 @@
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { and, desc, eq, not, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { user } from "drizzle/schema";
+import { session, user } from "drizzle/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { EmailSchema, NameSchema } from "./-schemas";
+
 const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
 			email: EmailSchema,
-			id: IdSchema,
+			id: IdSchema.optional(),
 		}),
 	)
 	.handler(async ({ data: { email, id } }) => {
-		const foundUser = await db.query.user.findFirst({
-			columns: { id: true },
-			where: (users, { eq, and, not }) => {
-				return and(eq(users.email, email), not(eq(users.id, id)));
-			},
-		});
+		const filters: Array<SQL> = [];
 
-		return !foundUser;
+		filters.push(eq(user.email, email));
+
+		if (id) {
+			filters.push(not(eq(user.id, id)));
+		}
+
+		const count = await db.$count(user, and(...filters));
+
+		return !count;
 	});
 
 const editUser = createServerFn({ method: "POST" })
@@ -45,30 +49,32 @@ const getSingleUser = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(z.object({ userId: IdSchema }))
 	.handler(async ({ data: { userId } }) => {
-		const session = await db.query.session.findFirst({
-			columns: { createdAt: true },
-			where: (session, { eq }) => eq(session.userId, userId),
-			orderBy: (session, { desc }) => [desc(session.createdAt)],
-		});
+		const [foundUser] = await db
+			.select({
+				id: user.id,
+				email: user.email,
+				name: user.name,
+				image: user.image,
+				createdAt: user.createdAt,
+			})
+			.from(user)
+			.where(eq(user.id, userId))
+			.limit(1);
 
-		const user = await db.query.user.findFirst({
-			columns: {
-				id: true,
-				email: true,
-				name: true,
-				image: true,
-				createdAt: true,
-			},
-			where: (user, { eq }) => eq(user.id, userId),
-		});
+		const [foundSession] = await db
+			.select({ lastLoggedInAt: session.createdAt })
+			.from(session)
+			.where(eq(session.userId, userId))
+			.orderBy(desc(session.createdAt))
+			.limit(1);
 
-		if (!user) {
+		if (!foundUser) {
 			throw notFound();
 		}
 
 		return {
-			...user,
-			lastLoggedInAt: session?.createdAt ?? null,
+			...foundUser,
+			...foundSession,
 		};
 	});
 
