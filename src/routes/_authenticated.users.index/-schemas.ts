@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { IdSchema } from "@/lib/schemas";
+
 const AddNewUserSchema = z.object({
 	name: z
 		.string()
@@ -9,7 +11,7 @@ const AddNewUserSchema = z.object({
 });
 
 const EditUserSchema = z.object({
-	id: z.string(),
+	id: IdSchema,
 	name: z
 		.string()
 		.min(1, "Name is required")
@@ -18,7 +20,7 @@ const EditUserSchema = z.object({
 });
 
 const RemoveUserSchema = z.object({
-	id: z.string(),
+	id: IdSchema,
 });
 
 const SearchSchema = z.object({
