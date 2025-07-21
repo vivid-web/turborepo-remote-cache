@@ -1,10 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 
 import { TotalTeamsCard } from "./-components/total-teams-card";
 import { totalTeamsQueryOptions } from "./-queries";
+import { QuerySchema } from "./-schemas";
 
 export const Route = createFileRoute("/_authenticated/teams/")({
 	component: RouteComponent,
+	validateSearch: z.object({
+		query: QuerySchema.optional(),
+	}),
+	loaderDeps: ({ search }) => search,
 	loader: async ({ context }) => {
 		await context.queryClient.ensureQueryData(totalTeamsQueryOptions());
 	},
