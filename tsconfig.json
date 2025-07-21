@@ -5,6 +5,7 @@
 		"module": "ESNext",
 		"target": "ES2022",
 		"skipLibCheck": true,
+		"noUncheckedIndexedAccess": true,
 		"strictNullChecks": true,
 		"baseUrl": ".",
 		"types": ["vite/client"],
