@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
+
+import { AddNewTeamDialog } from "./-components/add-new-team-dialog";
 import { AllTeamsCard } from "./-components/all-teams-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
 import { allTeamsQueryOptions, totalTeamsQueryOptions } from "./-queries";
@@ -30,6 +34,13 @@ function RouteComponent() {
 						Manage teams and their members
 					</p>
 				</div>
+
+				<AddNewTeamDialog>
+					<Button className="gap-2">
+						<PlusCircleIcon className="!h-5 !w-5" />
+						Add Team
+					</Button>
+				</AddNewTeamDialog>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
