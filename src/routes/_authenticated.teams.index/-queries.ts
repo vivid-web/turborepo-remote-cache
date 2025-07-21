@@ -1,6 +1,17 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getTotalTeams } from "./-server-fns";
+import { getAllTeams, getTotalTeams } from "./-server-fns";
+
+type AllTeamsParams = {
+	query?: string;
+};
+
+function allTeamsQueryOptions(params: AllTeamsParams) {
+	return queryOptions({
+		queryFn: async () => getAllTeams({ data: params }),
+		queryKey: ["all-teams", params.query],
+	});
+}
 
 function totalTeamsQueryOptions() {
 	return queryOptions({
@@ -9,4 +20,4 @@ function totalTeamsQueryOptions() {
 	});
 }
 
-export { totalTeamsQueryOptions };
+export { allTeamsQueryOptions, totalTeamsQueryOptions };

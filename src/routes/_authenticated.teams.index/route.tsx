@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { AllTeamsCard } from "./-components/all-teams-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
-import { totalTeamsQueryOptions } from "./-queries";
+import { allTeamsQueryOptions, totalTeamsQueryOptions } from "./-queries";
 import { QuerySchema } from "./-schemas";
 
 export const Route = createFileRoute("/_authenticated/teams/")({
@@ -11,8 +12,11 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 		query: QuerySchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
-	loader: async ({ context }) => {
-		await context.queryClient.ensureQueryData(totalTeamsQueryOptions());
+	loader: async ({ context, deps: search }) => {
+		await Promise.all([
+			context.queryClient.ensureQueryData(allTeamsQueryOptions(search)),
+			context.queryClient.ensureQueryData(totalTeamsQueryOptions()),
+		]);
 	},
 });
 
@@ -31,6 +35,8 @@ function RouteComponent() {
 			<div className="grid gap-4 md:grid-cols-3">
 				<TotalTeamsCard />
 			</div>
+
+			<AllTeamsCard />
 		</div>
 	);
 }
