@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { AddNewUserSchema } from "../-schemas";
+import { EmailSchema, NameSchema } from "../-schemas";
 import { addNewUser, checkIfEmailUnique } from "../-server-fns";
 
 const ADD_NEW_USER_FORM_ID = "add-new-user-form";
@@ -32,7 +33,10 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 			email: "",
 		},
 		validators: {
-			onChange: AddNewUserSchema,
+			onChange: z.object({
+				name: NameSchema,
+				email: EmailSchema,
+			}),
 			onSubmitAsync: async ({ value }) => {
 				if (await checkIfEmailUnique({ data: value })) {
 					return null;

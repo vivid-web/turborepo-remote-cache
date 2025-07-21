@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
+import { z } from "zod";
 
 import {
 	AlertDialog,
@@ -14,8 +15,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
+import { IdSchema } from "@/lib/schemas";
 
-import { RemoveUserSchema } from "../-schemas";
 import { removeUser } from "../-server-fns";
 
 const REMOVE_USER_FORM_ID = "remove-user-form";
@@ -31,7 +32,9 @@ function RemoveUserAlertDialog({
 	const form = useAppForm({
 		defaultValues: { id },
 		validators: {
-			onSubmit: RemoveUserSchema,
+			onSubmit: z.object({
+				id: IdSchema,
+			}),
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeUser({ data });
