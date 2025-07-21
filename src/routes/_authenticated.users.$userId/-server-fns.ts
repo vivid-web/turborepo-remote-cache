@@ -8,13 +8,12 @@ import { z } from "zod";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { EditUserSchema, ParamsSchema } from "./-schemas";
-
+import { EmailSchema, NameSchema } from "./-schemas";
 const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			email: z.email(),
+			email: EmailSchema,
 			id: IdSchema,
 		}),
 	)
@@ -31,14 +30,20 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 
 const editUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(EditUserSchema)
+	.validator(
+		z.object({
+			id: IdSchema,
+			name: NameSchema,
+			email: EmailSchema,
+		}),
+	)
 	.handler(async ({ data: { id, ...data } }) => {
 		await db.update(user).set(data).where(eq(user.id, id));
 	});
 
 const getSingleUser = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.validator(z.object({ userId: IdSchema }))
 	.handler(async ({ data: { userId } }) => {
 		const session = await db.query.session.findFirst({
 			columns: { createdAt: true },

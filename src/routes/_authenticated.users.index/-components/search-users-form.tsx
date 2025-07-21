@@ -6,9 +6,7 @@ import { z } from "zod";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const SearchFormSchema = z.object({
-	query: z.string(),
-});
+import { QuerySchema } from "../-schemas";
 
 const route = getRouteApi("/_authenticated/users/");
 
@@ -19,7 +17,9 @@ function SearchUsersForm() {
 	const form = useAppForm({
 		defaultValues: { query: search.query ?? "" },
 		validators: {
-			onChange: SearchFormSchema,
+			onChange: z.object({
+				query: QuerySchema,
+			}),
 		},
 		onSubmit: async ({ value }) => {
 			await navigate({

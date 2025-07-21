@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +16,9 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { IdSchema } from "@/lib/schemas";
 
-import { EditUserSchema } from "../-schemas";
+import { EmailSchema, NameSchema } from "../-schemas";
 import { checkIfEmailUnique, editUser } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
@@ -39,7 +41,11 @@ function EditUserDialog({ children, email, id, name }: Props) {
 			email,
 		},
 		validators: {
-			onChange: EditUserSchema,
+			onChange: z.object({
+				id: IdSchema,
+				name: NameSchema,
+				email: EmailSchema,
+			}),
 			onSubmitAsync: async ({ value }) => {
 				if (await checkIfEmailUnique({ data: value })) {
 					return null;

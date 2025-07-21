@@ -8,14 +8,13 @@ import { AddNewUserDialog } from "./-components/add-new-user-dialog";
 import { AllUsersCard } from "./-components/all-users-card";
 import { TotalUsersCard } from "./-components/total-users-card";
 import { allUsersQueryOptions, totalUsersQueryOptions } from "./-queries";
-
-const SearchSchema = z.object({
-	query: z.string().optional(),
-});
+import { QuerySchema } from "./-schemas";
 
 export const Route = createFileRoute("/_authenticated/users/")({
 	component: RouteComponent,
-	validateSearch: SearchSchema,
+	validateSearch: z.object({
+		query: QuerySchema.optional(),
+	}),
 	loaderDeps: ({ search }) => search,
 	loader: async ({ context, deps: search }) => {
 		await Promise.all([

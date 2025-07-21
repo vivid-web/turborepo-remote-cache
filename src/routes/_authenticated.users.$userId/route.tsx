@@ -1,17 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UserPenIcon } from "lucide-react";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { IdSchema } from "@/lib/schemas";
 
 import { EditUserDialog } from "./-components/edit-user-dialog";
 import { UserInfoCard } from "./-components/user-info-card";
 import { singleUserQueryOptions } from "./-queries";
-import { ParamsSchema } from "./-schemas";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,
 	params: {
-		parse: (params) => ParamsSchema.parse(params),
+		parse: (params) => z.object({ userId: IdSchema }).parse(params),
 	},
 	loader: async ({ context, params }) => {
 		const user = await context.queryClient.ensureQueryData(

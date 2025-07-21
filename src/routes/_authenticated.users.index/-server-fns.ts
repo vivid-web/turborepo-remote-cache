@@ -7,16 +7,16 @@ import { z } from "zod";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import {
-	AddNewUserSchema,
-	EditUserSchema,
-	RemoveUserSchema,
-	SearchSchema,
-} from "./-schemas";
+import { EmailSchema, NameSchema, QuerySchema } from "./-schemas";
 
 const addNewUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(AddNewUserSchema)
+	.validator(
+		z.object({
+			name: NameSchema,
+			email: EmailSchema,
+		}),
+	)
 	.handler(async ({ data }) => {
 		await db.insert(user).values(data);
 	});
@@ -25,7 +25,7 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			email: z.email(),
+			email: EmailSchema,
 			id: IdSchema.optional(),
 		}),
 	)
@@ -48,14 +48,20 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 
 const editUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(EditUserSchema)
+	.validator(
+		z.object({
+			id: IdSchema,
+			name: NameSchema,
+			email: EmailSchema,
+		}),
+	)
 	.handler(async ({ data: { id, ...data } }) => {
 		await db.update(user).set(data).where(eq(user.id, id));
 	});
 
 const getAllUsers = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(SearchSchema)
+	.validator(z.object({ query: QuerySchema.optional() }))
 	.handler(async ({ data: { query } }) => {
 		return await db.query.user.findMany({
 			columns: {
@@ -84,7 +90,7 @@ const getTotalUsers = createServerFn({ method: "GET" })
 
 const removeUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(RemoveUserSchema)
+	.validator(z.object({ id: IdSchema }))
 	.handler(async ({ data }) => {
 		await db.delete(user).where(eq(user.id, data.id));
 	});
