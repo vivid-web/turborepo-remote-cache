@@ -1,5 +1,13 @@
+import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -8,6 +16,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+
+import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 
 type Team = {
 	createdAt: Date;
@@ -40,6 +50,27 @@ function FilledRow(team: Team) {
 				<div className="text-sm text-muted-foreground">members</div>
 			</TableCell>
 			<TableCell>{formatCreatedDate(team.createdAt)}</TableCell>
+			<TableCell>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="ghost" size="sm">
+							<MoreHorizontalIcon className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<RemoveTeamAlertDialog {...team}>
+							<DropdownMenuItem
+								className="text-destructive"
+								onSelect={(e) => {
+									e.preventDefault();
+								}}
+							>
+								Remove Team
+							</DropdownMenuItem>
+						</RemoveTeamAlertDialog>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</TableCell>
 		</TableRow>
 	);
 }
@@ -47,7 +78,7 @@ function FilledRow(team: Team) {
 function EmptyRow() {
 	return (
 		<TableRow>
-			<TableCell colSpan={3}>No teams found...</TableCell>
+			<TableCell colSpan={4}>No teams found...</TableCell>
 		</TableRow>
 	);
 }
@@ -60,6 +91,7 @@ function Layout({ children }: React.PropsWithChildren) {
 					<TableHead>Team</TableHead>
 					<TableHead>Members</TableHead>
 					<TableHead>Created</TableHead>
+					<TableHead className="w-[50px]"></TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>{children}</TableBody>

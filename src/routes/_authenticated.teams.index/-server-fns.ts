@@ -79,4 +79,17 @@ const getTotalTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.handler(async () => db.$count(team));
 
-export { addNewTeam, checkIfSlugUnique, getAllTeams, getTotalTeams };
+const removeTeam = createServerFn({ method: "POST" })
+	.middleware([auth])
+	.validator(z.object({ id: IdSchema }))
+	.handler(async ({ data }) => {
+		await db.delete(team).where(eq(team.id, data.id));
+	});
+
+export {
+	addNewTeam,
+	checkIfSlugUnique,
+	getAllTeams,
+	getTotalTeams,
+	removeTeam,
+};
