@@ -17,6 +17,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+import { EditTeamDialog } from "./edit-team-dialog";
 import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 
 type Team = {
@@ -58,6 +59,15 @@ function FilledRow(team: Team) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
+						<EditTeamDialog {...team}>
+							<DropdownMenuItem
+								onSelect={(e) => {
+									e.preventDefault();
+								}}
+							>
+								Edit Team
+							</DropdownMenuItem>
+						</EditTeamDialog>
 						<RemoveTeamAlertDialog {...team}>
 							<DropdownMenuItem
 								className="text-destructive"
