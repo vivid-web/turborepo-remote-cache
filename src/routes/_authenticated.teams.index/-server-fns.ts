@@ -49,6 +49,20 @@ const checkIfSlugUnique = createServerFn({ method: "POST" })
 		return !count;
 	});
 
+const editTeam = createServerFn({ method: "POST" })
+	.middleware([auth])
+	.validator(
+		z.object({
+			id: IdSchema,
+			name: NameSchema,
+			slug: SlugSchema,
+			description: DescriptionSchema.optional(),
+		}),
+	)
+	.handler(async ({ data: { id, ...data } }) => {
+		await db.update(team).set(data).where(eq(team.id, id));
+	});
+
 const getAllTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(z.object({ query: QuerySchema.optional() }))
@@ -89,6 +103,7 @@ const removeTeam = createServerFn({ method: "POST" })
 export {
 	addNewTeam,
 	checkIfSlugUnique,
+	editTeam,
 	getAllTeams,
 	getTotalTeams,
 	removeTeam,
