@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { UserPlusIcon } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ function RouteComponent() {
 				</div>
 				<AddNewUserDialog>
 					<Button className="gap-2">
-						<UserPlusIcon className="h-4 w-4" />
+						<PlusCircleIcon className="!h-5 !w-5" />
 						Add User
 					</Button>
 				</AddNewUserDialog>
