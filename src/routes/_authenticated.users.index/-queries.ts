@@ -6,10 +6,10 @@ type AllUsersParams = {
 	query?: string;
 };
 
-function allUsersQueryOptions({ query }: AllUsersParams) {
+function allUsersQueryOptions(params: AllUsersParams) {
 	return queryOptions({
-		queryFn: async () => getAllUsers({ data: { query } }),
-		queryKey: ["all-users", query],
+		queryFn: async () => getAllUsers({ data: params }),
+		queryKey: ["all-users", params.query],
 	});
 }
 
