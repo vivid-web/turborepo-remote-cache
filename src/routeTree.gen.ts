@@ -20,6 +20,7 @@ import { Route as AuthenticatedTeamsRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated.users.index'
 import { Route as AuthenticatedTeamsIndexRouteImport } from './routes/_authenticated.teams.index'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated.users.$userId'
+import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated.teams.$teamId'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api.auth.$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -68,6 +69,12 @@ const AuthenticatedUsersUserIdRoute =
     path: '/$userId',
     getParentRoute: () => AuthenticatedUsersRoute,
   } as any)
+const AuthenticatedTeamsTeamIdRoute =
+  AuthenticatedTeamsTeamIdRouteImport.update({
+    id: '/$teamId',
+    path: '/$teamId',
+    getParentRoute: () => AuthenticatedTeamsRoute,
+  } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedUsersRouteWithChildren
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/teams/': typeof AuthenticatedTeamsIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/teams': typeof AuthenticatedTeamsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
@@ -98,6 +107,7 @@ export interface FileRoutesById {
   '/_authenticated/users': typeof AuthenticatedUsersRouteWithChildren
   '/_guest/login': typeof GuestLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/_authenticated/teams/': typeof AuthenticatedTeamsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
@@ -109,11 +119,12 @@ export interface FileRouteTypes {
     | '/users'
     | '/login'
     | '/'
+    | '/teams/$teamId'
     | '/users/$userId'
     | '/teams/'
     | '/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/users/$userId' | '/teams' | '/users'
+  to: '/login' | '/' | '/teams/$teamId' | '/users/$userId' | '/teams' | '/users'
   id:
     | '__root__'
     | '/_authenticated'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/_authenticated/users'
     | '/_guest/login'
     | '/_authenticated/'
+    | '/_authenticated/teams/$teamId'
     | '/_authenticated/users/$userId'
     | '/_authenticated/teams/'
     | '/_authenticated/users/'
@@ -218,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersUserIdRouteImport
       parentRoute: typeof AuthenticatedUsersRoute
     }
+    '/_authenticated/teams/$teamId': {
+      id: '/_authenticated/teams/$teamId'
+      path: '/$teamId'
+      fullPath: '/teams/$teamId'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdRouteImport
+      parentRoute: typeof AuthenticatedTeamsRoute
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -233,10 +252,12 @@ declare module '@tanstack/react-start/server' {
 }
 
 interface AuthenticatedTeamsRouteChildren {
+  AuthenticatedTeamsTeamIdRoute: typeof AuthenticatedTeamsTeamIdRoute
   AuthenticatedTeamsIndexRoute: typeof AuthenticatedTeamsIndexRoute
 }
 
 const AuthenticatedTeamsRouteChildren: AuthenticatedTeamsRouteChildren = {
+  AuthenticatedTeamsTeamIdRoute: AuthenticatedTeamsTeamIdRoute,
   AuthenticatedTeamsIndexRoute: AuthenticatedTeamsIndexRoute,
 }
 
