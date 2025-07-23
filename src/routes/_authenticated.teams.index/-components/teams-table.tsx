@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
@@ -59,6 +60,11 @@ function FilledRow(team: Team) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
+						<DropdownMenuItem asChild>
+							<Link to="/teams/$teamId" params={{ teamId: team.id }}>
+								View Details
+							</Link>
+						</DropdownMenuItem>
 						<EditTeamDialog {...team}>
 							<DropdownMenuItem
 								onSelect={(e) => {
