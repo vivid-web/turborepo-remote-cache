@@ -3,7 +3,8 @@ import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
 
-import { singleTeamQueryOptions } from "./-queries";
+import { TotalMembersCard } from "./-components/total-members-card";
+import { singleTeamQueryOptions, totalMembersQueryOptions } from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	component: RouteComponent,
@@ -11,9 +12,10 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
 	loader: async ({ context, params }) => {
-		const team = await context.queryClient.ensureQueryData(
-			singleTeamQueryOptions(params),
-		);
+		const [team] = await Promise.all([
+			context.queryClient.ensureQueryData(singleTeamQueryOptions(params)),
+			context.queryClient.ensureQueryData(totalMembersQueryOptions(params)),
+		]);
 
 		return { crumb: team.name };
 	},
@@ -29,6 +31,10 @@ function RouteComponent() {
 						<p className="text-muted-foreground">Manage team information</p>
 					</div>
 				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-3">
+				<TotalMembersCard />
 			</div>
 		</div>
 	);

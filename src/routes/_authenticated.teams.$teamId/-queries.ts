@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getSingleTeam } from "./-server-fns";
+import { getSingleTeam, getTotalMembers } from "./-server-fns";
 
 type SingleTeamParams = {
 	teamId: string;
@@ -13,4 +13,15 @@ function singleTeamQueryOptions(params: SingleTeamParams) {
 	});
 }
 
-export { singleTeamQueryOptions };
+type TotalMembersParams = {
+	teamId: string;
+};
+
+function totalMembersQueryOptions(params: TotalMembersParams) {
+	return queryOptions({
+		queryFn: async () => getTotalMembers({ data: params }),
+		queryKey: ["total-members", params.teamId],
+	});
+}
+
+export { singleTeamQueryOptions, totalMembersQueryOptions };
