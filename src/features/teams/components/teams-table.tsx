@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
@@ -50,6 +51,11 @@ function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
+						<DropdownMenuItem asChild>
+							<Link to="/teams/$teamId" params={{ teamId }}>
+								View Details
+							</Link>
+						</DropdownMenuItem>
 						<React.Suspense
 							fallback={<DropdownMenuItem disabled>Edit Team</DropdownMenuItem>}
 						>
