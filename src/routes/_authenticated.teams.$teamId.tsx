@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { getBreadcrumbForTeam } from "@/features/teams/server-fns/get-breadcrumb-for-team";
+import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
 import { IdSchema } from "@/lib/schemas";
 
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
@@ -9,14 +10,20 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	params: {
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
-	loader: async ({ params }) => {
+	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForTeam({ data: params });
+
+		await queryClient.ensureQueryData(
+			TotalUsersForTeamCard.queryOptions(params),
+		);
 
 		return { crumb };
 	},
 });
 
 function RouteComponent() {
+	const { teamId } = Route.useParams();
+
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -26,6 +33,10 @@ function RouteComponent() {
 						<p className="text-muted-foreground">Manage team information</p>
 					</div>
 				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-3">
+				<TotalUsersForTeamCard teamId={teamId} />
 			</div>
 		</div>
 	);
