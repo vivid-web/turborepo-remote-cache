@@ -2,6 +2,7 @@ import { seed } from "drizzle-seed";
 import { db } from "drizzle/db";
 import {
 	account,
+	artifact,
 	session,
 	team,
 	teamMember,
@@ -18,6 +19,7 @@ async function run() {
 	console.time("🧹 Cleaned up the database...");
 
 	await db.delete(teamMember);
+	await db.delete(artifact);
 	await db.delete(team);
 	await db.delete(verification);
 	await db.delete(session);

@@ -26,6 +26,21 @@ export const user = pgTable("user", {
 		.notNull(),
 });
 
+export const artifact = pgTable("artifact", {
+	id: text()
+		.primaryKey()
+		.$defaultFn(() => cuid()),
+	createdAt: timestamp()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.notNull(),
+	updatedAt: timestamp()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.notNull(),
+	teamId: text()
+		.notNull()
+		.references(() => team.id, { onDelete: "cascade" }),
+});
+
 export const session = pgTable("session", {
 	id: text()
 		.primaryKey()
@@ -100,6 +115,7 @@ export const teamMember = pgTable(
 	(t) => [primaryKey({ columns: [t.teamId, t.userId] })],
 );
 
+// Relations
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
 	accounts: many(account),
@@ -121,6 +137,7 @@ export const sessionRelations = relations(session, ({ one }) => ({
 }));
 
 export const teamRelations = relations(team, ({ many }) => ({
+	artifacts: many(artifact),
 	teamMembers: many(teamMember),
 }));
 
@@ -132,5 +149,12 @@ export const teamMemberRelations = relations(teamMember, ({ one }) => ({
 	user: one(user, {
 		fields: [teamMember.userId],
 		references: [user.id],
+	}),
+}));
+
+export const artifactRelations = relations(artifact, ({ one }) => ({
+	team: one(team, {
+		fields: [artifact.teamId],
+		references: [team.id],
 	}),
 }));
