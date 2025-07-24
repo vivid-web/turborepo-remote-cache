@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IdSchema } from "@/lib/schemas";
 
 import { TeamMembershipsCard } from "./-components/team-memberships-card";
@@ -49,9 +50,20 @@ function RouteComponent() {
 				<TotalTeamsCard />
 			</div>
 
-			<TeamMembershipsCard />
+			<Tabs defaultValue="teams" className="space-y-4">
+				<TabsList>
+					<TabsTrigger value="teams">Team Memberships</TabsTrigger>
+					<TabsTrigger value="settings">Settings</TabsTrigger>
+				</TabsList>
 
-			<UserSettingsCard />
+				<TabsContent value="teams">
+					<TeamMembershipsCard />
+				</TabsContent>
+
+				<TabsContent value="settings">
+					<UserSettingsCard />
+				</TabsContent>
+			</Tabs>
 		</div>
 	);
 }
