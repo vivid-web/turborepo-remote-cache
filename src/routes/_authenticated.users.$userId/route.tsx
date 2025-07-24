@@ -1,11 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { UserPenIcon } from "lucide-react";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import { IdSchema } from "@/lib/schemas";
 
-import { EditUserDialog } from "./-components/edit-user-dialog";
 import { TeamMembershipsCard } from "./-components/team-memberships-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
 import { UserInfoCard } from "./-components/user-info-card";
@@ -44,12 +41,6 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
-				<EditUserDialog>
-					<Button className="gap-2">
-						<UserPenIcon className="h-4 w-4" />
-						Edit User
-					</Button>
-				</EditUserDialog>
 			</div>
 
 			<UserInfoCard />
