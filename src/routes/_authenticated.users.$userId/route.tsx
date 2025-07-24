@@ -2,17 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AllTeamsForUserCard } from "@/features/teams/components/all-teams-for-user-card";
+import { TotalTeamsForUserCard } from "@/features/teams/components/total-teams-for-user-card";
+import { getAllTeamsForUserQueryOptions } from "@/features/teams/queries/get-all-teams-for-user-query-options";
+import { getTotalTeamsForUserQueryOptions } from "@/features/teams/queries/get-total-teams-for-user-query-options";
+import { UserDangerZoneCard } from "@/features/users/components/user-danger-zone-card";
+import { UserInfoCard } from "@/features/users/components/user-info-card";
+import { UserSettingsCard } from "@/features/users/components/user-settings-card";
+import { getSingleUserQueryOptions } from "@/features/users/queries/get-single-user-query-options";
 import { IdSchema } from "@/lib/schemas";
-
-import { TeamMembershipsCard } from "./-components/team-memberships-card";
-import { TotalTeamsCard } from "./-components/total-teams-card";
-import { UserInfoCard } from "./-components/user-info-card";
-import { UserSettingsCard } from "./-components/user-settings-card";
-import {
-	singleUserQueryOptions,
-	teamMembershipsQueryOptions,
-	totalTeamsQueryOptions,
-} from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,
@@ -21,9 +19,13 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 	},
 	loader: async ({ context, params }) => {
 		const [user] = await Promise.all([
-			context.queryClient.ensureQueryData(singleUserQueryOptions(params)),
-			context.queryClient.ensureQueryData(totalTeamsQueryOptions(params)),
-			context.queryClient.ensureQueryData(teamMembershipsQueryOptions(params)),
+			context.queryClient.ensureQueryData(getSingleUserQueryOptions(params)),
+			context.queryClient.ensureQueryData(
+				getTotalTeamsForUserQueryOptions(params),
+			),
+			context.queryClient.ensureQueryData(
+				getAllTeamsForUserQueryOptions(params),
+			),
 		]);
 
 		return { crumb: user.name };
@@ -31,6 +33,8 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 });
 
 function RouteComponent() {
+	const { userId } = Route.useParams();
+
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -44,10 +48,10 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<UserInfoCard />
+			<UserInfoCard userId={userId} />
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<TotalTeamsCard />
+				<TotalTeamsForUserCard userId={userId} />
 			</div>
 
 			<Tabs defaultValue="teams" className="space-y-4">
@@ -57,11 +61,12 @@ function RouteComponent() {
 				</TabsList>
 
 				<TabsContent value="teams">
-					<TeamMembershipsCard />
+					<AllTeamsForUserCard userId={userId} />
 				</TabsContent>
 
-				<TabsContent value="settings">
-					<UserSettingsCard />
+				<TabsContent value="settings" className="grid gap-6">
+					<UserSettingsCard userId={userId} />
+					<UserDangerZoneCard userId={userId} />
 				</TabsContent>
 			</Tabs>
 		</div>

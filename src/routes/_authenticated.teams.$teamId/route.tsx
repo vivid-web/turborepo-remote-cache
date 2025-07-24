@@ -1,20 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { getSingleTeamQueryOptions } from "@/features/teams/queries/get-single-team-query-options";
+import { AllUsersForTeamCard } from "@/features/users/components/all-users-for-team-card";
+import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
+import { getAllUsersForTeamQueryOptions } from "@/features/users/queries/get-all-users-for-team-query-options";
+import { getTotalUsersForTeamQueryOptions } from "@/features/users/queries/get-total-users-for-team-query-options";
 import { IdSchema } from "@/lib/schemas";
-
-import { TotalMembersCard } from "./-components/total-members-card";
-import { singleTeamQueryOptions, totalMembersQueryOptions } from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	component: RouteComponent,
 	params: {
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
-	loader: async ({ context, params }) => {
+	loader: async ({ context, params: { teamId } }) => {
 		const [team] = await Promise.all([
-			context.queryClient.ensureQueryData(singleTeamQueryOptions(params)),
-			context.queryClient.ensureQueryData(totalMembersQueryOptions(params)),
+			context.queryClient.ensureQueryData(
+				getSingleTeamQueryOptions({ teamId }),
+			),
+			context.queryClient.ensureQueryData(
+				getAllUsersForTeamQueryOptions({ teamId }),
+			),
+			context.queryClient.ensureQueryData(
+				getTotalUsersForTeamQueryOptions({ teamId }),
+			),
 		]);
 
 		return { crumb: team.name };
@@ -22,6 +31,8 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 });
 
 function RouteComponent() {
+	const { teamId } = Route.useParams();
+
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -34,8 +45,10 @@ function RouteComponent() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
-				<TotalMembersCard />
+				<TotalUsersForTeamCard teamId={teamId} />
 			</div>
+
+			<AllUsersForTeamCard teamId={teamId} />
 		</div>
 	);
 }
