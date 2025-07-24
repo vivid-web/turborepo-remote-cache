@@ -3,6 +3,7 @@ import { UserPenIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { TotalTeamsForUserCard } from "@/features/teams/components/total-teams-for-user-card";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
 import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		await Promise.all([
 			queryClient.ensureQueryData(UserGeneralInfoCard.queryOptions(params)),
 			queryClient.ensureQueryData(EditUserDialog.queryOptions(params)),
+			queryClient.ensureQueryData(TotalTeamsForUserCard.queryOptions(params)),
 		]);
 
 		return { crumb };
@@ -48,6 +50,10 @@ function RouteComponent() {
 			</div>
 
 			<UserGeneralInfoCard userId={params.userId} />
+
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<TotalTeamsForUserCard userId={params.userId} />
+			</div>
 		</div>
 	);
 }
