@@ -2,7 +2,7 @@ import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { and, count, desc, eq, not, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { session, teamMember, user } from "drizzle/schema";
+import { session, team, teamMember, user } from "drizzle/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
@@ -78,6 +78,18 @@ const getSingleUser = createServerFn({ method: "GET" })
 		};
 	});
 
+const getTeamMemberships = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(z.object({ userId: IdSchema }))
+	.handler(async ({ data: { userId } }) => {
+		return db
+			.select({ id: team.id, name: team.name })
+			.from(team)
+			.innerJoin(teamMember, eq(teamMember.teamId, team.id))
+			.innerJoin(user, eq(teamMember.userId, user.id))
+			.where(eq(user.id, userId));
+	});
+
 const getTotalTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(z.object({ userId: IdSchema }))
@@ -94,4 +106,10 @@ const getTotalTeams = createServerFn({ method: "GET" })
 		return member.count;
 	});
 
-export { checkIfEmailUnique, editUser, getSingleUser, getTotalTeams };
+export {
+	checkIfEmailUnique,
+	editUser,
+	getSingleUser,
+	getTeamMemberships,
+	getTotalTeams,
+};

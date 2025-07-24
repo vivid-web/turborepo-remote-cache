@@ -6,9 +6,14 @@ import { Button } from "@/components/ui/button";
 import { IdSchema } from "@/lib/schemas";
 
 import { EditUserDialog } from "./-components/edit-user-dialog";
+import { TeamMembershipsCard } from "./-components/team-memberships-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
 import { UserInfoCard } from "./-components/user-info-card";
-import { singleUserQueryOptions, totalTeamsQueryOptions } from "./-queries";
+import {
+	singleUserQueryOptions,
+	teamMembershipsQueryOptions,
+	totalTeamsQueryOptions,
+} from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,
@@ -19,6 +24,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		const [user] = await Promise.all([
 			context.queryClient.ensureQueryData(singleUserQueryOptions(params)),
 			context.queryClient.ensureQueryData(totalTeamsQueryOptions(params)),
+			context.queryClient.ensureQueryData(teamMembershipsQueryOptions(params)),
 		]);
 
 		return { crumb: user.name };
@@ -50,6 +56,8 @@ function RouteComponent() {
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
 				<TotalTeamsCard />
 			</div>
+
+			<TeamMembershipsCard />
 		</div>
 	);
 }
