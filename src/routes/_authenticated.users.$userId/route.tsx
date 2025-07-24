@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { IdSchema } from "@/lib/schemas";
 
 import { EditUserDialog } from "./-components/edit-user-dialog";
+import { TotalTeamsCard } from "./-components/total-teams-card";
 import { UserInfoCard } from "./-components/user-info-card";
-import { singleUserQueryOptions } from "./-queries";
+import { singleUserQueryOptions, totalTeamsQueryOptions } from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,
@@ -15,9 +16,10 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		parse: (params) => z.object({ userId: IdSchema }).parse(params),
 	},
 	loader: async ({ context, params }) => {
-		const user = await context.queryClient.ensureQueryData(
-			singleUserQueryOptions(params),
-		);
+		const [user] = await Promise.all([
+			context.queryClient.ensureQueryData(singleUserQueryOptions(params)),
+			context.queryClient.ensureQueryData(totalTeamsQueryOptions(params)),
+		]);
 
 		return { crumb: user.name };
 	},
@@ -44,6 +46,10 @@ function RouteComponent() {
 			</div>
 
 			<UserInfoCard />
+
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<TotalTeamsCard />
+			</div>
 		</div>
 	);
 }

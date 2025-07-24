@@ -1,8 +1,8 @@
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { and, desc, eq, not, SQL } from "drizzle-orm";
+import { and, count, desc, eq, not, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { session, user } from "drizzle/schema";
+import { session, teamMember, user } from "drizzle/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
@@ -78,4 +78,20 @@ const getSingleUser = createServerFn({ method: "GET" })
 		};
 	});
 
-export { checkIfEmailUnique, editUser, getSingleUser };
+const getTotalTeams = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(z.object({ userId: IdSchema }))
+	.handler(async ({ data: { userId } }) => {
+		const [member] = await db
+			.select({ count: count() })
+			.from(teamMember)
+			.where(eq(teamMember.userId, userId));
+
+		if (!member) {
+			throw notFound();
+		}
+
+		return member.count;
+	});
+
+export { checkIfEmailUnique, editUser, getSingleUser, getTotalTeams };
