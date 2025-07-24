@@ -9,6 +9,7 @@ import { EditUserDialog } from "./-components/edit-user-dialog";
 import { TeamMembershipsCard } from "./-components/team-memberships-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
 import { UserInfoCard } from "./-components/user-info-card";
+import { UserSettingsCard } from "./-components/user-settings-card";
 import {
 	singleUserQueryOptions,
 	teamMembershipsQueryOptions,
@@ -58,6 +59,8 @@ function RouteComponent() {
 			</div>
 
 			<TeamMembershipsCard />
+
+			<UserSettingsCard />
 		</div>
 	);
 }
