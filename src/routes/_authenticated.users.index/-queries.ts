@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getAllUsers, getTotalUsers } from "./-server-fns";
+import { getAllUsers } from "@/features/users/server-fns/get-all-users";
+import { getTotalUsers } from "@/features/users/server-fns/get-total-users";
 
 type AllUsersParams = {
 	query?: string;
