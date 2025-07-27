@@ -4,15 +4,14 @@ import { db } from "drizzle/db";
 import { team, teamMember } from "drizzle/schema";
 import { z } from "zod";
 
-import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
-
 import {
 	DescriptionSchema,
 	NameSchema,
 	QuerySchema,
 	SlugSchema,
-} from "./-schemas";
+} from "@/features/teams/schemas";
+import { IdSchema } from "@/lib/schemas";
+import { auth } from "@/middlewares/auth";
 
 const addNewTeam = createServerFn({ method: "POST" })
 	.middleware([auth])

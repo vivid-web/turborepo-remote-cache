@@ -18,10 +18,14 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EDIT_TEAM_FORM_ID } from "@/features/teams/constants";
+import {
+	DescriptionSchema,
+	NameSchema,
+	SlugSchema,
+} from "@/features/teams/schemas";
 import { IdSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 
-import { DescriptionSchema, NameSchema, SlugSchema } from "../-schemas";
 import { checkIfSlugUnique, editTeam } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
