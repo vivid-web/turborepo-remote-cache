@@ -25,28 +25,28 @@ import { checkIfSlugUnique, editTeam } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
 	description: null | string;
-	id: string;
 	name: string;
 	slug: string;
+	teamId: string;
 }>;
 
 const EDIT_TEAM_FORM_ID = "edit-team-form";
 
-function EditTeamDialog({ children, description, slug, name, id }: Props) {
+function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
 		defaultValues: {
-			id,
+			teamId,
 			name,
 			slug,
 			description: description ?? "",
 		},
 		validators: {
 			onChange: z.object({
-				id: IdSchema,
+				teamId: IdSchema,
 				name: NameSchema,
 				slug: SlugSchema,
 				description: DescriptionSchema,
@@ -103,6 +103,16 @@ function EditTeamDialog({ children, description, slug, name, id }: Props) {
 						className="grid gap-4"
 						id={EDIT_TEAM_FORM_ID}
 					>
+						<form.AppField
+							name="teamId"
+							children={(field) => (
+								<input
+									type="hidden"
+									name={field.name}
+									value={field.state.value}
+								/>
+							)}
+						/>
 						<form.AppField
 							name="name"
 							children={(field) => (

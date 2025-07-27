@@ -31,17 +31,17 @@ const checkIfSlugUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			id: IdSchema.optional(),
+			teamId: IdSchema.optional(),
 			slug: SlugSchema,
 		}),
 	)
-	.handler(async ({ data: { slug, id } }) => {
+	.handler(async ({ data: { slug, teamId } }) => {
 		const filters: Array<SQL> = [];
 
 		filters.push(eq(team.slug, slug));
 
-		if (id) {
-			filters.push(not(eq(team.id, id)));
+		if (teamId) {
+			filters.push(not(eq(team.id, teamId)));
 		}
 
 		const count = await db.$count(team, and(...filters));
@@ -53,14 +53,14 @@ const editTeam = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			id: IdSchema,
+			teamId: IdSchema,
 			name: NameSchema,
 			slug: SlugSchema,
 			description: DescriptionSchema.optional(),
 		}),
 	)
-	.handler(async ({ data: { id, ...data } }) => {
-		await db.update(team).set(data).where(eq(team.id, id));
+	.handler(async ({ data: { teamId, ...data } }) => {
+		await db.update(team).set(data).where(eq(team.id, teamId));
 	});
 
 const getAllTeams = createServerFn({ method: "GET" })
@@ -77,7 +77,7 @@ const getAllTeams = createServerFn({ method: "GET" })
 
 		return db
 			.select({
-				id: team.id,
+				teamId: team.id,
 				name: team.name,
 				slug: team.slug,
 				description: team.description,
@@ -95,9 +95,9 @@ const getTotalTeams = createServerFn({ method: "GET" })
 
 const removeTeam = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ id: IdSchema }))
+	.validator(z.object({ teamId: IdSchema }))
 	.handler(async ({ data }) => {
-		await db.delete(team).where(eq(team.id, data.id));
+		await db.delete(team).where(eq(team.id, data.teamId));
 	});
 
 export {

@@ -23,10 +23,10 @@ import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 type Team = {
 	createdAt: Date;
 	description: null | string;
-	id: string;
 	memberCount: number;
 	name: string;
 	slug: string;
+	teamId: string;
 };
 
 function formatCreatedDate(date: Date) {
@@ -43,7 +43,7 @@ function FilledRow(team: Team) {
 			<TableCell>
 				<div className="flex flex-col space-x-3">
 					<div className="font-medium">{team.name}</div>
-					<div className="text-sm text-muted-foreground">ID: {team.id}</div>
+					<div className="text-sm text-muted-foreground">ID: {team.teamId}</div>
 				</div>
 			</TableCell>
 			<TableCell>
@@ -121,7 +121,7 @@ function TeamsTable({ teams }: { teams: Array<Team> }) {
 	return (
 		<Layout>
 			{teams.map((team) => (
-				<FilledRow {...team} key={team.id} />
+				<FilledRow {...team} key={team.teamId} />
 			))}
 		</Layout>
 	);
