@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { EmailSchema, NameSchema } from "@/features/users/schemas";
 
 import { ADD_NEW_USER_FORM_ID } from "../-constants";
-import { EmailSchema, NameSchema } from "../-schemas";
 import { addNewUser, checkIfEmailUnique } from "../-server-fns";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
