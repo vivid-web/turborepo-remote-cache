@@ -12,14 +12,8 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
+import { getAvatarFallback } from "@/features/users/utils";
 import { signOut } from "@/lib/auth-client";
-
-function getAvatarFallback(name: string) {
-	return name
-		.split(" ")
-		.map((n) => n[0])
-		.join("");
-}
 
 function UserDropdownMenu({ image, name, email }: User) {
 	const navigate = useNavigate();
