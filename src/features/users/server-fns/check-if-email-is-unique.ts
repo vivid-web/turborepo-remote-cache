@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 import { EmailSchema } from "../schemas";
 
-const checkIfEmailUnique = createServerFn({ method: "POST" })
+const checkIfEmailIsUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
@@ -31,4 +31,4 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 		return !count;
 	});
 
-export { checkIfEmailUnique };
+export { checkIfEmailIsUnique };
