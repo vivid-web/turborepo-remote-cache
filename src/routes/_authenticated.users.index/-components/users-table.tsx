@@ -18,6 +18,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { getAvatarFallback } from "@/features/users/utils";
 
 import { EditUserDialog } from "./edit-user-dialog";
 import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
@@ -28,13 +29,6 @@ type User = {
 	name: string;
 	userId: string;
 };
-
-function getAvatarFallback(name: string) {
-	return name
-		.split(" ")
-		.map((n) => n[0])
-		.join("");
-}
 
 function FilledRow(user: User) {
 	const { image, name, email } = user;
