@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
@@ -17,33 +16,24 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { EDIT_USER_FORM_ID } from "@/features/users/constants";
-import { EmailSchema, NameSchema } from "@/features/users/schemas";
-import { checkIfEmailUnique } from "@/features/users/server-fns/check-if-email-unique";
-import { editUser } from "@/features/users/server-fns/edit-user";
-import { IdSchema } from "@/lib/schemas";
 
-type Props = React.PropsWithChildren<{
-	email: string;
-	name: string;
-	userId: string;
-}>;
+import { ADD_NEW_USER_FORM_ID } from "../constants";
+import { EmailSchema, NameSchema } from "../schemas";
+import { addNewUser } from "../server-fns/add-new-user";
+import { checkIfEmailUnique } from "../server-fns/check-if-email-unique";
 
-function EditUserDialog({ children, email, userId, name }: Props) {
-	const router = useRouter();
-	const queryClient = useQueryClient();
-
+function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
+
+	const queryClient = useQueryClient();
 
 	const form = useAppForm({
 		defaultValues: {
-			userId,
-			name,
-			email,
+			name: "",
+			email: "",
 		},
 		validators: {
 			onChange: z.object({
-				userId: IdSchema,
 				name: NameSchema,
 				email: EmailSchema,
 			}),
@@ -63,10 +53,9 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 			},
 		},
 		onSubmit: async ({ value: data, formApi }) => {
-			await editUser({ data });
+			await addNewUser({ data });
 
 			await queryClient.invalidateQueries();
-			await router.invalidate();
 
 			setIsOpen(false);
 
@@ -86,27 +75,16 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Edit User</DialogTitle>
-					<DialogDescription>Update user information</DialogDescription>
+					<DialogTitle>Add New User</DialogTitle>
+					<DialogDescription>Create a new user account.</DialogDescription>
 				</DialogHeader>
 				<form.AppForm>
 					<form
 						noValidate
 						onSubmit={handleSubmit}
 						className="grid gap-4"
-						id={EDIT_USER_FORM_ID}
+						id={ADD_NEW_USER_FORM_ID}
 					>
-						<form.AppField
-							name="userId"
-							children={(field) => (
-								<input
-									type="hidden"
-									name={field.name}
-									value={field.state.value}
-								/>
-							)}
-						/>
-
 						<form.AppField
 							name="name"
 							children={(field) => (
@@ -161,13 +139,13 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 						children={([canSubmit, isSubmitting]) => (
 							<Button
 								type="submit"
-								form={EDIT_USER_FORM_ID}
+								form={ADD_NEW_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
 								{isSubmitting ? (
 									<Loader2Icon className="animate-spin" />
 								) : (
-									"Update user"
+									"Create user"
 								)}
 							</Button>
 						)}
@@ -178,4 +156,4 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 	);
 }
 
-export { EditUserDialog };
+export { AddNewUserDialog };

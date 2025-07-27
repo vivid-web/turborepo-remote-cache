@@ -4,11 +4,10 @@ import { UserPenIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
+import { UserInfoCard } from "@/features/users/components/user-info-card";
 import { singleUserQueryOptions } from "@/features/users/queries/single-user-query-options";
 import { IdSchema } from "@/lib/schemas";
-
-import { EditUserDialog } from "./-components/edit-user-dialog";
-import { UserInfoCard } from "./-components/user-info-card";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,

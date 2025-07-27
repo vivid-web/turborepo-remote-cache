@@ -2,11 +2,12 @@ import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
+
 import {
 	formatCreatedDate,
 	formatLastLoginDate,
 	getAvatarFallback,
-} from "@/features/users/utils";
+} from "../utils";
 
 type Props = {
 	createdAt: Date;

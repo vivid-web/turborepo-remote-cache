@@ -17,11 +17,12 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { EDIT_USER_FORM_ID } from "@/features/users/constants";
-import { EmailSchema, NameSchema } from "@/features/users/schemas";
-import { checkIfEmailUnique } from "@/features/users/server-fns/check-if-email-unique";
-import { editUser } from "@/features/users/server-fns/edit-user";
 import { IdSchema } from "@/lib/schemas";
+
+import { EDIT_USER_FORM_ID } from "../constants";
+import { EmailSchema, NameSchema } from "../schemas";
+import { checkIfEmailUnique } from "../server-fns/check-if-email-unique";
+import { editUser } from "../server-fns/edit-user";
 
 type Props = React.PropsWithChildren<{
 	email: string;

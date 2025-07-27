@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
-import { REMOVE_USER_FORM_ID } from "@/features/users/constants";
-import { removeUser } from "@/features/users/server-fns/remove-user";
 import { IdSchema } from "@/lib/schemas";
+
+import { REMOVE_USER_FORM_ID } from "../constants";
+import { removeUser } from "../server-fns/remove-user";
 
 function RemoveUserAlertDialog({
 	children,
