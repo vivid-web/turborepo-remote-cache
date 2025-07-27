@@ -17,10 +17,9 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { ADD_NEW_USER_FORM_ID } from "../-constants";
 import { EmailSchema, NameSchema } from "../-schemas";
 import { addNewUser, checkIfEmailUnique } from "../-server-fns";
-
-const ADD_NEW_USER_FORM_ID = "add-new-user-form";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
