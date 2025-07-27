@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
+import { TEAMS_QUERY_KEY } from "../constants";
 import { getAllTeams } from "../server-fns/get-all-teams";
 
 type Params = {
@@ -9,7 +10,7 @@ type Params = {
 function allTeamsQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllTeams({ data: params }),
-		queryKey: ["all-teams", params.query],
+		queryKey: [TEAMS_QUERY_KEY, "all-teams", params.query],
 	});
 }
 
