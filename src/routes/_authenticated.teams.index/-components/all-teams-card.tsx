@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
-import * as React from "react";
 
 import {
 	Card,
@@ -16,13 +15,13 @@ import { TeamsTable } from "./teams-table";
 
 const route = getRouteApi("/_authenticated/teams/");
 
-function AllTeamsCard(props: React.ComponentProps<typeof Card>) {
+function AllTeamsCard() {
 	const search = route.useSearch();
 
 	const query = useSuspenseQuery(allTeamsQueryOptions(search));
 
 	return (
-		<Card {...props}>
+		<Card>
 			<CardHeader>
 				<div className="flex items-center justify-between">
 					<div>
