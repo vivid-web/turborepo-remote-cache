@@ -23,9 +23,9 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { UserDropdownMenu } from "@/features/users/components/user-dropdown-menu";
 
 import { RouteBreadcrumb } from "./-components/route-breadcrumb";
-import { UserDropdownMenu } from "./-components/user-dropdown-menu";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: PathlessLayoutComponent,

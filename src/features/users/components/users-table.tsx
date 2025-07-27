@@ -18,8 +18,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { getAvatarFallback } from "@/features/users/utils";
 
+import { getAvatarFallback } from "../utils";
 import { EditUserDialog } from "./edit-user-dialog";
 import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 

@@ -1,7 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { totalUsersQueryOptions } from "@/features/users/queries/total-users-query-options";
+
+import { totalUsersQueryOptions } from "../queries/total-users-query-options";
 
 function TotalUsersCard() {
 	const query = useSuspenseQuery(totalUsersQueryOptions());
