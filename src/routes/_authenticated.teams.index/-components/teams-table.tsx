@@ -16,6 +16,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { formatCreatedDate } from "@/features/teams/utils";
 
 import { EditTeamDialog } from "./edit-team-dialog";
 import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
@@ -28,14 +29,6 @@ type Team = {
 	slug: string;
 	teamId: string;
 };
-
-function formatCreatedDate(date: Date) {
-	return new Intl.DateTimeFormat(undefined, {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	}).format(date);
-}
 
 function FilledRow(team: Team) {
 	return (
