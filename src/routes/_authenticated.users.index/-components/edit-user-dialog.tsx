@@ -17,10 +17,10 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { EmailSchema, NameSchema } from "@/features/users/schemas";
 import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../-constants";
-import { EmailSchema, NameSchema } from "../-schemas";
 import { checkIfEmailUnique, editUser } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{

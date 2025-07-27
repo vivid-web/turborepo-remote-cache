@@ -5,10 +5,9 @@ import { db } from "drizzle/db";
 import { session, user } from "drizzle/schema";
 import { z } from "zod";
 
+import { EmailSchema, NameSchema } from "@/features/users/schemas";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
-
-import { EmailSchema, NameSchema } from "./-schemas";
 
 const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
