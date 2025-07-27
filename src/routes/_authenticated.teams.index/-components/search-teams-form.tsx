@@ -1,4 +1,3 @@
-import { getRouteApi } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
@@ -8,23 +7,21 @@ import { Input } from "@/components/ui/input";
 
 import { QuerySchema } from "../-schemas";
 
-const route = getRouteApi("/_authenticated/teams/");
+type Props = {
+	onSearch: (query?: string) => Promise<void> | void;
+	query?: string | undefined;
+};
 
-function SearchTeamsForm() {
-	const search = route.useSearch();
-	const navigate = route.useNavigate();
-
+function SearchTeamsForm({ query, onSearch }: Props) {
 	const form = useAppForm({
-		defaultValues: { query: search.query ?? "" },
+		defaultValues: { query },
 		validators: {
 			onChange: z.object({
 				query: QuerySchema,
 			}),
 		},
 		onSubmit: async ({ value }) => {
-			await navigate({
-				search: (curr) => ({ ...curr, query: value.query || undefined }),
-			});
+			await onSearch(value.query || undefined);
 		},
 	});
 
