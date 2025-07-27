@@ -19,10 +19,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { slugify } from "@/lib/utils";
 
+import { ADD_NEW_TEAM_FORM_ID } from "../-constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../-schemas";
 import { addNewTeam, checkIfSlugUnique } from "../-server-fns";
-
-const ADD_NEW_TEAM_FORM_ID = "add-new-team-form";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);

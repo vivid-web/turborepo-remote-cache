@@ -17,9 +17,8 @@ import { Button } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
+import { REMOVE_TEAM_FORM_ID } from "../-constants";
 import { removeTeam } from "../-server-fns";
-
-const REMOVE_TEAM_FORM_ID = "remove-team-form";
 
 function RemoveTeamAlertDialog({
 	children,
