@@ -18,10 +18,11 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EmailSchema, NameSchema } from "@/features/users/schemas";
+import { checkIfEmailUnique } from "@/features/users/server-fns/check-if-email-unique";
+import { editUser } from "@/features/users/server-fns/edit-user";
 import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../-constants";
-import { checkIfEmailUnique, editUser } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
 	email: string;

@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getSingleUser } from "./-server-fns";
+import { getSingleUser } from "@/features/users/server-fns/get-single-user";
 
 type SingleUserParams = {
 	userId: string;

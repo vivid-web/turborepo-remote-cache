@@ -17,9 +17,10 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EmailSchema, NameSchema } from "@/features/users/schemas";
+import { addNewUser } from "@/features/users/server-fns/add-new-user";
+import { checkIfEmailUnique } from "@/features/users/server-fns/check-if-email-unique";
 
 import { ADD_NEW_USER_FORM_ID } from "../-constants";
-import { addNewUser, checkIfEmailUnique } from "../-server-fns";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
