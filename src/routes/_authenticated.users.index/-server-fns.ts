@@ -26,16 +26,16 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.validator(
 		z.object({
 			email: EmailSchema,
-			id: IdSchema.optional(),
+			userId: IdSchema.optional(),
 		}),
 	)
-	.handler(async ({ data: { email, id } }) => {
+	.handler(async ({ data: { email, userId } }) => {
 		const filters: Array<SQL> = [];
 
 		filters.push(eq(user.email, email));
 
-		if (id) {
-			filters.push(not(eq(user.id, id)));
+		if (userId) {
+			filters.push(not(eq(user.id, userId)));
 		}
 
 		const count = await db.$count(user, and(...filters));
@@ -47,13 +47,13 @@ const editUser = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			id: IdSchema,
+			userId: IdSchema,
 			name: NameSchema,
 			email: EmailSchema,
 		}),
 	)
-	.handler(async ({ data: { id, ...data } }) => {
-		await db.update(user).set(data).where(eq(user.id, id));
+	.handler(async ({ data: { userId, ...data } }) => {
+		await db.update(user).set(data).where(eq(user.id, userId));
 	});
 
 const getAllUsers = createServerFn({ method: "GET" })
@@ -69,7 +69,7 @@ const getAllUsers = createServerFn({ method: "GET" })
 
 		return db
 			.select({
-				id: user.id,
+				userId: user.id,
 				name: user.name,
 				image: user.image,
 				email: user.email,
@@ -85,9 +85,9 @@ const getTotalUsers = createServerFn({ method: "GET" })
 
 const removeUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ id: IdSchema }))
+	.validator(z.object({ userId: IdSchema }))
 	.handler(async ({ data }) => {
-		await db.delete(user).where(eq(user.id, data.id));
+		await db.delete(user).where(eq(user.id, data.userId));
 	});
 
 export {

@@ -15,16 +15,16 @@ const checkIfEmailUnique = createServerFn({ method: "POST" })
 	.validator(
 		z.object({
 			email: EmailSchema,
-			id: IdSchema.optional(),
+			userId: IdSchema.optional(),
 		}),
 	)
-	.handler(async ({ data: { email, id } }) => {
+	.handler(async ({ data: { email, userId } }) => {
 		const filters: Array<SQL> = [];
 
 		filters.push(eq(user.email, email));
 
-		if (id) {
-			filters.push(not(eq(user.id, id)));
+		if (userId) {
+			filters.push(not(eq(user.id, userId)));
 		}
 
 		const count = await db.$count(user, and(...filters));
@@ -36,13 +36,13 @@ const editUser = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
-			id: IdSchema,
+			userId: IdSchema,
 			name: NameSchema,
 			email: EmailSchema,
 		}),
 	)
-	.handler(async ({ data: { id, ...data } }) => {
-		await db.update(user).set(data).where(eq(user.id, id));
+	.handler(async ({ data: { userId, ...data } }) => {
+		await db.update(user).set(data).where(eq(user.id, userId));
 	});
 
 const getSingleUser = createServerFn({ method: "GET" })
@@ -51,7 +51,7 @@ const getSingleUser = createServerFn({ method: "GET" })
 	.handler(async ({ data: { userId } }) => {
 		const [foundUser] = await db
 			.select({
-				id: user.id,
+				userId: user.id,
 				email: user.email,
 				name: user.name,
 				image: user.image,
