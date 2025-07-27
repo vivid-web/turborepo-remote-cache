@@ -23,16 +23,16 @@ const REMOVE_TEAM_FORM_ID = "remove-team-form";
 
 function RemoveTeamAlertDialog({
 	children,
-	id,
-}: React.PropsWithChildren<{ id: string }>) {
+	teamId,
+}: React.PropsWithChildren<{ teamId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
-		defaultValues: { id },
+		defaultValues: { teamId },
 		validators: {
-			onSubmit: z.object({ id: IdSchema }),
+			onSubmit: z.object({ teamId: IdSchema }),
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeTeam({ data });
@@ -66,7 +66,7 @@ function RemoveTeamAlertDialog({
 				<form.AppForm>
 					<form noValidate onSubmit={handleSubmit} id={REMOVE_TEAM_FORM_ID}>
 						<form.AppField
-							name="id"
+							name="teamId"
 							children={(field) => (
 								<input
 									type="hidden"
