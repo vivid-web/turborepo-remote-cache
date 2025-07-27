@@ -1,15 +1,14 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import * as React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { totalUsersQueryOptions } from "../-queries";
 
-function TotalUsersCard(props: React.ComponentProps<typeof Card>) {
+function TotalUsersCard() {
 	const query = useSuspenseQuery(totalUsersQueryOptions());
 
 	return (
-		<Card {...props}>
+		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle className="font-medium">Total Users</CardTitle>
 			</CardHeader>

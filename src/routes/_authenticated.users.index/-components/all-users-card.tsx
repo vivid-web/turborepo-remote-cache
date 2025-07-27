@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
-import * as React from "react";
 
 import {
 	Card,
@@ -16,13 +15,13 @@ import { UsersTable } from "./users-table";
 
 const route = getRouteApi("/_authenticated/users/");
 
-function AllUsersCard(props: React.ComponentProps<typeof Card>) {
+function AllUsersCard() {
 	const search = route.useSearch();
 
 	const query = useSuspenseQuery(allUsersQueryOptions(search));
 
 	return (
-		<Card {...props}>
+		<Card>
 			<CardHeader>
 				<div className="flex items-center justify-between">
 					<div>
