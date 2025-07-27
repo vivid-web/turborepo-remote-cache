@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getAllTeams, getTotalTeams } from "./-server-fns";
+import { getAllTeams } from "@/features/teams/server-fns/get-all-teams";
+import { getTotalTeams } from "@/features/teams/server-fns/get-total-teams";
 
 type AllTeamsParams = {
 	query?: string;
