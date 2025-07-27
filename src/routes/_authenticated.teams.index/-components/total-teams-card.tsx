@@ -1,15 +1,14 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import * as React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { totalTeamsQueryOptions } from "../-queries";
 
-function TotalTeamsCard(props: React.ComponentProps<typeof Card>) {
+function TotalTeamsCard() {
 	const query = useSuspenseQuery(totalTeamsQueryOptions());
 
 	return (
-		<Card {...props}>
+		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle className="font-medium">Total Teams</CardTitle>
 			</CardHeader>
