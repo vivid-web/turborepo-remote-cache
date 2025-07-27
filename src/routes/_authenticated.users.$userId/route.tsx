@@ -24,6 +24,8 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 });
 
 function RouteComponent() {
+	const params = Route.useParams();
+
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -35,7 +37,7 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
-				<EditUserDialog>
+				<EditUserDialog {...params}>
 					<Button className="gap-2">
 						<UserPenIcon className="h-4 w-4" />
 						Edit User
@@ -43,7 +45,7 @@ function RouteComponent() {
 				</EditUserDialog>
 			</div>
 
-			<UserInfoCard />
+			<UserInfoCard {...params} />
 		</div>
 	);
 }

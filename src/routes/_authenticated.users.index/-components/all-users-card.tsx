@@ -1,5 +1,4 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
 
 import {
 	Card,
@@ -13,12 +12,13 @@ import { allUsersQueryOptions } from "../-queries";
 import { SearchUsersForm } from "./search-users-form";
 import { UsersTable } from "./users-table";
 
-const route = getRouteApi("/_authenticated/users/");
+type Props = {
+	onSearch: (query?: string) => Promise<void> | void;
+	query?: string | undefined;
+};
 
-function AllUsersCard() {
-	const search = route.useSearch();
-
-	const query = useSuspenseQuery(allUsersQueryOptions(search));
+function AllUsersCard({ onSearch, query }: Props) {
+	const { data: users } = useSuspenseQuery(allUsersQueryOptions({ query }));
 
 	return (
 		<Card>
@@ -31,11 +31,11 @@ function AllUsersCard() {
 						</CardDescription>
 					</div>
 
-					<SearchUsersForm />
+					<SearchUsersForm onSearch={onSearch} query={query} />
 				</div>
 			</CardHeader>
 			<CardContent>
-				<UsersTable users={query.data} />
+				<UsersTable users={users} />
 			</CardContent>
 		</Card>
 	);

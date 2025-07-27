@@ -1,5 +1,4 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
 import { formatDistance } from "date-fns";
 import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
 
@@ -24,12 +23,12 @@ function formatLastLoginDate(date: Date | undefined) {
 	return formatDistance(date, new Date(), { addSuffix: true });
 }
 
-const route = getRouteApi("/_authenticated/users/$userId");
+type Props = {
+	userId: string;
+};
 
-function UserInfoCard() {
-	const params = route.useParams();
-
-	const { data: user } = useSuspenseQuery(singleUserQueryOptions(params));
+function UserInfoCard({ userId }: Props) {
+	const { data: user } = useSuspenseQuery(singleUserQueryOptions({ userId }));
 
 	return (
 		<Card>

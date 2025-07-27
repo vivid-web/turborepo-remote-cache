@@ -1,5 +1,5 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
@@ -24,14 +24,15 @@ import { singleUserQueryOptions } from "../-queries";
 import { EmailSchema, NameSchema } from "../-schemas";
 import { checkIfEmailUnique, editUser } from "../-server-fns";
 
-const route = getRouteApi("/_authenticated/users/$userId");
+type Props = React.PropsWithChildren<{
+	userId: string;
+}>;
 
-function EditUserDialog({ children }: React.PropsWithChildren) {
+function EditUserDialog({ children, userId }: Props) {
 	const router = useRouter();
-	const params = route.useParams();
 	const queryClient = useQueryClient();
 
-	const { data: user } = useSuspenseQuery(singleUserQueryOptions(params));
+	const { data: user } = useSuspenseQuery(singleUserQueryOptions({ userId }));
 
 	const [isOpen, setIsOpen] = React.useState(false);
 
