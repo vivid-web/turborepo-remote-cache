@@ -4,7 +4,8 @@ import { z } from "zod";
 
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { QuerySchema } from "@/features/teams/schemas";
+
+import { QuerySchema } from "../schemas";
 
 type Props = {
 	onSearch: (query?: string) => Promise<void> | void;
