@@ -23,10 +23,10 @@ import {
 	NameSchema,
 	SlugSchema,
 } from "@/features/teams/schemas";
+import { checkIfSlugUnique } from "@/features/teams/server-fns/check-if-slug-unique";
+import { editTeam } from "@/features/teams/server-fns/edit-team";
 import { IdSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
-
-import { checkIfSlugUnique, editTeam } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
 	description: null | string;

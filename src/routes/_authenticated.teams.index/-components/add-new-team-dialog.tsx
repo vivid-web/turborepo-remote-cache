@@ -23,9 +23,9 @@ import {
 	NameSchema,
 	SlugSchema,
 } from "@/features/teams/schemas";
+import { addNewTeam } from "@/features/teams/server-fns/add-new-team";
+import { checkIfSlugUnique } from "@/features/teams/server-fns/check-if-slug-unique";
 import { slugify } from "@/lib/utils";
-
-import { addNewTeam, checkIfSlugUnique } from "../-server-fns";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
