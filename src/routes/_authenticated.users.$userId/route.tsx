@@ -47,7 +47,7 @@ function RouteComponent() {
 				</EditUserDialog>
 			</div>
 
-			<UserInfoCard {...params} />
+			<UserInfoCard {...user} />
 		</div>
 	);
 }
