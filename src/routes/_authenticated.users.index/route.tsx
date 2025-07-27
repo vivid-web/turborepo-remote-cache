@@ -3,12 +3,13 @@ import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { allUsersQueryOptions } from "@/features/users/queries/all-users-query-options";
+import { totalUsersQueryOptions } from "@/features/users/queries/total-users-query-options";
 import { QuerySchema } from "@/features/users/schemas";
 
 import { AddNewUserDialog } from "./-components/add-new-user-dialog";
 import { AllUsersCard } from "./-components/all-users-card";
 import { TotalUsersCard } from "./-components/total-users-card";
-import { allUsersQueryOptions, totalUsersQueryOptions } from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/users/")({
 	component: RouteComponent,

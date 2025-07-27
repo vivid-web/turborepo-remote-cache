@@ -7,8 +7,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { allUsersQueryOptions } from "@/features/users/queries/all-users-query-options";
 
-import { allUsersQueryOptions } from "../-queries";
 import { SearchUsersForm } from "./search-users-form";
 import { UsersTable } from "./users-table";
 
