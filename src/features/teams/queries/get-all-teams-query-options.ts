@@ -7,11 +7,11 @@ type Params = {
 	query?: string;
 };
 
-function allTeamsQueryOptions(params: Params) {
+function getAllTeamsQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllTeams({ data: params }),
 		queryKey: [TEAMS_QUERY_KEY, "all-teams", params.query],
 	});
 }
 
-export { allTeamsQueryOptions };
+export { getAllTeamsQueryOptions };

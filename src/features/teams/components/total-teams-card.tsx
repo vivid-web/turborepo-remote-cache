@@ -2,10 +2,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { totalTeamsQueryOptions } from "../queries/total-teams-query-options";
+import { getTotalTeamsQueryOptions } from "../queries/get-total-teams-query-options";
 
 function TotalTeamsCard() {
-	const query = useSuspenseQuery(totalTeamsQueryOptions());
+	const query = useSuspenseQuery(getTotalTeamsQueryOptions());
 
 	return (
 		<Card>

@@ -8,7 +8,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { allTeamsQueryOptions } from "../queries/all-teams-query-options";
+import { getAllTeamsQueryOptions } from "../queries/get-all-teams-query-options";
 import { SearchTeamsForm } from "./search-teams-form";
 import { TeamsTable } from "./teams-table";
 
@@ -18,7 +18,7 @@ type Props = {
 };
 
 function AllTeamsCard({ query, onSearch }: Props) {
-	const { data: teams } = useSuspenseQuery(allTeamsQueryOptions({ query }));
+	const { data: teams } = useSuspenseQuery(getAllTeamsQueryOptions({ query }));
 
 	return (
 		<Card>
