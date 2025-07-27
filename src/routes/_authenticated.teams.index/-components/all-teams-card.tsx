@@ -1,5 +1,4 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
 
 import {
 	Card,
@@ -13,12 +12,13 @@ import { allTeamsQueryOptions } from "../-queries";
 import { SearchTeamsForm } from "./search-teams-form";
 import { TeamsTable } from "./teams-table";
 
-const route = getRouteApi("/_authenticated/teams/");
+type Props = {
+	onSearch: (query?: string) => Promise<void> | void;
+	query?: string;
+};
 
-function AllTeamsCard() {
-	const search = route.useSearch();
-
-	const query = useSuspenseQuery(allTeamsQueryOptions(search));
+function AllTeamsCard({ query, onSearch }: Props) {
+	const { data: teams } = useSuspenseQuery(allTeamsQueryOptions({ query }));
 
 	return (
 		<Card>
@@ -31,11 +31,11 @@ function AllTeamsCard() {
 						</CardDescription>
 					</div>
 
-					<SearchTeamsForm />
+					<SearchTeamsForm query={query} onSearch={onSearch} />
 				</div>
 			</CardHeader>
 			<CardContent>
-				<TeamsTable teams={query.data} />
+				<TeamsTable teams={teams} />
 			</CardContent>
 		</Card>
 	);
