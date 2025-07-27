@@ -16,8 +16,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { formatCreatedDate } from "@/features/teams/utils";
 
+import { formatCreatedDate } from "../utils";
 import { EditTeamDialog } from "./edit-team-dialog";
 import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 

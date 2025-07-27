@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
-import { REMOVE_TEAM_FORM_ID } from "@/features/teams/constants";
-import { removeTeam } from "@/features/teams/server-fns/remove-team";
 import { IdSchema } from "@/lib/schemas";
+
+import { REMOVE_TEAM_FORM_ID } from "../constants";
+import { removeTeam } from "../server-fns/remove-team";
 
 function RemoveTeamAlertDialog({
 	children,

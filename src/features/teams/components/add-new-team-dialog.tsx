@@ -17,39 +17,26 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { EDIT_TEAM_FORM_ID } from "@/features/teams/constants";
-import {
-	DescriptionSchema,
-	NameSchema,
-	SlugSchema,
-} from "@/features/teams/schemas";
-import { checkIfSlugUnique } from "@/features/teams/server-fns/check-if-slug-unique";
-import { editTeam } from "@/features/teams/server-fns/edit-team";
-import { IdSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 
-type Props = React.PropsWithChildren<{
-	description: null | string;
-	name: string;
-	slug: string;
-	teamId: string;
-}>;
+import { ADD_NEW_TEAM_FORM_ID } from "../constants";
+import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
+import { addNewTeam } from "../server-fns/add-new-team";
+import { checkIfSlugUnique } from "../server-fns/check-if-slug-unique";
 
-function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
+function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
 		defaultValues: {
-			teamId,
-			name,
-			slug,
-			description: description ?? "",
+			name: "",
+			slug: "",
+			description: "",
 		},
 		validators: {
 			onChange: z.object({
-				teamId: IdSchema,
 				name: NameSchema,
 				slug: SlugSchema,
 				description: DescriptionSchema,
@@ -74,7 +61,7 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 				description: value.description || undefined,
 			};
 
-			await editTeam({ data });
+			await addNewTeam({ data });
 
 			await queryClient.invalidateQueries();
 
@@ -96,26 +83,16 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Add Team</DialogTitle>
-					<DialogDescription>Update team information</DialogDescription>
+					<DialogTitle>Add New Team</DialogTitle>
+					<DialogDescription>Create a new team.</DialogDescription>
 				</DialogHeader>
 				<form.AppForm>
 					<form
 						noValidate
 						onSubmit={handleSubmit}
 						className="grid gap-4"
-						id={EDIT_TEAM_FORM_ID}
+						id={ADD_NEW_TEAM_FORM_ID}
 					>
-						<form.AppField
-							name="teamId"
-							children={(field) => (
-								<input
-									type="hidden"
-									name={field.name}
-									value={field.state.value}
-								/>
-							)}
-						/>
 						<form.AppField
 							name="name"
 							children={(field) => (
@@ -191,13 +168,13 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 						children={([canSubmit, isSubmitting]) => (
 							<Button
 								type="submit"
-								form={EDIT_TEAM_FORM_ID}
+								form={ADD_NEW_TEAM_FORM_ID}
 								disabled={!canSubmit}
 							>
 								{isSubmitting ? (
 									<Loader2Icon className="animate-spin" />
 								) : (
-									"Update team"
+									"Create team"
 								)}
 							</Button>
 						)}
@@ -208,4 +185,4 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 	);
 }
 
-export { EditTeamDialog };
+export { AddNewTeamDialog };
