@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 import { SlugSchema } from "../schemas";
 
-const checkIfSlugUnique = createServerFn({ method: "POST" })
+const checkIfSlugIsUnique = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
@@ -31,4 +31,4 @@ const checkIfSlugUnique = createServerFn({ method: "POST" })
 		return !count;
 	});
 
-export { checkIfSlugUnique };
+export { checkIfSlugIsUnique };

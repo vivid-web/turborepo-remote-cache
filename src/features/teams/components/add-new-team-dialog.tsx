@@ -22,7 +22,7 @@ import { slugify } from "@/lib/utils";
 import { ADD_NEW_TEAM_FORM_ID } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { addNewTeam } from "../server-fns/add-new-team";
-import { checkIfSlugUnique } from "../server-fns/check-if-slug-unique";
+import { checkIfSlugIsUnique } from "../server-fns/check-if-slug-is-unique";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -42,7 +42,7 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 				description: DescriptionSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfSlugUnique({ data: value })) {
+				if (await checkIfSlugIsUnique({ data: value })) {
 					return null;
 				}
 

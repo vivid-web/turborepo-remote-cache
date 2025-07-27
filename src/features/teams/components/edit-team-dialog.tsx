@@ -22,7 +22,7 @@ import { slugify } from "@/lib/utils";
 
 import { EDIT_TEAM_FORM_ID } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugUnique } from "../server-fns/check-if-slug-unique";
+import { checkIfSlugIsUnique } from "../server-fns/check-if-slug-is-unique";
 import { editTeam } from "../server-fns/edit-team";
 
 type Props = React.PropsWithChildren<{
@@ -52,7 +52,7 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 				description: DescriptionSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfSlugUnique({ data: value })) {
+				if (await checkIfSlugIsUnique({ data: value })) {
 					return null;
 				}
 
