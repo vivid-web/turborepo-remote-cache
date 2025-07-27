@@ -23,26 +23,26 @@ import { checkIfEmailUnique, editUser } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
 	email: string;
-	id: string;
 	name: string;
+	userId: string;
 }>;
 
 const EDIT_USER_FORM_ID = "edit-user-form";
 
-function EditUserDialog({ children, email, id, name }: Props) {
+function EditUserDialog({ children, email, userId, name }: Props) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
 		defaultValues: {
-			id,
+			userId,
 			name,
 			email,
 		},
 		validators: {
 			onChange: z.object({
-				id: IdSchema,
+				userId: IdSchema,
 				name: NameSchema,
 				email: EmailSchema,
 			}),
@@ -95,7 +95,7 @@ function EditUserDialog({ children, email, id, name }: Props) {
 						id={EDIT_USER_FORM_ID}
 					>
 						<form.AppField
-							name="id"
+							name="userId"
 							children={(field) => (
 								<input
 									type="hidden"

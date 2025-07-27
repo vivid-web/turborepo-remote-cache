@@ -38,13 +38,13 @@ function EditUserDialog({ children }: React.PropsWithChildren) {
 
 	const form = useAppForm({
 		defaultValues: {
-			id: user.id,
+			userId: user.userId,
 			name: user.name,
 			email: user.email,
 		},
 		validators: {
 			onChange: z.object({
-				id: IdSchema,
+				userId: IdSchema,
 				name: NameSchema,
 				email: EmailSchema,
 			}),
@@ -98,7 +98,7 @@ function EditUserDialog({ children }: React.PropsWithChildren) {
 						id={EDIT_USER_FORM_ID}
 					>
 						<form.AppField
-							name="id"
+							name="userId"
 							children={(field) => (
 								<input
 									type="hidden"

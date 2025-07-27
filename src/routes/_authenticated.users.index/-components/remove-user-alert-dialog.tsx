@@ -23,17 +23,17 @@ const REMOVE_USER_FORM_ID = "remove-user-form";
 
 function RemoveUserAlertDialog({
 	children,
-	id,
-}: React.PropsWithChildren<{ id: string }>) {
+	userId,
+}: React.PropsWithChildren<{ userId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
-		defaultValues: { id },
+		defaultValues: { userId },
 		validators: {
 			onSubmit: z.object({
-				id: IdSchema,
+				userId: IdSchema,
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
@@ -73,7 +73,7 @@ function RemoveUserAlertDialog({
 						id={REMOVE_USER_FORM_ID}
 					>
 						<form.AppField
-							name="id"
+							name="userId"
 							children={(field) => (
 								<input
 									type="hidden"

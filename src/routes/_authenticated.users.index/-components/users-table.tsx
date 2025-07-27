@@ -24,9 +24,9 @@ import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 
 type User = {
 	email: string;
-	id: string;
 	image: null | string;
 	name: string;
+	userId: string;
 };
 
 function getAvatarFallback(name: string) {
@@ -62,7 +62,7 @@ function FilledRow(user: User) {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem asChild>
-							<Link to="/users/$userId" params={{ userId: user.id }}>
+							<Link to="/users/$userId" params={{ userId: user.userId }}>
 								View Details
 							</Link>
 						</DropdownMenuItem>
@@ -126,7 +126,7 @@ function UsersTable({ users }: { users: Array<User> }) {
 	return (
 		<Layout>
 			{users.map((user) => (
-				<FilledRow {...user} key={user.id} />
+				<FilledRow {...user} key={user.userId} />
 			))}
 		</Layout>
 	);
