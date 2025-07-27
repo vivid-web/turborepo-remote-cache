@@ -17,9 +17,9 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ADD_NEW_TEAM_FORM_ID } from "@/features/teams/constants";
 import { slugify } from "@/lib/utils";
 
-import { ADD_NEW_TEAM_FORM_ID } from "../-constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../-schemas";
 import { addNewTeam, checkIfSlugUnique } from "../-server-fns";
 

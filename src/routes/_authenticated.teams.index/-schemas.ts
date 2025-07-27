@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { SLUG_REGEX } from "./-constants";
+import { SLUG_REGEX } from "@/features/teams/constants";
 
 const NameSchema = z
 	.string("Name must be a string")
