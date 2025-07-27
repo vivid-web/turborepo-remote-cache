@@ -7,8 +7,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { allTeamsQueryOptions } from "@/features/teams/queries/all-teams-query-options";
 
-import { allTeamsQueryOptions } from "../-queries";
 import { SearchTeamsForm } from "./search-teams-form";
 import { TeamsTable } from "./teams-table";
 

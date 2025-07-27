@@ -3,12 +3,13 @@ import { PlusCircleIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { allTeamsQueryOptions } from "@/features/teams/queries/all-teams-query-options";
+import { totalTeamsQueryOptions } from "@/features/teams/queries/total-teams-query-options";
 import { QuerySchema } from "@/features/teams/schemas";
 
 import { AddNewTeamDialog } from "./-components/add-new-team-dialog";
 import { AllTeamsCard } from "./-components/all-teams-card";
 import { TotalTeamsCard } from "./-components/total-teams-card";
-import { allTeamsQueryOptions, totalTeamsQueryOptions } from "./-queries";
 
 export const Route = createFileRoute("/_authenticated/teams/")({
 	component: RouteComponent,
