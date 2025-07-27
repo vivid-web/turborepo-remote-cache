@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { ADD_NEW_USER_FORM_ID } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
 import { addNewUser } from "../server-fns/add-new-user";
-import { checkIfEmailUnique } from "../server-fns/check-if-email-unique";
+import { checkIfEmailIsUnique } from "../server-fns/check-if-email-is-unique";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -38,7 +38,7 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 				email: EmailSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfEmailUnique({ data: value })) {
+				if (await checkIfEmailIsUnique({ data: value })) {
 					return null;
 				}
 

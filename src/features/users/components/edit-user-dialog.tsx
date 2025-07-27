@@ -21,7 +21,7 @@ import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
-import { checkIfEmailUnique } from "../server-fns/check-if-email-unique";
+import { checkIfEmailIsUnique } from "../server-fns/check-if-email-is-unique";
 import { editUser } from "../server-fns/edit-user";
 
 type Props = React.PropsWithChildren<{
@@ -49,7 +49,7 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 				email: EmailSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfEmailUnique({ data: value })) {
+				if (await checkIfEmailIsUnique({ data: value })) {
 					return null;
 				}
 
