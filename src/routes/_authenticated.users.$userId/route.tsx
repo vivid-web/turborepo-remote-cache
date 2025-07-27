@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
 import { UserInfoCard } from "@/features/users/components/user-info-card";
-import { singleUserQueryOptions } from "@/features/users/queries/single-user-query-options";
+import { getSingleUserQueryOptions } from "@/features/users/queries/get-single-user-query-options";
 import { IdSchema } from "@/lib/schemas";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 	},
 	loader: async ({ context, params }) => {
 		const user = await context.queryClient.ensureQueryData(
-			singleUserQueryOptions(params),
+			getSingleUserQueryOptions(params),
 		);
 
 		return { crumb: user.name };
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 function RouteComponent() {
 	const params = Route.useParams();
-	const { data: user } = useSuspenseQuery(singleUserQueryOptions(params));
+	const { data: user } = useSuspenseQuery(getSingleUserQueryOptions(params));
 
 	return (
 		<div className="grid gap-6">

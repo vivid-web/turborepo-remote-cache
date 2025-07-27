@@ -8,7 +8,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { allUsersQueryOptions } from "../queries/all-users-query-options";
+import { getAllUsersQueryOptions } from "../queries/get-all-users-query-options";
 import { SearchUsersForm } from "./search-users-form";
 import { UsersTable } from "./users-table";
 
@@ -18,7 +18,7 @@ type Props = {
 };
 
 function AllUsersCard({ onSearch, query }: Props) {
-	const { data: users } = useSuspenseQuery(allUsersQueryOptions({ query }));
+	const { data: users } = useSuspenseQuery(getAllUsersQueryOptions({ query }));
 
 	return (
 		<Card>

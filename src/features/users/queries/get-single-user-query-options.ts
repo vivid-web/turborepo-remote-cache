@@ -7,11 +7,11 @@ type Params = {
 	userId: string;
 };
 
-function singleUserQueryOptions(params: Params) {
+function getSingleUserQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getSingleUser({ data: params }),
 		queryKey: [USERS_QUERY_KEY, "single-user", params.userId],
 	});
 }
 
-export { singleUserQueryOptions };
+export { getSingleUserQueryOptions };

@@ -7,11 +7,11 @@ type Params = {
 	query?: string;
 };
 
-function allUsersQueryOptions(params: Params) {
+function getAllUsersQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllUsers({ data: params }),
 		queryKey: [USERS_QUERY_KEY, "all-users", params.query],
 	});
 }
 
-export { allUsersQueryOptions };
+export { getAllUsersQueryOptions };
