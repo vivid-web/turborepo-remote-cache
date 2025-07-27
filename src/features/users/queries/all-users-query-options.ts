@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
+import { USERS_QUERY_KEY } from "../constants";
 import { getAllUsers } from "../server-fns/get-all-users";
 
 type Params = {
@@ -9,7 +10,7 @@ type Params = {
 function allUsersQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllUsers({ data: params }),
-		queryKey: ["all-users", params.query],
+		queryKey: [USERS_QUERY_KEY, "all-users", params.query],
 	});
 }
 

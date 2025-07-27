@@ -1,11 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
 
+import { USERS_QUERY_KEY } from "../constants";
 import { getTotalUsers } from "../server-fns/get-total-users";
 
 function totalUsersQueryOptions() {
 	return queryOptions({
 		queryFn: async () => getTotalUsers(),
-		queryKey: ["total-users"],
+		queryKey: [USERS_QUERY_KEY, "total-users"],
 	});
 }
 
