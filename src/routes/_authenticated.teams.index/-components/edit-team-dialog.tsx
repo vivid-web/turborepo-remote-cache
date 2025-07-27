@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 
+import { EDIT_TEAM_FORM_ID } from "../-constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../-schemas";
 import { checkIfSlugUnique, editTeam } from "../-server-fns";
 
@@ -29,8 +30,6 @@ type Props = React.PropsWithChildren<{
 	slug: string;
 	teamId: string;
 }>;
-
-const EDIT_TEAM_FORM_ID = "edit-team-form";
 
 function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 	const [isOpen, setIsOpen] = React.useState(false);
