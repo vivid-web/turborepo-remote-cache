@@ -1,4 +1,4 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
@@ -20,27 +20,26 @@ import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../-constants";
-import { singleUserQueryOptions } from "../-queries";
 import { EmailSchema, NameSchema } from "../-schemas";
 import { checkIfEmailUnique, editUser } from "../-server-fns";
 
 type Props = React.PropsWithChildren<{
+	email: string;
+	name: string;
 	userId: string;
 }>;
 
-function EditUserDialog({ children, userId }: Props) {
+function EditUserDialog({ children, email, userId, name }: Props) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
-
-	const { data: user } = useSuspenseQuery(singleUserQueryOptions({ userId }));
 
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const form = useAppForm({
 		defaultValues: {
-			userId: user.userId,
-			name: user.name,
-			email: user.email,
+			userId,
+			name,
+			email,
 		},
 		validators: {
 			onChange: z.object({

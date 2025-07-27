@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { UserPenIcon } from "lucide-react";
 import { z } from "zod";
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 function RouteComponent() {
 	const params = Route.useParams();
+	const { data: user } = useSuspenseQuery(singleUserQueryOptions(params));
 
 	return (
 		<div className="grid gap-6">
@@ -37,7 +39,7 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
-				<EditUserDialog {...params}>
+				<EditUserDialog {...user}>
 					<Button className="gap-2">
 						<UserPenIcon className="h-4 w-4" />
 						Edit User

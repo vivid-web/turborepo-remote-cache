@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
@@ -29,9 +30,10 @@ type Props = React.PropsWithChildren<{
 }>;
 
 function EditUserDialog({ children, email, userId, name }: Props) {
-	const [isOpen, setIsOpen] = React.useState(false);
-
+	const router = useRouter();
 	const queryClient = useQueryClient();
+
+	const [isOpen, setIsOpen] = React.useState(false);
 
 	const form = useAppForm({
 		defaultValues: {
@@ -64,6 +66,7 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 			await editUser({ data });
 
 			await queryClient.invalidateQueries();
+			await router.invalidate();
 
 			setIsOpen(false);
 
