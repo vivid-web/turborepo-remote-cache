@@ -18,6 +18,7 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 
+import { EDIT_USER_FORM_ID } from "../-constants";
 import { EmailSchema, NameSchema } from "../-schemas";
 import { checkIfEmailUnique, editUser } from "../-server-fns";
 
@@ -26,8 +27,6 @@ type Props = React.PropsWithChildren<{
 	name: string;
 	userId: string;
 }>;
-
-const EDIT_USER_FORM_ID = "edit-user-form";
 
 function EditUserDialog({ children, email, userId, name }: Props) {
 	const [isOpen, setIsOpen] = React.useState(false);
