@@ -17,12 +17,12 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
-import { slugify } from "@/lib/utils";
 
 import { EDIT_TEAM_FORM_ID } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { editTeam } from "../server-fns/edit-team";
+import { slugify } from "../utils";
 
 type Props = React.PropsWithChildren<{
 	description: null | string;
