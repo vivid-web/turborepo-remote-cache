@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
@@ -13,7 +12,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
@@ -88,17 +87,14 @@ function RemoveUserAlertDialog({
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
 						children={([canSubmit, isSubmitting]) => (
-							<Button
+							<ButtonWithPendingState
+								isPending={isSubmitting}
 								type="submit"
 								form={REMOVE_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
-								{isSubmitting ? (
-									<Loader2Icon className="animate-spin" />
-								) : (
-									"Continue"
-								)}
-							</Button>
+								Continue
+							</ButtonWithPendingState>
 						)}
 					/>
 				</AlertDialogFooter>
