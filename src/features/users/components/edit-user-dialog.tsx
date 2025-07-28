@@ -20,7 +20,7 @@ import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
-import { checkIfEmailIsUnique } from "../server-fns/check-if-email-is-unique";
+import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
 import { editUser } from "../server-fns/edit-user";
 
 type Props = React.PropsWithChildren<{
@@ -48,18 +48,18 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 				email: EmailSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfEmailIsUnique({ data: value })) {
-					return null;
+				if (await checkIfEmailIsTaken({ data: value })) {
+					return {
+						fields: {
+							email: {
+								message:
+									"Email already exists. Please use a different email address.",
+							},
+						},
+					};
 				}
 
-				return {
-					fields: {
-						email: {
-							message:
-								"Email already exists. Please use a different email address.",
-						},
-					},
-				};
+				return null;
 			},
 		},
 		onSubmit: async ({ value: data, formApi }) => {

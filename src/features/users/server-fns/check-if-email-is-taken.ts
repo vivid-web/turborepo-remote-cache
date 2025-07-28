@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 import { EmailSchema } from "../schemas";
 
-const checkIfEmailIsUnique = createServerFn({ method: "POST" })
+const checkIfEmailIsTaken = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
@@ -26,9 +26,7 @@ const checkIfEmailIsUnique = createServerFn({ method: "POST" })
 			filters.push(not(eq(user.id, userId)));
 		}
 
-		const count = await db.$count(user, and(...filters));
-
-		return !count;
+		return db.$count(user, and(...filters)).then((count) => !!count);
 	});
 
-export { checkIfEmailIsUnique };
+export { checkIfEmailIsTaken };
