@@ -1,5 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -56,4 +57,22 @@ function Button({
 	);
 }
 
-export { Button, buttonVariants };
+function ButtonWithPendingState({
+	isPending,
+	children,
+	...props
+}: React.ComponentProps<typeof Button> & {
+	isPending?: boolean;
+}) {
+	if (isPending) {
+		return (
+			<Button {...props}>
+				<Loader2Icon className="animate-spin" />
+			</Button>
+		);
+	}
+
+	return <Button {...props}>{children}</Button>;
+}
+
+export { Button, buttonVariants, ButtonWithPendingState };
