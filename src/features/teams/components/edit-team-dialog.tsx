@@ -21,7 +21,7 @@ import { slugify } from "@/lib/utils";
 
 import { EDIT_TEAM_FORM_ID } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugIsUnique } from "../server-fns/check-if-slug-is-unique";
+import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { editTeam } from "../server-fns/edit-team";
 
 type Props = React.PropsWithChildren<{
@@ -51,17 +51,17 @@ function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
 				description: DescriptionSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfSlugIsUnique({ data: value })) {
-					return null;
+				if (await checkIfSlugIsTaken({ data: value })) {
+					return {
+						fields: {
+							slug: {
+								message: "Slug already exists. Please use a different slug.",
+							},
+						},
+					};
 				}
 
-				return {
-					fields: {
-						slug: {
-							message: "Slug already exists. Please use a different slug.",
-						},
-					},
-				};
+				return null;
 			},
 		},
 		onSubmit: async ({ value, formApi }) => {

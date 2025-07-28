@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 import { SlugSchema } from "../schemas";
 
-const checkIfSlugIsUnique = createServerFn({ method: "POST" })
+const checkIfSlugIsTaken = createServerFn({ method: "POST" })
 	.middleware([auth])
 	.validator(
 		z.object({
@@ -26,9 +26,7 @@ const checkIfSlugIsUnique = createServerFn({ method: "POST" })
 			filters.push(not(eq(team.id, teamId)));
 		}
 
-		const count = await db.$count(team, and(...filters));
-
-		return !count;
+		return db.$count(team, and(...filters)).then((count) => !!count);
 	});
 
-export { checkIfSlugIsUnique };
+export { checkIfSlugIsTaken };
