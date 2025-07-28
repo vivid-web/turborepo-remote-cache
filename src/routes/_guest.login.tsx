@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { ButtonWithPendingState } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -109,17 +108,14 @@ function RouteComponent() {
 							<form.Subscribe
 								selector={(state) => [state.canSubmit, state.isSubmitting]}
 								children={([canSubmit, isSubmitting]) => (
-									<Button
+									<ButtonWithPendingState
+										isPending={isSubmitting}
 										className="w-full"
 										disabled={!canSubmit}
 										type="submit"
 									>
-										{isSubmitting ? (
-											<Loader2Icon className="animate-spin" />
-										) : (
-											"Login"
-										)}
-									</Button>
+										Login
+									</ButtonWithPendingState>
 								)}
 							/>
 						</div>

@@ -1,9 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, ButtonWithPendingState } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogClose,
@@ -137,17 +136,14 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
 						children={([canSubmit, isSubmitting]) => (
-							<Button
+							<ButtonWithPendingState
+								isPending={isSubmitting}
 								type="submit"
 								form={ADD_NEW_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
-								{isSubmitting ? (
-									<Loader2Icon className="animate-spin" />
-								) : (
-									"Create user"
-								)}
-							</Button>
+								Create user
+							</ButtonWithPendingState>
 						)}
 					/>
 				</DialogFooter>

@@ -1,10 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { Loader2Icon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, ButtonWithPendingState } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogClose,
@@ -160,17 +159,14 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
 						children={([canSubmit, isSubmitting]) => (
-							<Button
+							<ButtonWithPendingState
+								isPending={isSubmitting}
 								type="submit"
 								form={EDIT_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
-								{isSubmitting ? (
-									<Loader2Icon className="animate-spin" />
-								) : (
-									"Update user"
-								)}
-							</Button>
+								Update user
+							</ButtonWithPendingState>
 						)}
 					/>
 				</DialogFooter>
