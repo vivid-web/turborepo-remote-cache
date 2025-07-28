@@ -21,7 +21,7 @@ import { slugify } from "@/lib/utils";
 import { ADD_NEW_TEAM_FORM_ID } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { addNewTeam } from "../server-fns/add-new-team";
-import { checkIfSlugIsUnique } from "../server-fns/check-if-slug-is-unique";
+import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -41,17 +41,17 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 				description: DescriptionSchema,
 			}),
 			onSubmitAsync: async ({ value }) => {
-				if (await checkIfSlugIsUnique({ data: value })) {
-					return null;
+				if (await checkIfSlugIsTaken({ data: value })) {
+					return {
+						fields: {
+							slug: {
+								message: "Slug already exists. Please use a different slug.",
+							},
+						},
+					};
 				}
 
-				return {
-					fields: {
-						slug: {
-							message: "Slug already exists. Please use a different slug.",
-						},
-					},
-				};
+				return null;
 			},
 		},
 		onSubmit: async ({ value, formApi }) => {
