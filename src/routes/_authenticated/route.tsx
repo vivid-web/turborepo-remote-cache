@@ -8,6 +8,7 @@ import {
 import { DatabaseZapIcon, UserIcon, UsersIcon } from "lucide-react";
 import * as React from "react";
 
+import { RouteBreadcrumb } from "@/components/route-breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
 	Sidebar,
@@ -24,8 +25,6 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { UserDropdownMenu } from "@/features/users/components/user-dropdown-menu";
-
-import { RouteBreadcrumb } from "./-components/route-breadcrumb";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: PathlessLayoutComponent,
