@@ -1,4 +1,13 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useQueryClient,
+	useSuspenseQuery,
+} from "@tanstack/react-query";
+import { notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { eq } from "drizzle-orm";
+import { db } from "drizzle/db";
+import { team } from "drizzle/schema";
 import * as React from "react";
 import { z } from "zod";
 
@@ -17,19 +26,48 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
+import { auth } from "@/middlewares/auth";
 
-import { EDIT_TEAM_FORM_ID } from "../constants";
-import { getDefaultValuesForTeamQueryOptions } from "../queries/get-default-values-for-team-query-options";
+import { EDIT_TEAM_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { editTeam } from "../server-fns/edit-team";
 import { slugify } from "../utils";
 
-type Props = React.PropsWithChildren<{
-	teamId: string;
-}>;
+type Params = z.input<typeof ParamsSchema>;
 
-function EditTeamDialog({ children, teamId }: Props) {
+const ParamsSchema = z.object({ teamId: IdSchema });
+
+const getDefaultValuesForTeam = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(ParamsSchema)
+	.handler(async ({ data: { teamId } }) => {
+		const [foundTeam] = await db
+			.select({
+				teamId: team.id,
+				name: team.name,
+				slug: team.slug,
+				description: team.description,
+			})
+			.from(team)
+			.where(eq(team.id, teamId))
+			.limit(1);
+
+		if (!foundTeam) {
+			throw notFound();
+		}
+
+		return foundTeam;
+	});
+
+function getDefaultValuesForTeamQueryOptions(params: Params) {
+	return queryOptions({
+		queryFn: async () => getDefaultValuesForTeam({ data: params }),
+		queryKey: [TEAMS_QUERY_KEY, "default-values-for-team", params.teamId],
+	});
+}
+
+function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 	const query = useSuspenseQuery(
 		getDefaultValuesForTeamQueryOptions({ teamId }),
 	);
@@ -200,5 +238,7 @@ function EditTeamDialog({ children, teamId }: Props) {
 		</Dialog>
 	);
 }
+
+EditTeamDialog.queryOptions = getDefaultValuesForTeamQueryOptions;
 
 export { EditTeamDialog };

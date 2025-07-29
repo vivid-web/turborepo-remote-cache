@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { AddNewTeamDialog } from "@/features/teams/components/add-new-team-dialog";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
-import { getAllTeamsQueryOptions } from "@/features/teams/queries/get-all-teams-query-options";
-import { getTotalTeamsQueryOptions } from "@/features/teams/queries/get-total-teams-query-options";
 import { QuerySchema } from "@/features/teams/schemas";
 
 export const Route = createFileRoute("/_authenticated/teams/")({
@@ -18,8 +16,8 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 	loaderDeps: ({ search }) => search,
 	loader: async ({ context: { queryClient }, deps: search }) => {
 		await Promise.all([
-			queryClient.ensureQueryData(getAllTeamsQueryOptions(search)),
-			queryClient.ensureQueryData(getTotalTeamsQueryOptions()),
+			queryClient.ensureQueryData(AllTeamsCard.queryOptions(search)),
+			queryClient.ensureQueryData(TotalTeamsCard.queryOptions()),
 		]);
 	},
 });

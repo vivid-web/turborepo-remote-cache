@@ -5,8 +5,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
-import { getDefaultValuesForUserQueryOptions } from "@/features/users/queries/get-default-values-for-user-query-options";
-import { getUserGeneralInfoQueryOptions } from "@/features/users/queries/get-user-general-info-query-options";
 import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
 
@@ -19,8 +17,8 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		const crumb = await getBreadcrumbForUser({ data: params });
 
 		await Promise.all([
-			queryClient.ensureQueryData(getUserGeneralInfoQueryOptions(params)),
-			queryClient.ensureQueryData(getDefaultValuesForUserQueryOptions(params)),
+			queryClient.ensureQueryData(UserGeneralInfoCard.queryOptions(params)),
+			queryClient.ensureQueryData(EditUserDialog.queryOptions(params)),
 		]);
 
 		return { crumb };

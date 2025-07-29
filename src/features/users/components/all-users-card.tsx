@@ -1,4 +1,9 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { createServerFn } from "@tanstack/react-start";
+import { asc, ilike, or, SQL } from "drizzle-orm";
+import { db } from "drizzle/db";
+import { user } from "drizzle/schema";
+import { z } from "zod";
 
 import {
 	Card,
@@ -7,17 +12,53 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { auth } from "@/middlewares/auth";
 
-import { getAllUsersQueryOptions } from "../queries/get-all-users-query-options";
+import { USERS_QUERY_KEY } from "../constants";
+import { QuerySchema } from "../schemas";
 import { SearchUsersForm } from "./search-users-form";
 import { UsersTable } from "./users-table";
 
-type Props = {
-	onSearch: (query?: string) => Promise<void> | void;
-	query?: string | undefined;
-};
+type Params = z.input<typeof ParamsSchema>;
 
-function AllUsersCard({ onSearch, query }: Props) {
+const ParamsSchema = z.object({
+	query: QuerySchema.optional(),
+});
+
+const getAllUsers = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(ParamsSchema)
+	.handler(async ({ data: { query } }) => {
+		const filters: Array<SQL> = [];
+
+		if (query) {
+			filters.push(ilike(user.email, `%${query}%`));
+			filters.push(ilike(user.name, `%${query}%`));
+		}
+
+		return db
+			.select({
+				userId: user.id,
+				name: user.name,
+				image: user.image,
+				email: user.email,
+			})
+			.from(user)
+			.where(or(...filters))
+			.orderBy(asc(user.name));
+	});
+
+function getAllUsersQueryOptions(params: Params) {
+	return queryOptions({
+		queryFn: async () => getAllUsers({ data: params }),
+		queryKey: [USERS_QUERY_KEY, "all-users", params.query],
+	});
+}
+
+function AllUsersCard({
+	query,
+	onSearch,
+}: Params & { onSearch: (query?: string) => Promise<void> | void }) {
 	const { data: users } = useSuspenseQuery(getAllUsersQueryOptions({ query }));
 
 	return (
@@ -40,5 +81,7 @@ function AllUsersCard({ onSearch, query }: Props) {
 		</Card>
 	);
 }
+
+AllUsersCard.queryOptions = getAllUsersQueryOptions;
 
 export { AllUsersCard };

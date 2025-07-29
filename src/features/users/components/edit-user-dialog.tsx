@@ -1,5 +1,13 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import {
+	queryOptions,
+	useQueryClient,
+	useSuspenseQuery,
+} from "@tanstack/react-query";
+import { notFound, useRouter } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { eq } from "drizzle-orm";
+import { db } from "drizzle/db";
+import { user } from "drizzle/schema";
 import * as React from "react";
 import { z } from "zod";
 
@@ -17,18 +25,48 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
+import { auth } from "@/middlewares/auth";
 
-import { EDIT_USER_FORM_ID } from "../constants";
-import { getDefaultValuesForUserQueryOptions } from "../queries/get-default-values-for-user-query-options";
+import { EDIT_USER_FORM_ID, USERS_QUERY_KEY } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
 import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
 import { editUser } from "../server-fns/edit-user";
 
-type Props = React.PropsWithChildren<{
-	userId: string;
-}>;
+type Params = z.input<typeof ParamsSchema>;
 
-function EditUserDialog({ children, userId }: Props) {
+const ParamsSchema = z.object({
+	userId: IdSchema,
+});
+
+const getDefaultValuesForUser = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(ParamsSchema)
+	.handler(async ({ data: { userId } }) => {
+		const [foundUser] = await db
+			.select({
+				userId: user.id,
+				email: user.email,
+				name: user.name,
+			})
+			.from(user)
+			.where(eq(user.id, userId))
+			.limit(1);
+
+		if (!foundUser) {
+			throw notFound();
+		}
+
+		return foundUser;
+	});
+
+function getDefaultValuesForUserQueryOptions(params: Params) {
+	return queryOptions({
+		queryFn: async () => getDefaultValuesForUser({ data: params }),
+		queryKey: [USERS_QUERY_KEY, "default-values-for-user", params.userId],
+	});
+}
+
+function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
 	const query = useSuspenseQuery(
 		getDefaultValuesForUserQueryOptions({ userId }),
 	);
@@ -175,5 +213,7 @@ function EditUserDialog({ children, userId }: Props) {
 		</Dialog>
 	);
 }
+
+EditUserDialog.queryOptions = getDefaultValuesForUserQueryOptions;
 
 export { EditUserDialog };
