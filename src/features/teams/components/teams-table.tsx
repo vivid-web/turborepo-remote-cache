@@ -23,27 +23,25 @@ import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 
 type Team = {
 	createdAt: Date;
-	description: null | string;
 	memberCount: number;
 	name: string;
-	slug: string;
 	teamId: string;
 };
 
-function FilledRow(team: Team) {
+function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
 	return (
 		<TableRow>
 			<TableCell>
 				<div className="flex flex-col space-x-3">
-					<div className="font-medium">{team.name}</div>
-					<div className="text-sm text-muted-foreground">ID: {team.teamId}</div>
+					<div className="font-medium">{name}</div>
+					<div className="text-sm text-muted-foreground">ID: {teamId}</div>
 				</div>
 			</TableCell>
 			<TableCell>
-				<div className="font-medium">{team.memberCount}</div>
+				<div className="font-medium">{memberCount}</div>
 				<div className="text-sm text-muted-foreground">members</div>
 			</TableCell>
-			<TableCell>{formatCreatedDate(team.createdAt)}</TableCell>
+			<TableCell>{formatCreatedDate(createdAt)}</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -52,16 +50,20 @@ function FilledRow(team: Team) {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
-						<EditTeamDialog {...team}>
-							<DropdownMenuItem
-								onSelect={(e) => {
-									e.preventDefault();
-								}}
-							>
-								Edit Team
-							</DropdownMenuItem>
-						</EditTeamDialog>
-						<RemoveTeamAlertDialog {...team}>
+						<React.Suspense
+							fallback={<DropdownMenuItem disabled>Edit Team</DropdownMenuItem>}
+						>
+							<EditTeamDialog teamId={teamId}>
+								<DropdownMenuItem
+									onSelect={(e) => {
+										e.preventDefault();
+									}}
+								>
+									Edit Team
+								</DropdownMenuItem>
+							</EditTeamDialog>
+						</React.Suspense>
+						<RemoveTeamAlertDialog teamId={teamId}>
 							<DropdownMenuItem
 								className="text-destructive"
 								onSelect={(e) => {
