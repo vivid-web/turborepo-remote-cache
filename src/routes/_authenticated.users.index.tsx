@@ -16,10 +16,10 @@ export const Route = createFileRoute("/_authenticated/users/")({
 		query: QuerySchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
-	loader: async ({ context, deps: search }) => {
+	loader: async ({ context: { queryClient }, deps: search }) => {
 		await Promise.all([
-			context.queryClient.ensureQueryData(getAllUsersQueryOptions(search)),
-			context.queryClient.ensureQueryData(getTotalUsersQueryOptions()),
+			queryClient.ensureQueryData(getAllUsersQueryOptions(search)),
+			queryClient.ensureQueryData(getTotalUsersQueryOptions()),
 		]);
 	},
 });
