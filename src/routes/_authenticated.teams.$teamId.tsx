@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
 import { getBreadcrumbForTeam } from "@/features/teams/server-fns/get-breadcrumb-for-team";
 import { AllUsersForTeamCard } from "@/features/users/components/all-users-for-team-card";
@@ -43,9 +44,20 @@ function RouteComponent() {
 				<TotalUsersForTeamCard teamId={teamId} />
 			</div>
 
-			<AllUsersForTeamCard teamId={teamId} />
+			<Tabs defaultValue="member" className="space-y-4">
+				<TabsList>
+					<TabsTrigger value="member">Members</TabsTrigger>
+					<TabsTrigger value="settings">Settings</TabsTrigger>
+				</TabsList>
 
-			<TeamSettingsCard teamId={teamId} />
+				<TabsContent value="member">
+					<AllUsersForTeamCard teamId={teamId} />
+				</TabsContent>
+
+				<TabsContent value="settings">
+					<TeamSettingsCard teamId={teamId} />
+				</TabsContent>
+			</Tabs>
 		</div>
 	);
 }
