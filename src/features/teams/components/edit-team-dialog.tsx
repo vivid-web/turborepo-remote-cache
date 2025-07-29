@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { z } from "zod";
 
@@ -19,29 +19,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_TEAM_FORM_ID } from "../constants";
+import { getDefaultValuesForTeamQueryOptions } from "../queries/get-default-values-for-team-query-options";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { editTeam } from "../server-fns/edit-team";
 import { slugify } from "../utils";
 
 type Props = React.PropsWithChildren<{
-	description: null | string;
-	name: string;
-	slug: string;
 	teamId: string;
 }>;
 
-function EditTeamDialog({ children, description, slug, name, teamId }: Props) {
+function EditTeamDialog({ children, teamId }: Props) {
+	const query = useSuspenseQuery(
+		getDefaultValuesForTeamQueryOptions({ teamId }),
+	);
+
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
 		defaultValues: {
-			teamId,
-			name,
-			slug,
-			description: description ?? "",
+			...query.data,
+			description: query.data.description ?? "",
 		},
 		validators: {
 			onChange: z.object({

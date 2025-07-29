@@ -24,8 +24,6 @@ const getAllTeams = createServerFn({ method: "GET" })
 			.select({
 				teamId: team.id,
 				name: team.name,
-				slug: team.slug,
-				description: team.description,
 				createdAt: team.createdAt,
 				memberCount: db.$count(teamMember, eq(teamMember.teamId, team.id)),
 			})
