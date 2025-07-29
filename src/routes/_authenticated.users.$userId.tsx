@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AllTeamsForUserCard } from "@/features/teams/components/all-teams-for-user-card";
 import { TotalTeamsForUserCard } from "@/features/teams/components/total-teams-for-user-card";
+import { UserDangerZoneCard } from "@/features/users/components/user-danger-zone-card";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
 import { UserSettingsCard } from "@/features/users/components/user-settings-card";
 import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
@@ -60,8 +61,9 @@ function RouteComponent() {
 					<AllTeamsForUserCard userId={params.userId} />
 				</TabsContent>
 
-				<TabsContent value="settings">
+				<TabsContent value="settings" className="grid gap-6">
 					<UserSettingsCard userId={params.userId} />
+					<UserDangerZoneCard userId={params.userId} />
 				</TabsContent>
 			</Tabs>
 		</div>
