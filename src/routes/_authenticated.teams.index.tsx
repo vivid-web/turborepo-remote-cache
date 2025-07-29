@@ -16,10 +16,10 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 		query: QuerySchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
-	loader: async ({ context, deps: search }) => {
+	loader: async ({ context: { queryClient }, deps: search }) => {
 		await Promise.all([
-			context.queryClient.ensureQueryData(getAllTeamsQueryOptions(search)),
-			context.queryClient.ensureQueryData(getTotalTeamsQueryOptions()),
+			queryClient.ensureQueryData(getAllTeamsQueryOptions(search)),
+			queryClient.ensureQueryData(getTotalTeamsQueryOptions()),
 		]);
 	},
 });

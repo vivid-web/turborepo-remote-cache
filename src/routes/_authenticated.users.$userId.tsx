@@ -14,8 +14,8 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 	params: {
 		parse: (params) => z.object({ userId: IdSchema }).parse(params),
 	},
-	loader: async ({ context, params }) => {
-		const user = await context.queryClient.ensureQueryData(
+	loader: async ({ context: { queryClient }, params }) => {
+		const user = await queryClient.ensureQueryData(
 			getSingleUserQueryOptions(params),
 		);
 
