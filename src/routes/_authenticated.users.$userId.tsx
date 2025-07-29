@@ -1,4 +1,3 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { UserPenIcon } from "lucide-react";
 import { z } from "zod";
@@ -6,7 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
-import { getSingleUserQueryOptions } from "@/features/users/queries/get-single-user-query-options";
+import { getDefaultValuesForUserQueryOptions } from "@/features/users/queries/get-default-values-for-user-query-options";
 import { getUserGeneralInfoQueryOptions } from "@/features/users/queries/get-user-general-info-query-options";
 import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
@@ -21,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 		await Promise.all([
 			queryClient.ensureQueryData(getUserGeneralInfoQueryOptions(params)),
-			queryClient.ensureQueryData(getSingleUserQueryOptions(params)),
+			queryClient.ensureQueryData(getDefaultValuesForUserQueryOptions(params)),
 		]);
 
 		return { crumb };
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 
 function RouteComponent() {
 	const params = Route.useParams();
-	const { data: user } = useSuspenseQuery(getSingleUserQueryOptions(params));
 
 	return (
 		<div className="grid gap-6">
@@ -43,7 +41,7 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
-				<EditUserDialog {...user}>
+				<EditUserDialog userId={params.userId}>
 					<Button className="gap-2">
 						<UserPenIcon className="h-4 w-4" />
 						Edit User

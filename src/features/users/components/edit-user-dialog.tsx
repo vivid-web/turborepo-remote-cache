@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import * as React from "react";
 import { z } from "zod";
@@ -19,17 +19,20 @@ import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 
 import { EDIT_USER_FORM_ID } from "../constants";
+import { getDefaultValuesForUserQueryOptions } from "../queries/get-default-values-for-user-query-options";
 import { EmailSchema, NameSchema } from "../schemas";
 import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
 import { editUser } from "../server-fns/edit-user";
 
 type Props = React.PropsWithChildren<{
-	email: string;
-	name: string;
 	userId: string;
 }>;
 
-function EditUserDialog({ children, email, userId, name }: Props) {
+function EditUserDialog({ children, userId }: Props) {
+	const query = useSuspenseQuery(
+		getDefaultValuesForUserQueryOptions({ userId }),
+	);
+
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
@@ -37,9 +40,7 @@ function EditUserDialog({ children, email, userId, name }: Props) {
 
 	const form = useAppForm({
 		defaultValues: {
-			userId,
-			name,
-			email,
+			...query.data,
 		},
 		validators: {
 			onChange: z.object({

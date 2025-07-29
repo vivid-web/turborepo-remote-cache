@@ -30,9 +30,7 @@ type User = {
 	userId: string;
 };
 
-function FilledRow(user: User) {
-	const { image, name, email } = user;
-
+function FilledRow({ image, name, email, userId }: User) {
 	return (
 		<TableRow>
 			<TableCell>
@@ -56,20 +54,24 @@ function FilledRow(user: User) {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem asChild>
-							<Link to="/users/$userId" params={{ userId: user.userId }}>
+							<Link to="/users/$userId" params={{ userId }}>
 								View Details
 							</Link>
 						</DropdownMenuItem>
-						<EditUserDialog {...user}>
-							<DropdownMenuItem
-								onSelect={(e) => {
-									e.preventDefault();
-								}}
-							>
-								Edit User
-							</DropdownMenuItem>
-						</EditUserDialog>
-						<RemoveUserAlertDialog {...user}>
+						<React.Suspense
+							fallback={<DropdownMenuItem disabled>Edit User</DropdownMenuItem>}
+						>
+							<EditUserDialog userId={userId}>
+								<DropdownMenuItem
+									onSelect={(e) => {
+										e.preventDefault();
+									}}
+								>
+									Edit User
+								</DropdownMenuItem>
+							</EditUserDialog>
+						</React.Suspense>
+						<RemoveUserAlertDialog userId={userId}>
 							<DropdownMenuItem
 								className="text-destructive"
 								onSelect={(e) => {
