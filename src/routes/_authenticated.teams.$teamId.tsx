@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
+import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
 import { getBreadcrumbForTeam } from "@/features/teams/server-fns/get-breadcrumb-for-team";
 import { AllUsersForTeamCard } from "@/features/users/components/all-users-for-team-card";
 import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 		await Promise.all([
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(AllUsersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
 		]);
 
 		return { crumb };
@@ -42,6 +44,8 @@ function RouteComponent() {
 			</div>
 
 			<AllUsersForTeamCard teamId={teamId} />
+
+			<TeamSettingsCard teamId={teamId} />
 		</div>
 	);
 }
