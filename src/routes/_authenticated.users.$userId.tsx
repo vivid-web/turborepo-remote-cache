@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
 import { UserInfoCard } from "@/features/users/components/user-info-card";
 import { getSingleUserQueryOptions } from "@/features/users/queries/get-single-user-query-options";
+import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({
@@ -15,11 +16,11 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		parse: (params) => z.object({ userId: IdSchema }).parse(params),
 	},
 	loader: async ({ context: { queryClient }, params }) => {
-		const user = await queryClient.ensureQueryData(
-			getSingleUserQueryOptions(params),
-		);
+		const crumb = await getBreadcrumbForUser({ data: params });
 
-		return { crumb: user.name };
+		await queryClient.ensureQueryData(getSingleUserQueryOptions(params));
+
+		return { crumb };
 	},
 });
 
