@@ -5,8 +5,9 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/features/users/components/edit-user-dialog";
-import { UserInfoCard } from "@/features/users/components/user-info-card";
+import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
 import { getSingleUserQueryOptions } from "@/features/users/queries/get-single-user-query-options";
+import { getUserGeneralInfoQueryOptions } from "@/features/users/queries/get-user-general-info-query-options";
 import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
 
@@ -18,7 +19,10 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForUser({ data: params });
 
-		await queryClient.ensureQueryData(getSingleUserQueryOptions(params));
+		await Promise.all([
+			queryClient.ensureQueryData(getUserGeneralInfoQueryOptions(params)),
+			queryClient.ensureQueryData(getSingleUserQueryOptions(params)),
+		]);
 
 		return { crumb };
 	},
@@ -47,7 +51,7 @@ function RouteComponent() {
 				</EditUserDialog>
 			</div>
 
-			<UserInfoCard {...user} />
+			<UserGeneralInfoCard userId={params.userId} />
 		</div>
 	);
 }

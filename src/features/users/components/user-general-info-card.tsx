@@ -1,8 +1,10 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 
+import { getUserGeneralInfoQueryOptions } from "../queries/get-user-general-info-query-options";
 import {
 	formatCreatedDate,
 	formatLastLoginDate,
@@ -10,39 +12,31 @@ import {
 } from "../utils";
 
 type Props = {
-	createdAt: Date;
-	email: string;
-	image: null | string;
-	lastLoggedInAt?: Date;
-	name: string;
+	userId: string;
 };
 
-function UserInfoCard({
-	image,
-	name,
-	email,
-	createdAt,
-	lastLoggedInAt,
-}: Props) {
+function UserGeneralInfoCard({ userId }: Props) {
+	const { data } = useSuspenseQuery(getUserGeneralInfoQueryOptions({ userId }));
+
 	return (
 		<Card>
 			<CardContent>
 				<div className="flex items-start justify-between">
 					<div className="flex items-start gap-4">
 						<Avatar className="h-16 w-16">
-							{image && <AvatarImage src={image} alt={name} />}
+							{data.image && <AvatarImage src={data.image} alt={data.name} />}
 							<AvatarFallback className="text-lg">
-								{getAvatarFallback(name)}
+								{getAvatarFallback(data.name)}
 							</AvatarFallback>
 						</Avatar>
 						<div className="space-y-2">
 							<div>
 								<h2 className="text-xl font-semibold text-foreground">
-									{name}
+									{data.name}
 								</h2>
 								<div className="flex items-center gap-2 text-muted-foreground">
 									<MailIcon className="h-4 w-4" />
-									<span>{email}</span>
+									<span>{data.email}</span>
 								</div>
 							</div>
 						</div>
@@ -50,11 +44,11 @@ function UserInfoCard({
 					<div className="space-y-1 text-right text-sm text-muted-foreground">
 						<div className="flex items-center gap-2">
 							<CalendarIcon className="h-4 w-4" />
-							<span>Joined {formatCreatedDate(createdAt)}</span>
+							<span>Joined {formatCreatedDate(data.createdAt)}</span>
 						</div>
 						<div className="flex items-center gap-2">
 							<ActivityIcon className="h-4 w-4" />
-							<span>Last login {formatLastLoginDate(lastLoggedInAt)}</span>
+							<span>Last login {formatLastLoginDate(data.lastLoggedInAt)}</span>
 						</div>
 					</div>
 				</div>
@@ -63,4 +57,4 @@ function UserInfoCard({
 	);
 }
 
-export { UserInfoCard };
+export { UserGeneralInfoCard };
