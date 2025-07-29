@@ -12,7 +12,7 @@ const getTotalTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.handler(async () => db.$count(team));
 
-function getTotalTeamsQueryOptions() {
+function totalTeamsQueryOptions() {
 	return queryOptions({
 		queryFn: async () => getTotalTeams(),
 		queryKey: [TEAMS_QUERY_KEY, "total-teams"],
@@ -20,7 +20,7 @@ function getTotalTeamsQueryOptions() {
 }
 
 function TotalTeamsCard() {
-	const query = useSuspenseQuery(getTotalTeamsQueryOptions());
+	const query = useSuspenseQuery(totalTeamsQueryOptions());
 
 	return (
 		<Card>
@@ -35,6 +35,6 @@ function TotalTeamsCard() {
 	);
 }
 
-TotalTeamsCard.queryOptions = getTotalTeamsQueryOptions;
+TotalTeamsCard.queryOptions = totalTeamsQueryOptions;
 
 export { TotalTeamsCard };
