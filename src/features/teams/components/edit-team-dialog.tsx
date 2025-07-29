@@ -60,7 +60,7 @@ const getDefaultValuesForTeam = createServerFn({ method: "GET" })
 		return foundTeam;
 	});
 
-function getDefaultValuesForTeamQueryOptions(params: Params) {
+function defaultValuesForTeamQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getDefaultValuesForTeam({ data: params }),
 		queryKey: [TEAMS_QUERY_KEY, "default-values-for-team", params.teamId],
@@ -68,9 +68,7 @@ function getDefaultValuesForTeamQueryOptions(params: Params) {
 }
 
 function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
-	const query = useSuspenseQuery(
-		getDefaultValuesForTeamQueryOptions({ teamId }),
-	);
+	const query = useSuspenseQuery(defaultValuesForTeamQueryOptions({ teamId }));
 
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -239,6 +237,6 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 	);
 }
 
-EditTeamDialog.queryOptions = getDefaultValuesForTeamQueryOptions;
+EditTeamDialog.queryOptions = defaultValuesForTeamQueryOptions;
 
 export { EditTeamDialog };

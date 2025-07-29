@@ -57,7 +57,7 @@ const getUserGeneralInfo = createServerFn({ method: "GET" })
 		};
 	});
 
-function getUserGeneralInfoQueryOptions(params: Params) {
+function userGeneralInfoQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getUserGeneralInfo({ data: params }),
 		queryKey: [USERS_QUERY_KEY, "user-general-info", params.userId],
@@ -65,7 +65,7 @@ function getUserGeneralInfoQueryOptions(params: Params) {
 }
 
 function UserGeneralInfoCard({ userId }: Params) {
-	const { data } = useSuspenseQuery(getUserGeneralInfoQueryOptions({ userId }));
+	const { data } = useSuspenseQuery(userGeneralInfoQueryOptions({ userId }));
 
 	return (
 		<Card>
@@ -106,6 +106,6 @@ function UserGeneralInfoCard({ userId }: Params) {
 	);
 }
 
-UserGeneralInfoCard.queryOptions = getUserGeneralInfoQueryOptions;
+UserGeneralInfoCard.queryOptions = userGeneralInfoQueryOptions;
 
 export { UserGeneralInfoCard };

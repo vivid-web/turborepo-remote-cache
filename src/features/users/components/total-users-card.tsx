@@ -12,7 +12,7 @@ const getTotalUsers = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.handler(async () => db.$count(user));
 
-function getTotalUsersQueryOptions() {
+function totalUsersQueryOptions() {
 	return queryOptions({
 		queryFn: async () => getTotalUsers(),
 		queryKey: [USERS_QUERY_KEY, "total-users"],
@@ -20,7 +20,7 @@ function getTotalUsersQueryOptions() {
 }
 
 function TotalUsersCard() {
-	const query = useSuspenseQuery(getTotalUsersQueryOptions());
+	const query = useSuspenseQuery(totalUsersQueryOptions());
 
 	return (
 		<Card>
@@ -37,6 +37,6 @@ function TotalUsersCard() {
 	);
 }
 
-TotalUsersCard.queryOptions = getTotalUsersQueryOptions;
+TotalUsersCard.queryOptions = totalUsersQueryOptions;
 
 export { TotalUsersCard };

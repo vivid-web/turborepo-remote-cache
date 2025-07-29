@@ -59,7 +59,7 @@ const getDefaultValuesForUser = createServerFn({ method: "GET" })
 		return foundUser;
 	});
 
-function getDefaultValuesForUserQueryOptions(params: Params) {
+function defaultValuesForUserQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getDefaultValuesForUser({ data: params }),
 		queryKey: [USERS_QUERY_KEY, "default-values-for-user", params.userId],
@@ -67,9 +67,7 @@ function getDefaultValuesForUserQueryOptions(params: Params) {
 }
 
 function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
-	const query = useSuspenseQuery(
-		getDefaultValuesForUserQueryOptions({ userId }),
-	);
+	const query = useSuspenseQuery(defaultValuesForUserQueryOptions({ userId }));
 
 	const router = useRouter();
 	const queryClient = useQueryClient();
@@ -214,6 +212,6 @@ function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
 	);
 }
 
-EditUserDialog.queryOptions = getDefaultValuesForUserQueryOptions;
+EditUserDialog.queryOptions = defaultValuesForUserQueryOptions;
 
 export { EditUserDialog };

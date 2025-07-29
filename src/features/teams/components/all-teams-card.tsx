@@ -49,7 +49,7 @@ const getAllTeams = createServerFn({ method: "GET" })
 			.orderBy(asc(team.name));
 	});
 
-function getAllTeamsQueryOptions(params: Params) {
+function allTeamsQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllTeams({ data: params }),
 		queryKey: [TEAMS_QUERY_KEY, "all-teams", params.query],
@@ -60,7 +60,7 @@ function AllTeamsCard({
 	query,
 	onSearch,
 }: Params & { onSearch: (query?: string) => Promise<void> | void }) {
-	const { data: teams } = useSuspenseQuery(getAllTeamsQueryOptions({ query }));
+	const { data: teams } = useSuspenseQuery(allTeamsQueryOptions({ query }));
 
 	return (
 		<Card>
@@ -83,6 +83,6 @@ function AllTeamsCard({
 	);
 }
 
-AllTeamsCard.queryOptions = getAllTeamsQueryOptions;
+AllTeamsCard.queryOptions = allTeamsQueryOptions;
 
 export { AllTeamsCard };

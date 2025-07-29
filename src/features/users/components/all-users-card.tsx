@@ -48,7 +48,7 @@ const getAllUsers = createServerFn({ method: "GET" })
 			.orderBy(asc(user.name));
 	});
 
-function getAllUsersQueryOptions(params: Params) {
+function allUsersQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllUsers({ data: params }),
 		queryKey: [USERS_QUERY_KEY, "all-users", params.query],
@@ -59,7 +59,7 @@ function AllUsersCard({
 	query,
 	onSearch,
 }: Params & { onSearch: (query?: string) => Promise<void> | void }) {
-	const { data: users } = useSuspenseQuery(getAllUsersQueryOptions({ query }));
+	const { data: users } = useSuspenseQuery(allUsersQueryOptions({ query }));
 
 	return (
 		<Card>
@@ -82,6 +82,6 @@ function AllUsersCard({
 	);
 }
 
-AllUsersCard.queryOptions = getAllUsersQueryOptions;
+AllUsersCard.queryOptions = allUsersQueryOptions;
 
 export { AllUsersCard };
