@@ -1,21 +1,70 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { desc, eq } from "drizzle-orm";
+import { db } from "drizzle/db";
+import { session, user } from "drizzle/schema";
 import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
+import { z } from "zod";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
+import { IdSchema } from "@/lib/schemas";
+import { auth } from "@/middlewares/auth";
 
-import { getUserGeneralInfoQueryOptions } from "../queries/get-user-general-info-query-options";
+import { USERS_QUERY_KEY } from "../constants";
 import {
 	formatCreatedDate,
 	formatLastLoginDate,
 	getAvatarFallback,
 } from "../utils";
 
-type Props = {
-	userId: string;
-};
+type Params = z.input<typeof ParamsSchema>;
 
-function UserGeneralInfoCard({ userId }: Props) {
+const ParamsSchema = z.object({
+	userId: IdSchema,
+});
+
+const getUserGeneralInfo = createServerFn({ method: "GET" })
+	.middleware([auth])
+	.validator(ParamsSchema)
+	.handler(async ({ data: { userId } }) => {
+		const [foundUser] = await db
+			.select({
+				email: user.email,
+				name: user.name,
+				image: user.image,
+				createdAt: user.createdAt,
+			})
+			.from(user)
+			.where(eq(user.id, userId))
+			.limit(1);
+
+		const [foundSession] = await db
+			.select({ lastLoggedInAt: session.createdAt })
+			.from(session)
+			.where(eq(session.userId, userId))
+			.orderBy(desc(session.createdAt))
+			.limit(1);
+
+		if (!foundUser) {
+			throw notFound();
+		}
+
+		return {
+			...foundUser,
+			...foundSession,
+		};
+	});
+
+function getUserGeneralInfoQueryOptions(params: Params) {
+	return queryOptions({
+		queryFn: async () => getUserGeneralInfo({ data: params }),
+		queryKey: [USERS_QUERY_KEY, "user-general-info", params.userId],
+	});
+}
+
+function UserGeneralInfoCard({ userId }: Params) {
 	const { data } = useSuspenseQuery(getUserGeneralInfoQueryOptions({ userId }));
 
 	return (
@@ -56,5 +105,7 @@ function UserGeneralInfoCard({ userId }: Props) {
 		</Card>
 	);
 }
+
+UserGeneralInfoCard.queryOptions = getUserGeneralInfoQueryOptions;
 
 export { UserGeneralInfoCard };

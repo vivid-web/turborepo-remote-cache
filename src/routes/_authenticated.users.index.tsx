@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { AddNewUserDialog } from "@/features/users/components/add-new-user-dialog";
 import { AllUsersCard } from "@/features/users/components/all-users-card";
 import { TotalUsersCard } from "@/features/users/components/total-users-card";
-import { getAllUsersQueryOptions } from "@/features/users/queries/get-all-users-query-options";
-import { getTotalUsersQueryOptions } from "@/features/users/queries/get-total-users-query-options";
 import { QuerySchema } from "@/features/users/schemas";
 
 export const Route = createFileRoute("/_authenticated/users/")({
@@ -18,8 +16,8 @@ export const Route = createFileRoute("/_authenticated/users/")({
 	loaderDeps: ({ search }) => search,
 	loader: async ({ context: { queryClient }, deps: search }) => {
 		await Promise.all([
-			queryClient.ensureQueryData(getAllUsersQueryOptions(search)),
-			queryClient.ensureQueryData(getTotalUsersQueryOptions()),
+			queryClient.ensureQueryData(AllUsersCard.queryOptions(search)),
+			queryClient.ensureQueryData(TotalUsersCard.queryOptions()),
 		]);
 	},
 });
