@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone-card";
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
 import { getBreadcrumbForTeam } from "@/features/teams/server-fns/get-breadcrumb-for-team";
 import { AllUsersForTeamCard } from "@/features/users/components/all-users-for-team-card";
@@ -54,8 +55,9 @@ function RouteComponent() {
 					<AllUsersForTeamCard teamId={teamId} />
 				</TabsContent>
 
-				<TabsContent value="settings">
+				<TabsContent value="settings" className="grid gap-6">
 					<TeamSettingsCard teamId={teamId} />
+					<TeamDangerZoneCard teamId={teamId} />
 				</TabsContent>
 			</Tabs>
 		</div>
