@@ -21,6 +21,7 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(AllUsersForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllUsersForTeamCard.queryOptions(params)),
 		]);
 
 		return { crumb };
