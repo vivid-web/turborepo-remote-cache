@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { z } from "zod";
 
@@ -24,6 +25,8 @@ function RemoveUserAlertDialog({
 	userId,
 }: React.PropsWithChildren<{ userId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
+	const navigate = useNavigate();
+	const matchRoute = useMatchRoute();
 
 	const queryClient = useQueryClient();
 
@@ -36,6 +39,10 @@ function RemoveUserAlertDialog({
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeUser({ data });
+
+			if (matchRoute({ to: "/users/$userId" })) {
+				await navigate({ to: "/users" });
+			}
 
 			await queryClient.invalidateQueries();
 
