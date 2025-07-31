@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { z } from "zod";
 
@@ -24,6 +25,8 @@ function RemoveTeamAlertDialog({
 	teamId,
 }: React.PropsWithChildren<{ teamId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
+	const navigate = useNavigate();
+	const matchRoute = useMatchRoute();
 
 	const queryClient = useQueryClient();
 
@@ -34,6 +37,10 @@ function RemoveTeamAlertDialog({
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeTeam({ data });
+
+			if (matchRoute({ to: "/teams/$teamId" })) {
+				await navigate({ to: "/teams" });
+			}
 
 			await queryClient.invalidateQueries();
 
