@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 
 import { getAvatarFallback } from "../utils";
 
+type Params = {
+	teamId: string;
+};
+
 type User = {
 	email: string;
 	image: null | string;
@@ -14,7 +18,7 @@ type User = {
 	userId: string;
 };
 
-function FilledListItem({ name, userId, image }: User) {
+function FilledListItem({ name, userId, image }: Params & User) {
 	return (
 		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
@@ -61,7 +65,7 @@ function Layout({ children }: React.PropsWithChildren) {
 	return <div className="grid gap-2">{children}</div>;
 }
 
-function UsersList({ users }: { users: Array<User> }) {
+function UsersForTeamList({ users, teamId }: Params & { users: Array<User> }) {
 	if (!users.length) {
 		return (
 			<Layout>
@@ -73,10 +77,10 @@ function UsersList({ users }: { users: Array<User> }) {
 	return (
 		<Layout>
 			{users.map((user) => (
-				<FilledListItem {...user} key={user.userId} />
+				<FilledListItem {...user} teamId={teamId} key={user.userId} />
 			))}
 		</Layout>
 	);
 }
 
-export { UsersList };
+export { UsersForTeamList };

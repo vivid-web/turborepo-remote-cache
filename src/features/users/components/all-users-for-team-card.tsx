@@ -20,7 +20,7 @@ import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
 import { AttachUsersToTeamDialog } from "./attach-users-to-team-dialog";
-import { UsersList } from "./users-list";
+import { UsersForTeamList } from "./users-for-team-list";
 
 type Params = z.input<typeof ParamsSchema>;
 
@@ -80,7 +80,7 @@ function AllUsersForTeamCard({ teamId }: Params) {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<UsersList users={query.data} />
+				<UsersForTeamList teamId={teamId} users={query.data} />
 			</CardContent>
 		</Card>
 	);
