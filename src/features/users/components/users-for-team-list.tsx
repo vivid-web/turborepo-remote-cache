@@ -1,9 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { UserIcon } from "lucide-react";
+import { MoreVerticalIcon, UserIcon } from "lucide-react";
 import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { getAvatarFallback } from "../utils";
 
@@ -34,11 +40,20 @@ function FilledListItem({ name, userId, image }: Params & User) {
 					<p className="text-xs text-muted-foreground">Member</p>
 				</div>
 			</div>
-			<Button variant="outline" size="sm" asChild>
-				<Link to="/users/$userId" params={{ userId }}>
-					View User
-				</Link>
-			</Button>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="outline" size="sm">
+						<MoreVerticalIcon className="h-4 w-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem asChild>
+						<Link to="/users/$userId" params={{ userId }}>
+							View Details
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	);
 }
