@@ -3,8 +3,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { teamMember, user } from "drizzle/schema";
+import { Loader2Icon, SquarePlusIcon } from "lucide-react";
+import * as React from "react";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -16,6 +19,7 @@ import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
+import { AttachUsersToTeamDialog } from "./attach-users-to-team-dialog";
 import { UsersList } from "./users-list";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -51,10 +55,29 @@ function AllUsersForTeamCard({ teamId }: Params) {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="font-medium">Team Members</CardTitle>
-				<CardDescription>
-					A list of members that are attached to this team
-				</CardDescription>
+				<div className="flex items-center justify-between">
+					<div>
+						<CardTitle className="font-medium">Team Members</CardTitle>
+						<CardDescription>
+							A list of members that are attached to this team
+						</CardDescription>
+					</div>
+
+					<React.Suspense
+						fallback={
+							<Button className="gap-2" disabled>
+								<Loader2Icon className="animate-spin" />
+							</Button>
+						}
+					>
+						<AttachUsersToTeamDialog teamId={teamId}>
+							<Button className="gap-2">
+								<SquarePlusIcon className="!h-4 !w-4" />
+								Attach members
+							</Button>
+						</AttachUsersToTeamDialog>
+					</React.Suspense>
+				</div>
 			</CardHeader>
 			<CardContent>
 				<UsersList users={query.data} />
