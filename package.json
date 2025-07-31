@@ -47,7 +47,7 @@
 		"date-fns": "^4.1.0",
 		"drizzle-orm": "^0.44.4",
 		"drizzle-seed": "^0.3.1",
-		"lucide-react": "^0.533.0",
+		"lucide-react": "^0.535.0",
 		"pg": "^8.16.3",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
