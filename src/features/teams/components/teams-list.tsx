@@ -49,7 +49,7 @@ function EmptyListItem() {
 }
 
 function Layout({ children }: React.PropsWithChildren) {
-	return <div className="grid gap-4">{children}</div>;
+	return <div className="grid gap-2">{children}</div>;
 }
 
 function TeamsList({ teams }: { teams: Array<Team> }) {
