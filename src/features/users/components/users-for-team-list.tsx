@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { getAvatarFallback } from "../utils";
+import { DetachUserFromTeamAlertDialog } from "./detach-user-from-team-alert-dialog";
 
 type Params = {
 	teamId: string;
@@ -24,7 +25,7 @@ type User = {
 	userId: string;
 };
 
-function FilledListItem({ name, userId, image }: Params & User) {
+function FilledListItem({ name, userId, image, teamId }: Params & User) {
 	return (
 		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
@@ -52,6 +53,16 @@ function FilledListItem({ name, userId, image }: Params & User) {
 							View Details
 						</Link>
 					</DropdownMenuItem>
+					<DetachUserFromTeamAlertDialog userId={userId} teamId={teamId}>
+						<DropdownMenuItem
+							className="text-destructive"
+							onSelect={(e) => {
+								e.preventDefault();
+							}}
+						>
+							Detach User
+						</DropdownMenuItem>
+					</DetachUserFromTeamAlertDialog>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</div>
