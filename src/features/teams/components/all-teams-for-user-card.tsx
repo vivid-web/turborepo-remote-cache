@@ -20,7 +20,7 @@ import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
-import { TeamsList } from "./teams-list";
+import { TeamsForUserList } from "./teams-for-user-list";
 
 type Params = z.input<typeof ParamsSchema>;
 
@@ -76,7 +76,7 @@ function AllTeamsForUserCard({ userId }: Params) {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<TeamsList teams={query.data} />
+				<TeamsForUserList teams={query.data} userId={userId} />
 			</CardContent>
 		</Card>
 	);
