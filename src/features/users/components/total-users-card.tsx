@@ -2,6 +2,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
+import { UserIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/middlewares/auth";
@@ -25,7 +26,10 @@ function TotalUsersCard() {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
-				<CardTitle className="font-medium">Total Users</CardTitle>
+				<div className="flex items-center gap-2">
+					<UserIcon className="!h-4 !w-4" />
+					<CardTitle className="font-medium">Total Users</CardTitle>
+				</div>
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>

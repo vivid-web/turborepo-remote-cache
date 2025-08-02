@@ -2,6 +2,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "drizzle/db";
 import { team } from "drizzle/schema";
+import { UsersIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/middlewares/auth";
@@ -25,7 +26,10 @@ function TotalTeamsCard() {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
-				<CardTitle className="font-medium">Total Teams</CardTitle>
+				<div className="flex items-center gap-2">
+					<UsersIcon className="!h-4 !w-4" />
+					<CardTitle className="font-medium">Total Teams</CardTitle>
+				</div>
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
