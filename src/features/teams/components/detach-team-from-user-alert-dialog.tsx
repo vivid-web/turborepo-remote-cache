@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { z } from "zod";
 
@@ -15,34 +14,32 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
+import { DETACH_TEAM_FROM_USER_FORM_ID } from "@/features/teams/constants";
+import { detachUserFromTeam } from "@/features/users/server-fns/detach-user-from-team";
 import { IdSchema } from "@/lib/schemas";
 
-import { REMOVE_USER_FORM_ID } from "../constants";
-import { removeUser } from "../server-fns/remove-user";
-
-function RemoveUserAlertDialog({
-	children,
+function DetachTeamFromUserAlertDialog({
 	userId,
-}: React.PropsWithChildren<{ userId: string }>) {
+	teamId,
+	children,
+}: React.PropsWithChildren<{
+	teamId: string;
+	userId: string;
+}>) {
 	const [isOpen, setIsOpen] = React.useState(false);
-	const navigate = useNavigate();
-	const matchRoute = useMatchRoute();
 
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
-		defaultValues: { userId },
+		defaultValues: { userId, teamId },
 		validators: {
 			onSubmit: z.object({
+				teamId: IdSchema,
 				userId: IdSchema,
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
-			await removeUser({ data });
-
-			if (matchRoute({ to: "/users/$userId" })) {
-				await navigate({ to: "/users" });
-			}
+			await detachUserFromTeam({ data });
 
 			await queryClient.invalidateQueries();
 
@@ -63,11 +60,10 @@ function RemoveUserAlertDialog({
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>
-						Are you sure you want to remove this user?
+						Are you sure you want to detach this team from the current user?
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						This action cannot be undone. This will permanently delete the
-						selected user
+						You will have to attach the team to the user again
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<form.AppForm>
@@ -75,10 +71,20 @@ function RemoveUserAlertDialog({
 						noValidate
 						onSubmit={handleSubmit}
 						className="grid gap-4"
-						id={REMOVE_USER_FORM_ID}
+						id={DETACH_TEAM_FROM_USER_FORM_ID}
 					>
 						<form.AppField
 							name="userId"
+							children={(field) => (
+								<input
+									type="hidden"
+									name={field.name}
+									value={field.state.value}
+								/>
+							)}
+						/>
+						<form.AppField
+							name="teamId"
 							children={(field) => (
 								<input
 									type="hidden"
@@ -97,7 +103,7 @@ function RemoveUserAlertDialog({
 							<ButtonWithPendingState
 								isPending={isSubmitting}
 								type="submit"
-								form={REMOVE_USER_FORM_ID}
+								form={DETACH_TEAM_FROM_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
 								Continue
@@ -110,4 +116,4 @@ function RemoveUserAlertDialog({
 	);
 }
 
-export { RemoveUserAlertDialog };
+export { DetachTeamFromUserAlertDialog };
