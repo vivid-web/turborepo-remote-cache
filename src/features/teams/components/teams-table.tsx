@@ -53,11 +53,11 @@ function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem asChild>
 							<Link to="/teams/$teamId" params={{ teamId }}>
-								View Details
+								View
 							</Link>
 						</DropdownMenuItem>
 						<React.Suspense
-							fallback={<DropdownMenuItem disabled>Edit Team</DropdownMenuItem>}
+							fallback={<DropdownMenuItem>Edit</DropdownMenuItem>}
 						>
 							<EditTeamDialog teamId={teamId}>
 								<DropdownMenuItem
@@ -65,18 +65,18 @@ function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
 										e.preventDefault();
 									}}
 								>
-									Edit Team
+									Edit
 								</DropdownMenuItem>
 							</EditTeamDialog>
 						</React.Suspense>
 						<RemoveTeamAlertDialog teamId={teamId}>
 							<DropdownMenuItem
-								className="text-destructive"
+								variant="destructive"
 								onSelect={(e) => {
 									e.preventDefault();
 								}}
 							>
-								Remove Team
+								Delete
 							</DropdownMenuItem>
 						</RemoveTeamAlertDialog>
 					</DropdownMenuContent>
