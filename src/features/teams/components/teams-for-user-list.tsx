@@ -41,7 +41,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 				<DropdownMenuContent align="end">
 					<DropdownMenuItem asChild>
 						<Link to="/teams/$teamId" params={{ teamId }}>
-							View Details
+							View
 						</Link>
 					</DropdownMenuItem>
 					<DetachTeamFromUserAlertDialog teamId={teamId} userId={userId}>
@@ -51,7 +51,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 								e.preventDefault();
 							}}
 						>
-							Detach Team
+							Detach
 						</DropdownMenuItem>
 					</DetachTeamFromUserAlertDialog>
 				</DropdownMenuContent>
