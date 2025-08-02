@@ -4,6 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { count, eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { teamMember } from "drizzle/schema";
+import { UserIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -47,7 +48,10 @@ function TotalUsersForTeamCard({ teamId }: Params) {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
-				<CardTitle className="font-medium">Total Members</CardTitle>
+				<div className="flex items-center gap-2">
+					<UserIcon className="!h-4 !w-4" />
+					<CardTitle className="font-medium">Total Members</CardTitle>
+				</div>
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
