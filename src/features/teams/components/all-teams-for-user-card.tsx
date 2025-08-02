@@ -69,7 +69,7 @@ function AllTeamsForUserCard({ userId }: Params) {
 						<AttachTeamsToUserDialog userId={userId}>
 							<Button className="gap-2">
 								<SquarePlusIcon className="!h-4 !w-4" />
-								Attach teams
+								Attach Teams
 							</Button>
 						</AttachTeamsToUserDialog>
 					</React.Suspense>
