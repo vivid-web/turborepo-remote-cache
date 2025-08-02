@@ -4,12 +4,16 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
+type Params = {
+	userId: string;
+};
+
 type Team = {
 	name: string;
 	teamId: string;
 };
 
-function FilledListItem({ name, teamId }: Team) {
+function FilledListItem({ name, teamId }: Params & Team) {
 	return (
 		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
@@ -52,7 +56,7 @@ function Layout({ children }: React.PropsWithChildren) {
 	return <div className="grid gap-2">{children}</div>;
 }
 
-function TeamsList({ teams }: { teams: Array<Team> }) {
+function TeamsForUserList({ teams, userId }: Params & { teams: Array<Team> }) {
 	if (teams.length === 0) {
 		return (
 			<Layout>
@@ -64,10 +68,10 @@ function TeamsList({ teams }: { teams: Array<Team> }) {
 	return (
 		<Layout>
 			{teams.map((team) => (
-				<FilledListItem {...team} key={team.teamId} />
+				<FilledListItem {...team} key={team.teamId} userId={userId} />
 			))}
 		</Layout>
 	);
 }
 
-export { TeamsList };
+export { TeamsForUserList };
