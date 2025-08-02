@@ -55,11 +55,11 @@ function FilledRow({ image, name, email, userId }: User) {
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem asChild>
 							<Link to="/users/$userId" params={{ userId }}>
-								View Details
+								View
 							</Link>
 						</DropdownMenuItem>
 						<React.Suspense
-							fallback={<DropdownMenuItem disabled>Edit User</DropdownMenuItem>}
+							fallback={<DropdownMenuItem>Edit</DropdownMenuItem>}
 						>
 							<EditUserDialog userId={userId}>
 								<DropdownMenuItem
@@ -67,18 +67,18 @@ function FilledRow({ image, name, email, userId }: User) {
 										e.preventDefault();
 									}}
 								>
-									Edit User
+									Edit
 								</DropdownMenuItem>
 							</EditUserDialog>
 						</React.Suspense>
 						<RemoveUserAlertDialog userId={userId}>
 							<DropdownMenuItem
-								className="text-destructive"
+								variant="destructive"
 								onSelect={(e) => {
 									e.preventDefault();
 								}}
 							>
-								Remove User
+								Delete
 							</DropdownMenuItem>
 						</RemoveUserAlertDialog>
 					</DropdownMenuContent>
