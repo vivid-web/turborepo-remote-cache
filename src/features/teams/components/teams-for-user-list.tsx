@@ -1,8 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { UsersIcon } from "lucide-react";
+import { MoreVerticalIcon, UsersIcon } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Params = {
 	userId: string;
@@ -25,11 +31,20 @@ function FilledListItem({ name, teamId }: Params & Team) {
 					<p className="text-xs text-muted-foreground">Member</p>
 				</div>
 			</div>
-			<Button variant="outline" size="sm" asChild>
-				<Link to="/teams/$teamId" params={{ teamId: teamId }}>
-					View Team
-				</Link>
-			</Button>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="outline" size="sm">
+						<MoreVerticalIcon className="h-4 w-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem asChild>
+						<Link to="/teams/$teamId" params={{ teamId }}>
+							View Details
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	);
 }
