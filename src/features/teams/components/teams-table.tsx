@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -17,19 +18,58 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { getAvatarFallback } from "@/features/users/utils";
 
 import { formatCreatedDate } from "../utils";
 import { EditTeamDialog } from "./edit-team-dialog";
 import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
 
+type Member = {
+	email: string;
+	image: null | string;
+	name: string;
+	userId: string;
+};
+
 type Team = {
 	createdAt: Date;
-	memberCount: number;
+	members: Array<Member>;
 	name: string;
 	teamId: string;
 };
 
-function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
+function TeamMemberAvatar({ image, name }: Member) {
+	return (
+		<Avatar className="h-8 w-8 border-2 border-background">
+			{image && <AvatarImage src={image} />}
+			<AvatarFallback>{getAvatarFallback(name)}</AvatarFallback>
+		</Avatar>
+	);
+}
+
+function TeamMembersContent({
+	members,
+	cutoff = 4,
+}: {
+	cutoff?: number;
+	members: Array<Member>;
+}) {
+	return (
+		<div className="flex -space-x-2">
+			{members.slice(0, cutoff).map((member) => (
+				<TeamMemberAvatar {...member} key={member.userId} />
+			))}
+
+			{members.length > cutoff && (
+				<div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-muted text-xs font-medium">
+					+{members.length - cutoff}
+				</div>
+			)}
+		</div>
+	);
+}
+
+function FilledRow({ name, teamId, createdAt, members }: Team) {
 	return (
 		<TableRow>
 			<TableCell>
@@ -39,8 +79,7 @@ function FilledRow({ name, teamId, memberCount, createdAt }: Team) {
 				</div>
 			</TableCell>
 			<TableCell>
-				<div className="font-medium">{memberCount}</div>
-				<div className="text-sm text-muted-foreground">members</div>
+				<TeamMembersContent members={members} />
 			</TableCell>
 			<TableCell>{formatCreatedDate(createdAt)}</TableCell>
 			<TableCell>
