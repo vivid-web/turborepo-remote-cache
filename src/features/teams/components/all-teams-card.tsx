@@ -43,7 +43,6 @@ const getAllTeams = createServerFn({ method: "GET" })
 				teamId: team.id,
 				name: team.name,
 				createdAt: team.createdAt,
-				memberCount: db.$count(teamMember, eq(teamMember.teamId, team.id)),
 			})
 			.from(team)
 			.where(or(...teamFilters))
