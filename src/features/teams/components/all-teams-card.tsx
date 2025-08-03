@@ -1,8 +1,9 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { asc, eq, ilike, or, SQL } from "drizzle-orm";
+import { asc, eq, ilike, inArray, or, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { team, teamMember } from "drizzle/schema";
+import { team, teamMember, user } from "drizzle/schema";
+import * as R from "remeda";
 import { z } from "zod";
 
 import {
@@ -29,15 +30,15 @@ const getAllTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
-		const filters: Array<SQL> = [];
+		const teamFilters: Array<SQL> = [];
 
 		if (query) {
-			filters.push(ilike(team.name, `%${query}%`));
-			filters.push(ilike(team.slug, `%${query}%`));
-			filters.push(ilike(team.description, `%${query}%`));
+			teamFilters.push(ilike(team.name, `%${query}%`));
+			teamFilters.push(ilike(team.slug, `%${query}%`));
+			teamFilters.push(ilike(team.description, `%${query}%`));
 		}
 
-		return db
+		const teams = await db
 			.select({
 				teamId: team.id,
 				name: team.name,
@@ -45,8 +46,29 @@ const getAllTeams = createServerFn({ method: "GET" })
 				memberCount: db.$count(teamMember, eq(teamMember.teamId, team.id)),
 			})
 			.from(team)
-			.where(or(...filters))
+			.where(or(...teamFilters))
 			.orderBy(asc(team.name));
+
+		const teamMemberMap = await db
+			.select({
+				userId: teamMember.userId,
+				teamId: teamMember.teamId,
+				name: user.name,
+				image: user.image,
+				email: user.email,
+			})
+			.from(teamMember)
+			.innerJoin(user, eq(teamMember.userId, user.id))
+			.innerJoin(team, eq(team.id, teamMember.teamId))
+			.where(inArray(team.id, teams.map(R.prop("teamId"))))
+			.orderBy(asc(user.name))
+			.then(R.groupByProp("teamId"));
+
+		return teams.map((team) => {
+			const members = teamMemberMap[team.teamId] ?? [];
+
+			return { ...team, members };
+		});
 	});
 
 function allTeamsQueryOptions(params: Params) {
