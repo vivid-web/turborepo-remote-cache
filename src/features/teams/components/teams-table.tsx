@@ -81,7 +81,9 @@ function FilledRow({ name, teamId, createdAt, members }: Team) {
 			<TableCell>
 				<TeamMembersContent members={members} />
 			</TableCell>
-			<TableCell>{formatCreatedDate(createdAt)}</TableCell>
+			<TableCell className="text-muted-foreground">
+				{formatCreatedDate(createdAt)}
+			</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
