@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -37,6 +38,8 @@ function RemoveTeamAlertDialog({
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeTeam({ data });
+
+			toast.success("Team removed successfully");
 
 			if (matchRoute({ to: "/teams/$teamId" })) {
 				await navigate({ to: "/teams" });

@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -39,6 +40,8 @@ function RemoveUserAlertDialog({
 		},
 		onSubmit: async ({ value: data }) => {
 			await removeUser({ data });
+
+			toast.success("User removed successfully");
 
 			if (matchRoute({ to: "/users/$userId" })) {
 				await navigate({ to: "/users" });
