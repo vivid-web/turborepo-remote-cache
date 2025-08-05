@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -53,6 +54,8 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 		},
 		onSubmit: async ({ value: data, formApi }) => {
 			await addNewUser({ data });
+
+			toast.success("User created successfully");
 
 			await queryClient.invalidateQueries();
 

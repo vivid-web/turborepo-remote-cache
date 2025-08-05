@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { team } from "drizzle/schema";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -107,6 +108,8 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 			};
 
 			await editTeam({ data });
+
+			toast.success("Team updated successfully");
 
 			await queryClient.invalidateQueries();
 

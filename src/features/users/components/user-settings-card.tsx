@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
@@ -100,6 +101,8 @@ function UserSettingsCard({ userId }: Params) {
 		},
 		onSubmit: async ({ value: data, formApi }) => {
 			await editUser({ data });
+
+			toast.success("User settings updated successfully");
 
 			await queryClient.invalidateQueries();
 			await router.invalidate();

@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -61,6 +62,8 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 			};
 
 			await addNewTeam({ data });
+
+			toast.success("Team created successfully");
 
 			await queryClient.invalidateQueries();
 

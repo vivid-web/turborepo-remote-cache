@@ -8,6 +8,7 @@ import { and, asc, eq, isNull, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { teamMember, user } from "drizzle/schema";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -102,6 +103,8 @@ function AttachUsersToTeamDialog({
 		},
 		onSubmit: async ({ value, formApi }) => {
 			await attachUsersToTeam({ data: value });
+
+			toast.success("Users attached successfully");
 
 			await queryClient.invalidateQueries();
 

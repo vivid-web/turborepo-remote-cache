@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -40,6 +41,8 @@ function DetachUserFromTeamAlertDialog({
 		},
 		onSubmit: async ({ value: data }) => {
 			await detachUserFromTeam({ data });
+
+			toast.success("User detached successfully");
 
 			await queryClient.invalidateQueries();
 

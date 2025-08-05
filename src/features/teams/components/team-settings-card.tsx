@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { team } from "drizzle/schema";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
@@ -105,6 +106,8 @@ function TeamSettingsCard({ teamId }: Params) {
 			};
 
 			await editTeam({ data });
+
+			toast.success("Team settings updated successfully");
 
 			await queryClient.invalidateQueries();
 			await router.invalidate();

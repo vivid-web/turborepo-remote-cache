@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -101,6 +102,8 @@ function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
 		},
 		onSubmit: async ({ value: data, formApi }) => {
 			await editUser({ data });
+
+			toast.success("User updated successfully");
 
 			await queryClient.invalidateQueries();
 			await router.invalidate();
