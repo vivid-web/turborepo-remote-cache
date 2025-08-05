@@ -11,6 +11,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getWebRequest } from "@tanstack/react-start/server";
 import * as React from "react";
 
+import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/auth";
 import appCss from "@/styles/app.css?url";
 
@@ -59,6 +60,7 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
 				{children}
 				<TanStackRouterDevtools position="bottom-right" />
 				<ReactQueryDevtools buttonPosition="bottom-left" />
+				<Toaster />
 				<Scripts />
 			</body>
 		</html>
