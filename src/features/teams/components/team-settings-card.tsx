@@ -23,7 +23,6 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { slugify } from "@/features/teams/utils";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
@@ -31,6 +30,7 @@ import { updateTeam } from "../actions/update-team";
 import { TEAMS_QUERY_KEY } from "../constants";
 import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
+import { slugify } from "../utils";
 
 type Params = z.input<typeof ParamsSchema>;
 

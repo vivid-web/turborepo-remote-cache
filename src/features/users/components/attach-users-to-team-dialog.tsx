@@ -24,12 +24,12 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { checkIfSomeUsersAreAttachedToTeam } from "@/features/users/queries/check-if-some-users-are-attached-to-team";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { attachUsersToTeam } from "../actions/attach-users-to-team";
 import { ATTACH_USERS_TO_TEAM_FORM_ID, USERS_QUERY_KEY } from "../constants";
+import { checkIfSomeUsersAreAttachedToTeam } from "../queries/check-if-some-users-are-attached-to-team";
 
 type Params = z.input<typeof ParamsSchema>;
 

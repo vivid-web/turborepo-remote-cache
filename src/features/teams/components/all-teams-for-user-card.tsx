@@ -15,11 +15,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { AttachTeamsToUserDialog } from "@/features/teams/components/attach-teams-to-user-dialog";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
+import { AttachTeamsToUserDialog } from "./attach-teams-to-user-dialog";
 import { TeamsForUserList } from "./teams-for-user-list";
 
 type Params = z.input<typeof ParamsSchema>;
