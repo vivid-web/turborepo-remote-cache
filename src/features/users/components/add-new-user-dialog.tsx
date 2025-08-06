@@ -18,7 +18,7 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { checkIfEmailIsTaken } from "@/features/users/queries/check-if-email-is-taken";
 
-import { addNewUser } from "../actions/add-new-user";
+import { createUser } from "../actions/create-user";
 import { ADD_NEW_USER_FORM_ID } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
 
@@ -53,7 +53,7 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 			},
 		},
 		onSubmit: async ({ value: data, formApi }) => {
-			await addNewUser({ data });
+			await createUser({ data });
 
 			toast.success("User created successfully");
 
