@@ -18,7 +18,7 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
-import { removeTeam } from "../actions/remove-team";
+import { deleteTeam } from "../actions/delete-team";
 import { REMOVE_TEAM_FORM_ID } from "../constants";
 
 function RemoveTeamAlertDialog({
@@ -37,7 +37,7 @@ function RemoveTeamAlertDialog({
 			onSubmit: z.object({ teamId: IdSchema }),
 		},
 		onSubmit: async ({ value: data }) => {
-			await removeTeam({ data });
+			await deleteTeam({ data });
 
 			toast.success("Team removed successfully");
 

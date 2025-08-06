@@ -18,7 +18,7 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
-import { removeUser } from "../actions/remove-user";
+import { deleteUser } from "../actions/delete-user";
 import { REMOVE_USER_FORM_ID } from "../constants";
 
 function RemoveUserAlertDialog({
@@ -39,7 +39,7 @@ function RemoveUserAlertDialog({
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
-			await removeUser({ data });
+			await deleteUser({ data });
 
 			toast.success("User removed successfully");
 

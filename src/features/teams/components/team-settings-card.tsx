@@ -27,7 +27,7 @@ import { slugify } from "@/features/teams/utils";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { editTeam } from "../actions/edit-team";
+import { updateTeam } from "../actions/update-team";
 import { TEAMS_QUERY_KEY } from "../constants";
 import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
@@ -105,7 +105,7 @@ function TeamSettingsCard({ teamId }: Params) {
 				description: value.description || undefined,
 			};
 
-			await editTeam({ data });
+			await updateTeam({ data });
 
 			toast.success("Team settings updated successfully");
 

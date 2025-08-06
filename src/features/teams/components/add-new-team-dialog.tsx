@@ -18,7 +18,7 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import { addNewTeam } from "../actions/add-new-team";
+import { createTeam } from "../actions/create-team";
 import { ADD_NEW_TEAM_FORM_ID } from "../constants";
 import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
@@ -61,7 +61,7 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 				description: value.description || undefined,
 			};
 
-			await addNewTeam({ data });
+			await createTeam({ data });
 
 			toast.success("Team created successfully");
 

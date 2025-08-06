@@ -1,17 +1,17 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { team } from "drizzle/schema";
+import { user } from "drizzle/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-const removeTeam = createServerFn({ method: "POST" })
+const deleteUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ teamId: IdSchema }))
+	.validator(z.object({ userId: IdSchema }))
 	.handler(async ({ data }) => {
-		await db.delete(team).where(eq(team.id, data.teamId));
+		await db.delete(user).where(eq(user.id, data.userId));
 	});
 
-export { removeTeam };
+export { deleteUser };
