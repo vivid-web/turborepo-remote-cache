@@ -27,12 +27,12 @@ function useDeleteUserMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => deleteUser({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Deleting user...");
+			const toastId = toast.loading("Removing user from system...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("User deleted successfully", {
+			toast.success("User account removed successfully", {
 				id: context.toastId,
 			});
 
@@ -43,7 +43,7 @@ function useDeleteUserMutation() {
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to delete user", {
+			toast.error("Unable to remove user account", {
 				id: context?.toastId,
 			});
 		},

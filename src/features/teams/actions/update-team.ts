@@ -31,19 +31,19 @@ function useUpdateTeamMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => updateTeam({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Updating team...");
+			const toastId = toast.loading("Saving team details...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("Team updated successfully", {
+			toast.success("Team information updated successfully", {
 				id: context.toastId,
 			});
 
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to update team", {
+			toast.error("Unable to save team information", {
 				id: context?.toastId,
 			});
 		},

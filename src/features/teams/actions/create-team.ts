@@ -28,19 +28,19 @@ function useCreateTeamMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => createTeam({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Creating team...");
+			const toastId = toast.loading("Setting up new team...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("Team created successfully", {
+			toast.success("Team workspace created successfully", {
 				id: context.toastId,
 			});
 
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to create team", {
+			toast.error("Unable to create team workspace", {
 				id: context?.toastId,
 			});
 		},

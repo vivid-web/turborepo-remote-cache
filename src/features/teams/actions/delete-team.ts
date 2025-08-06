@@ -29,12 +29,12 @@ function useDeleteTeamMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => deleteTeam({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Deleting team...");
+			const toastId = toast.loading("Removing team workspace...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("Team deleted successfully", {
+			toast.success("Team workspace deleted successfully", {
 				id: context.toastId,
 			});
 
@@ -45,7 +45,7 @@ function useDeleteTeamMutation() {
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to delete team", {
+			toast.error("Unable to delete team workspace", {
 				id: context?.toastId,
 			});
 		},

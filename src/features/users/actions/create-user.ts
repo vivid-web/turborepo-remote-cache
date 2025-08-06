@@ -27,17 +27,21 @@ function useCreateUserMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => createUser({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Creating user...");
+			const toastId = toast.loading("Adding new user to system...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("User created successfully", { id: context.toastId });
+			toast.success("User account created successfully", {
+				id: context.toastId,
+			});
 
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to create user", { id: context?.toastId });
+			toast.error("Unable to create user account", {
+				id: context?.toastId,
+			});
 		},
 	});
 }

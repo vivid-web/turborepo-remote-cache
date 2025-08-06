@@ -30,19 +30,19 @@ function useUpdateUserMutation() {
 	return useMutation({
 		mutationFn: async (data: Input) => updateUser({ data }),
 		onMutate: () => {
-			const toastId = toast.loading("Updating user...");
+			const toastId = toast.loading("Saving user details...");
 
 			return { toastId };
 		},
 		onSuccess: async (_data, _variables, context) => {
-			toast.success("User updated successfully", {
+			toast.success("User information saved successfully", {
 				id: context.toastId,
 			});
 
 			await queryClient.invalidateQueries();
 		},
 		onError: (_error, _variables, context) => {
-			toast.error("Failed to update user", {
+			toast.error("Unable to save user information", {
 				id: context?.toastId,
 			});
 		},
