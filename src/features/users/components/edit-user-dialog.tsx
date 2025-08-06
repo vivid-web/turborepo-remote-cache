@@ -25,12 +25,12 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { checkIfEmailIsTaken } from "@/features/users/queries/check-if-email-is-taken";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { updateUser } from "../actions/update-user";
 import { EDIT_USER_FORM_ID, USERS_QUERY_KEY } from "../constants";
+import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
 
 type Params = z.input<typeof ParamsSchema>;

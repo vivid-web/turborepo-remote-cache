@@ -9,7 +9,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DetachTeamFromUserAlertDialog } from "@/features/teams/components/detach-team-from-user-alert-dialog";
+
+import { DetachTeamFromUserAlertDialog } from "./detach-team-from-user-alert-dialog";
 
 type Params = {
 	userId: string;
