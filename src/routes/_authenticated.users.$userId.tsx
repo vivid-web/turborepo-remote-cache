@@ -7,7 +7,7 @@ import { TotalTeamsForUserCard } from "@/features/teams/components/total-teams-f
 import { UserDangerZoneCard } from "@/features/users/components/user-danger-zone-card";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
 import { UserSettingsCard } from "@/features/users/components/user-settings-card";
-import { getBreadcrumbForUser } from "@/features/users/server-fns/get-breadcrumb-for-user";
+import { getBreadcrumbForUser } from "@/features/users/queries/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
 
 export const Route = createFileRoute("/_authenticated/users/$userId")({

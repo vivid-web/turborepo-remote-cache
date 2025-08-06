@@ -7,14 +7,11 @@ import { z } from "zod";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-const detachUserFromTeam = createServerFn({ method: "POST" })
+const PayloadSchema = z.object({ teamId: IdSchema, userId: IdSchema });
+
+const deleteTeamMember = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
-		z.object({
-			userId: IdSchema,
-			teamId: IdSchema,
-		}),
-	)
+	.validator(PayloadSchema)
 	.handler(async ({ data: { teamId, userId } }) => {
 		const filters: Array<SQL> = [];
 
@@ -24,4 +21,4 @@ const detachUserFromTeam = createServerFn({ method: "POST" })
 		await db.delete(teamMember).where(and(...filters));
 	});
 
-export { detachUserFromTeam };
+export { deleteTeamMember };

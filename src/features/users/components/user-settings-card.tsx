@@ -25,10 +25,10 @@ import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { updateUser } from "../actions/update-user";
 import { USERS_QUERY_KEY } from "../constants";
+import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
-import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
-import { editUser } from "../server-fns/edit-user";
 
 type Params = z.input<typeof ParamsSchema>;
 
@@ -100,7 +100,7 @@ function UserSettingsCard({ userId }: Params) {
 			},
 		},
 		onSubmit: async ({ value: data, formApi }) => {
-			await editUser({ data });
+			await updateUser({ data });
 
 			toast.success("User settings updated successfully");
 

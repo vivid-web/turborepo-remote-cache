@@ -29,10 +29,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { updateTeam } from "../actions/update-team";
 import { EDIT_TEAM_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
-import { editTeam } from "../server-fns/edit-team";
 import { slugify } from "../utils";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -107,7 +107,7 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 				description: value.description || undefined,
 			};
 
-			await editTeam({ data });
+			await updateTeam({ data });
 
 			toast.success("Team updated successfully");
 

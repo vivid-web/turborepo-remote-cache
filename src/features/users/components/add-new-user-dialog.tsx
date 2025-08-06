@@ -17,10 +17,10 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { createUser } from "../actions/create-user";
 import { ADD_NEW_USER_FORM_ID } from "../constants";
+import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
-import { addNewUser } from "../server-fns/add-new-user";
-import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -53,7 +53,7 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 			},
 		},
 		onSubmit: async ({ value: data, formApi }) => {
-			await addNewUser({ data });
+			await createUser({ data });
 
 			toast.success("User created successfully");
 

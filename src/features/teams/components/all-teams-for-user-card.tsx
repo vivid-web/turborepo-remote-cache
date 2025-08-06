@@ -15,7 +15,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { AttachTeamsToUserDialog } from "@/features/teams/components/attach-teams-to-user-dialog";
+import { AttachTeamMembersToUserDialog } from "@/features/team-members/components/attach-team-members-to-user-dialog";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
@@ -66,12 +66,12 @@ function AllTeamsForUserCard({ userId }: Params) {
 							</Button>
 						}
 					>
-						<AttachTeamsToUserDialog userId={userId}>
+						<AttachTeamMembersToUserDialog userId={userId}>
 							<Button className="gap-2">
 								<SquarePlusIcon className="!h-4 !w-4" />
 								Attach Teams
 							</Button>
-						</AttachTeamsToUserDialog>
+						</AttachTeamMembersToUserDialog>
 					</React.Suspense>
 				</div>
 			</CardHeader>

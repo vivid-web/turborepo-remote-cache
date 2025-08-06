@@ -1,6 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -18,16 +16,16 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useCreateTeamMutation } from "../actions/create-team";
 import { ADD_NEW_TEAM_FORM_ID } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { addNewTeam } from "../server-fns/add-new-team";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { slugify } from "../utils";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
-	const queryClient = useQueryClient();
+	const mutation = useCreateTeamMutation();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -61,11 +59,7 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 				description: value.description || undefined,
 			};
 
-			await addNewTeam({ data });
-
-			toast.success("Team created successfully");
-
-			await queryClient.invalidateQueries();
+			await mutation.mutateAsync({ data });
 
 			setIsOpen(false);
 

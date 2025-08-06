@@ -15,11 +15,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
-import { DETACH_TEAM_FROM_USER_FORM_ID } from "@/features/teams/constants";
-import { detachUserFromTeam } from "@/features/users/server-fns/detach-user-from-team";
 import { IdSchema } from "@/lib/schemas";
 
-function DetachTeamFromUserAlertDialog({
+import { deleteTeamMember } from "../actions/delete-team-member";
+import { DETACH_TEAM_FROM_USER_FORM_ID } from "../constants";
+
+function DetachTeamMemberFromUserAlertDialog({
 	userId,
 	teamId,
 	children,
@@ -40,7 +41,7 @@ function DetachTeamFromUserAlertDialog({
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
-			await detachUserFromTeam({ data });
+			await deleteTeamMember({ data });
 
 			toast.success("Team detached successfully");
 
@@ -119,4 +120,4 @@ function DetachTeamFromUserAlertDialog({
 	);
 }
 
-export { DetachTeamFromUserAlertDialog };
+export { DetachTeamMemberFromUserAlertDialog };
