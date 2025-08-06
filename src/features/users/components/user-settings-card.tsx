@@ -22,13 +22,13 @@ import {
 } from "@/components/ui/card";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { checkIfEmailIsTaken } from "@/features/users/queries/check-if-email-is-taken";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { editUser } from "../actions/edit-user";
 import { USERS_QUERY_KEY } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
-import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
-import { editUser } from "../server-fns/edit-user";
 
 type Params = z.input<typeof ParamsSchema>;
 

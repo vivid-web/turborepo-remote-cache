@@ -28,9 +28,9 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { attachTeamsToUser } from "../actions/attach-teams-to-user";
 import { ATTACH_TEAMS_TO_USER_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
-import { attachTeamsToUser } from "../server-fns/attach-teams-to-user";
-import { checkIfSomeTeamsAreAttachedToUser } from "../server-fns/check-if-some-teams-are-attached-to-user";
+import { checkIfSomeTeamsAreAttachedToUser } from "../queries/check-if-some-teams-are-attached-to-user";
 
 type Params = z.input<typeof ParamsSchema>;
 

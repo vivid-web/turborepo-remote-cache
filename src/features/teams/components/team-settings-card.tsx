@@ -27,10 +27,10 @@ import { slugify } from "@/features/teams/utils";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { editTeam } from "../actions/edit-team";
 import { TEAMS_QUERY_KEY } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
-import { editTeam } from "../server-fns/edit-team";
 
 type Params = z.input<typeof ParamsSchema>;
 

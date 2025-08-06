@@ -16,11 +16,11 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { checkIfEmailIsTaken } from "@/features/users/queries/check-if-email-is-taken";
 
+import { addNewUser } from "../actions/add-new-user";
 import { ADD_NEW_USER_FORM_ID } from "../constants";
 import { EmailSchema, NameSchema } from "../schemas";
-import { addNewUser } from "../server-fns/add-new-user";
-import { checkIfEmailIsTaken } from "../server-fns/check-if-email-is-taken";
 
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);

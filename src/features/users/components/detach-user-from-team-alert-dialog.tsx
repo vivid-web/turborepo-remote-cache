@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
+import { detachUserFromTeam } from "@/features/users/actions/detach-user-from-team";
 import { DETACH_USER_FROM_TEAM_FORM_ID } from "@/features/users/constants";
-import { detachUserFromTeam } from "@/features/users/server-fns/detach-user-from-team";
 import { IdSchema } from "@/lib/schemas";
 
 function DetachUserFromTeamAlertDialog({

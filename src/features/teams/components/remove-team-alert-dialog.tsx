@@ -18,8 +18,8 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
+import { removeTeam } from "../actions/remove-team";
 import { REMOVE_TEAM_FORM_ID } from "../constants";
-import { removeTeam } from "../server-fns/remove-team";
 
 function RemoveTeamAlertDialog({
 	children,

@@ -29,10 +29,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { editTeam } from "../actions/edit-team";
 import { EDIT_TEAM_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
-import { editTeam } from "../server-fns/edit-team";
 import { slugify } from "../utils";
 
 type Params = z.input<typeof ParamsSchema>;

@@ -18,10 +18,10 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { addNewTeam } from "../actions/add-new-team";
 import { ADD_NEW_TEAM_FORM_ID } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { addNewTeam } from "../server-fns/add-new-team";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
 import { slugify } from "../utils";
 
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
