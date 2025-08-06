@@ -18,8 +18,8 @@ import {
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { AttachTeamMembersToTeamDialog } from "../../team-members/components/attach-team-members-to-team-dialog";
 import { USERS_QUERY_KEY } from "../constants";
-import { AttachUsersToTeamDialog } from "./attach-users-to-team-dialog";
 import { UsersForTeamList } from "./users-for-team-list";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -70,12 +70,12 @@ function AllUsersForTeamCard({ teamId }: Params) {
 							</Button>
 						}
 					>
-						<AttachUsersToTeamDialog teamId={teamId}>
+						<AttachTeamMembersToTeamDialog teamId={teamId}>
 							<Button className="gap-2">
 								<SquarePlusIcon className="!h-4 !w-4" />
 								Attach Members
 							</Button>
-						</AttachUsersToTeamDialog>
+						</AttachTeamMembersToTeamDialog>
 					</React.Suspense>
 				</div>
 			</CardHeader>

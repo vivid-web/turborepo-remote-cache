@@ -9,8 +9,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { DetachTeamFromUserAlertDialog } from "./detach-team-from-user-alert-dialog";
+import { DetachTeamMemberFromUserAlertDialog } from "@/features/team-members/components/detach-team-member-from-user-alert-dialog";
 
 type Params = {
 	userId: string;
@@ -45,7 +44,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 							View
 						</Link>
 					</DropdownMenuItem>
-					<DetachTeamFromUserAlertDialog teamId={teamId} userId={userId}>
+					<DetachTeamMemberFromUserAlertDialog teamId={teamId} userId={userId}>
 						<DropdownMenuItem
 							className="text-destructive"
 							onSelect={(e) => {
@@ -54,7 +53,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 						>
 							Detach
 						</DropdownMenuItem>
-					</DetachTeamFromUserAlertDialog>
+					</DetachTeamMemberFromUserAlertDialog>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</div>
