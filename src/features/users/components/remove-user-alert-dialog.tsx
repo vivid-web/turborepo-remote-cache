@@ -18,8 +18,8 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
+import { removeUser } from "../actions/remove-user";
 import { REMOVE_USER_FORM_ID } from "../constants";
-import { removeUser } from "../server-fns/remove-user";
 
 function RemoveUserAlertDialog({
 	children,
