@@ -1,6 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -17,7 +15,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createUser } from "../actions/create-user";
+import { useCreateUserMutation } from "../actions/create-user";
 import { ADD_NEW_USER_FORM_ID } from "../constants";
 import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
@@ -25,7 +23,7 @@ import { EmailSchema, NameSchema } from "../schemas";
 function AddNewUserDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
-	const queryClient = useQueryClient();
+	const mutation = useCreateUserMutation();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -52,12 +50,8 @@ function AddNewUserDialog({ children }: React.PropsWithChildren) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value: data, formApi }) => {
-			await createUser({ data });
-
-			toast.success("User created successfully");
-
-			await queryClient.invalidateQueries();
+		onSubmit: async ({ value, formApi }) => {
+			await mutation.mutateAsync(value);
 
 			setIsOpen(false);
 

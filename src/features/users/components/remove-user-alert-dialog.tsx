@@ -1,7 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -18,7 +15,7 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
-import { deleteUser } from "../actions/delete-user";
+import { useDeleteUserMutation } from "../actions/delete-user";
 import { REMOVE_USER_FORM_ID } from "../constants";
 
 function RemoveUserAlertDialog({
@@ -26,10 +23,8 @@ function RemoveUserAlertDialog({
 	userId,
 }: React.PropsWithChildren<{ userId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
-	const navigate = useNavigate();
-	const matchRoute = useMatchRoute();
 
-	const queryClient = useQueryClient();
+	const mutation = useDeleteUserMutation();
 
 	const form = useAppForm({
 		defaultValues: { userId },
@@ -38,16 +33,8 @@ function RemoveUserAlertDialog({
 				userId: IdSchema,
 			}),
 		},
-		onSubmit: async ({ value: data }) => {
-			await deleteUser({ data });
-
-			toast.success("User removed successfully");
-
-			if (matchRoute({ to: "/users/$userId" })) {
-				await navigate({ to: "/users" });
-			}
-
-			await queryClient.invalidateQueries();
+		onSubmit: async ({ value }) => {
+			await mutation.mutateAsync(value);
 
 			setIsOpen(false);
 		},

@@ -1,15 +1,10 @@
-import {
-	queryOptions,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
@@ -25,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { updateUser } from "../actions/update-user";
+import { useUpdateUserMutation } from "../actions/update-user";
 import { USERS_QUERY_KEY } from "../constants";
 import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
@@ -66,17 +61,14 @@ function settingsForUserQueryOptions(params: Params) {
 
 function UserSettingsCard({ userId }: Params) {
 	const router = useRouter();
-	const queryClient = useQueryClient();
 
-	const { data: user } = useSuspenseQuery(
-		settingsForUserQueryOptions({ userId }),
-	);
+	const query = useSuspenseQuery(settingsForUserQueryOptions({ userId }));
+
+	const mutation = useUpdateUserMutation();
 
 	const form = useAppForm({
 		defaultValues: {
-			userId: user.userId,
-			name: user.name,
-			email: user.email,
+			...query.data,
 		},
 		validators: {
 			onChange: z.object({
@@ -99,12 +91,9 @@ function UserSettingsCard({ userId }: Params) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value: data, formApi }) => {
-			await updateUser({ data });
+		onSubmit: async ({ value, formApi }) => {
+			await mutation.mutateAsync(value);
 
-			toast.success("User settings updated successfully");
-
-			await queryClient.invalidateQueries();
 			await router.invalidate();
 
 			formApi.reset();

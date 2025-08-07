@@ -1,15 +1,10 @@
-import {
-	queryOptions,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
-import { notFound, useRouter } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { user } from "drizzle/schema";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -28,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { updateUser } from "../actions/update-user";
+import { useUpdateUserMutation } from "../actions/update-user";
 import { EDIT_USER_FORM_ID, USERS_QUERY_KEY } from "../constants";
 import { checkIfEmailIsTaken } from "../queries/check-if-email-is-taken";
 import { EmailSchema, NameSchema } from "../schemas";
@@ -68,12 +63,11 @@ function defaultValuesForUserQueryOptions(params: Params) {
 }
 
 function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
+	const [isOpen, setIsOpen] = React.useState(false);
+
 	const query = useSuspenseQuery(defaultValuesForUserQueryOptions({ userId }));
 
-	const router = useRouter();
-	const queryClient = useQueryClient();
-
-	const [isOpen, setIsOpen] = React.useState(false);
+	const mutation = useUpdateUserMutation();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -100,13 +94,8 @@ function EditUserDialog({ children, userId }: React.PropsWithChildren<Params>) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value: data, formApi }) => {
-			await updateUser({ data });
-
-			toast.success("User updated successfully");
-
-			await queryClient.invalidateQueries();
-			await router.invalidate();
+		onSubmit: async ({ value, formApi }) => {
+			await mutation.mutateAsync(value);
 
 			setIsOpen(false);
 

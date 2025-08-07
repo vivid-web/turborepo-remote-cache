@@ -1,15 +1,10 @@
-import {
-	queryOptions,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { team } from "drizzle/schema";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
@@ -26,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { updateTeam } from "../actions/update-team";
+import { useUpdateTeamMutation } from "../actions/update-team";
 import { TEAMS_QUERY_KEY } from "../constants";
 import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
@@ -69,9 +64,10 @@ function settingsForTeamQueryOptions(params: Params) {
 
 function TeamSettingsCard({ teamId }: Params) {
 	const router = useRouter();
-	const queryClient = useQueryClient();
 
 	const query = useSuspenseQuery(settingsForTeamQueryOptions({ teamId }));
+
+	const mutation = useUpdateTeamMutation();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -100,16 +96,11 @@ function TeamSettingsCard({ teamId }: Params) {
 			},
 		},
 		onSubmit: async ({ value, formApi }) => {
-			const data = {
+			await mutation.mutateAsync({
 				...value,
 				description: value.description || undefined,
-			};
+			});
 
-			await updateTeam({ data });
-
-			toast.success("Team settings updated successfully");
-
-			await queryClient.invalidateQueries();
 			await router.invalidate();
 
 			formApi.reset();
