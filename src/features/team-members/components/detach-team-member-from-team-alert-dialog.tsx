@@ -17,10 +17,10 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
-import { detachTeamFromUser } from "../actions/detach-team-from-user";
-import { DETACH_TEAM_FROM_USER_FORM_ID } from "../constants";
+import { deleteTeamMember } from "../actions/delete-team-member";
+import { DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID } from "../constants";
 
-function DetachTeamFromUserAlertDialog({
+function DetachTeamMemberFromTeamAlertDialog({
 	userId,
 	teamId,
 	children,
@@ -36,14 +36,14 @@ function DetachTeamFromUserAlertDialog({
 		defaultValues: { userId, teamId },
 		validators: {
 			onSubmit: z.object({
-				teamId: IdSchema,
 				userId: IdSchema,
+				teamId: IdSchema,
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
-			await detachTeamFromUser({ data });
+			await deleteTeamMember({ data });
 
-			toast.success("Team detached successfully");
+			toast.success("User detached successfully");
 
 			await queryClient.invalidateQueries();
 
@@ -57,17 +57,16 @@ function DetachTeamFromUserAlertDialog({
 
 		void form.handleSubmit();
 	};
-
 	return (
 		<AlertDialog onOpenChange={setIsOpen} open={isOpen}>
 			<AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>
-						Are you sure you want to detach this team from the current user?
+						Are you sure you want to detach this user from the current team?
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						You will have to attach the team to the user again
+						You will have to attach the user to the team again
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<form.AppForm>
@@ -75,7 +74,7 @@ function DetachTeamFromUserAlertDialog({
 						noValidate
 						onSubmit={handleSubmit}
 						className="grid gap-4"
-						id={DETACH_TEAM_FROM_USER_FORM_ID}
+						id={DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID}
 					>
 						<form.AppField
 							name="userId"
@@ -107,7 +106,7 @@ function DetachTeamFromUserAlertDialog({
 							<ButtonWithPendingState
 								isPending={isSubmitting}
 								type="submit"
-								form={DETACH_TEAM_FROM_USER_FORM_ID}
+								form={DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID}
 								disabled={!canSubmit}
 							>
 								Continue
@@ -120,4 +119,4 @@ function DetachTeamFromUserAlertDialog({
 	);
 }
 
-export { DetachTeamFromUserAlertDialog };
+export { DetachTeamMemberFromTeamAlertDialog };

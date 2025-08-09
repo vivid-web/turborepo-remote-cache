@@ -18,9 +18,9 @@ import {
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { USERS_QUERY_KEY } from "../constants";
-import { AttachUsersToTeamDialog } from "./attach-users-to-team-dialog";
-import { UsersForTeamList } from "./users-for-team-list";
+import { TEAM_MEMBERS_QUERY_KEY } from "../constants";
+import { AttachTeamMembersToTeamDialog } from "./attach-team-members-to-team-dialog";
+import { TeamMembersForTeamList } from "./team-members-for-team-list";
 
 type Params = z.input<typeof ParamsSchema>;
 
@@ -45,11 +45,11 @@ const getAllUsersForTeam = createServerFn({ method: "GET" })
 function allUsersForTeamQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAllUsersForTeam({ data: params }),
-		queryKey: [USERS_QUERY_KEY, "all-users-for-team", params.teamId],
+		queryKey: [TEAM_MEMBERS_QUERY_KEY, "all-users-for-team", params.teamId],
 	});
 }
 
-function AllUsersForTeamCard({ teamId }: Params) {
+function AllTeamMembersForTeamCard({ teamId }: Params) {
 	const query = useSuspenseQuery(allUsersForTeamQueryOptions({ teamId }));
 
 	return (
@@ -70,22 +70,22 @@ function AllUsersForTeamCard({ teamId }: Params) {
 							</Button>
 						}
 					>
-						<AttachUsersToTeamDialog teamId={teamId}>
+						<AttachTeamMembersToTeamDialog teamId={teamId}>
 							<Button className="gap-2">
 								<SquarePlusIcon className="!h-4 !w-4" />
 								Attach Members
 							</Button>
-						</AttachUsersToTeamDialog>
+						</AttachTeamMembersToTeamDialog>
 					</React.Suspense>
 				</div>
 			</CardHeader>
 			<CardContent>
-				<UsersForTeamList teamId={teamId} users={query.data} />
+				<TeamMembersForTeamList teamId={teamId} users={query.data} />
 			</CardContent>
 		</Card>
 	);
 }
 
-AllUsersForTeamCard.queryOptions = allUsersForTeamQueryOptions;
+AllTeamMembersForTeamCard.queryOptions = allUsersForTeamQueryOptions;
 
-export { AllUsersForTeamCard };
+export { AllTeamMembersForTeamCard };
