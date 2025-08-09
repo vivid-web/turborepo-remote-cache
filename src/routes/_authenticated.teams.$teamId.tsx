@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AllTeamMembersForTeamCard } from "@/features/team-members/components/all-team-members-for-team-card";
 import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone-card";
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
 import { getBreadcrumbForTeam } from "@/features/teams/queries/get-breadcrumb-for-team";
-import { AllUsersForTeamCard } from "@/features/users/components/all-users-for-team-card";
 import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
 import { IdSchema } from "@/lib/schemas";
 
@@ -19,9 +19,13 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 
 		await Promise.all([
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
-			queryClient.ensureQueryData(AllUsersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(
+				AllTeamMembersForTeamCard.queryOptions(params),
+			),
 			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
-			queryClient.ensureQueryData(AllUsersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(
+				AllTeamMembersForTeamCard.queryOptions(params),
+			),
 		]);
 
 		return { crumb };
@@ -53,7 +57,7 @@ function RouteComponent() {
 				</TabsList>
 
 				<TabsContent value="member">
-					<AllUsersForTeamCard teamId={teamId} />
+					<AllTeamMembersForTeamCard teamId={teamId} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
