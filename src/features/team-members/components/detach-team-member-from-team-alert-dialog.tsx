@@ -15,11 +15,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
-import { DETACH_USER_FROM_TEAM_FORM_ID } from "@/features/users/constants";
-import { detachUserFromTeam } from "@/features/users/server-fns/detach-user-from-team";
 import { IdSchema } from "@/lib/schemas";
 
-function DetachUserFromTeamAlertDialog({
+import { deleteTeamMember } from "../actions/delete-team-member";
+import { DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID } from "../constants";
+
+function DetachTeamMemberFromTeamAlertDialog({
 	userId,
 	teamId,
 	children,
@@ -40,7 +41,7 @@ function DetachUserFromTeamAlertDialog({
 			}),
 		},
 		onSubmit: async ({ value: data }) => {
-			await detachUserFromTeam({ data });
+			await deleteTeamMember({ data });
 
 			toast.success("User detached successfully");
 
@@ -73,7 +74,7 @@ function DetachUserFromTeamAlertDialog({
 						noValidate
 						onSubmit={handleSubmit}
 						className="grid gap-4"
-						id={DETACH_USER_FROM_TEAM_FORM_ID}
+						id={DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID}
 					>
 						<form.AppField
 							name="userId"
@@ -105,7 +106,7 @@ function DetachUserFromTeamAlertDialog({
 							<ButtonWithPendingState
 								isPending={isSubmitting}
 								type="submit"
-								form={DETACH_USER_FROM_TEAM_FORM_ID}
+								form={DETACH_TEAM_MEMBER_FROM_TEAM_FORM_ID}
 								disabled={!canSubmit}
 							>
 								Continue
@@ -118,4 +119,4 @@ function DetachUserFromTeamAlertDialog({
 	);
 }
 
-export { DetachUserFromTeamAlertDialog };
+export { DetachTeamMemberFromTeamAlertDialog };

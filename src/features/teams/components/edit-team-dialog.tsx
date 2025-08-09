@@ -1,15 +1,10 @@
-import {
-	queryOptions,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { team } from "drizzle/schema";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button, ButtonWithPendingState } from "@/components/ui/button";
@@ -29,10 +24,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
+import { useUpdateTeamMutation } from "../actions/update-team";
 import { EDIT_TEAM_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
+import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
-import { checkIfSlugIsTaken } from "../server-fns/check-if-slug-is-taken";
-import { editTeam } from "../server-fns/edit-team";
 import { slugify } from "../utils";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -69,11 +64,11 @@ function defaultValuesForTeamQueryOptions(params: Params) {
 }
 
 function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
-	const query = useSuspenseQuery(defaultValuesForTeamQueryOptions({ teamId }));
-
 	const [isOpen, setIsOpen] = React.useState(false);
 
-	const queryClient = useQueryClient();
+	const query = useSuspenseQuery(defaultValuesForTeamQueryOptions({ teamId }));
+
+	const mutation = useUpdateTeamMutation();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -102,16 +97,10 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 			},
 		},
 		onSubmit: async ({ value, formApi }) => {
-			const data = {
+			await mutation.mutateAsync({
 				...value,
 				description: value.description || undefined,
-			};
-
-			await editTeam({ data });
-
-			toast.success("Team updated successfully");
-
-			await queryClient.invalidateQueries();
+			});
 
 			setIsOpen(false);
 

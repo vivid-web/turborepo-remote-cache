@@ -1,7 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -18,34 +15,24 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { useAppForm } from "@/components/ui/form";
 import { IdSchema } from "@/lib/schemas";
 
+import { useDeleteTeamMutation } from "../actions/delete-team";
 import { REMOVE_TEAM_FORM_ID } from "../constants";
-import { removeTeam } from "../server-fns/remove-team";
 
 function RemoveTeamAlertDialog({
 	children,
 	teamId,
 }: React.PropsWithChildren<{ teamId: string }>) {
 	const [isOpen, setIsOpen] = React.useState(false);
-	const navigate = useNavigate();
-	const matchRoute = useMatchRoute();
 
-	const queryClient = useQueryClient();
+	const mutation = useDeleteTeamMutation();
 
 	const form = useAppForm({
 		defaultValues: { teamId },
 		validators: {
 			onSubmit: z.object({ teamId: IdSchema }),
 		},
-		onSubmit: async ({ value: data }) => {
-			await removeTeam({ data });
-
-			toast.success("Team removed successfully");
-
-			if (matchRoute({ to: "/teams/$teamId" })) {
-				await navigate({ to: "/teams" });
-			}
-
-			await queryClient.invalidateQueries();
+		onSubmit: async ({ value }) => {
+			await mutation.mutateAsync(value);
 
 			setIsOpen(false);
 		},
