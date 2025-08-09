@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AllTeamsForUserCard } from "@/features/teams/components/all-teams-for-user-card";
+import { AllTeamMembershipsForUserCard } from "@/features/team-members/components/all-team-memberships-for-user-card";
 import { TotalTeamsForUserCard } from "@/features/teams/components/total-teams-for-user-card";
 import { UserDangerZoneCard } from "@/features/users/components/user-danger-zone-card";
 import { UserGeneralInfoCard } from "@/features/users/components/user-general-info-card";
@@ -21,7 +21,9 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 		await Promise.all([
 			queryClient.ensureQueryData(UserGeneralInfoCard.queryOptions(params)),
 			queryClient.ensureQueryData(TotalTeamsForUserCard.queryOptions(params)),
-			queryClient.ensureQueryData(AllTeamsForUserCard.queryOptions(params)),
+			queryClient.ensureQueryData(
+				AllTeamMembershipsForUserCard.queryOptions(params),
+			),
 			queryClient.ensureQueryData(UserSettingsCard.queryOptions(params)),
 		]);
 
@@ -58,7 +60,7 @@ function RouteComponent() {
 				</TabsList>
 
 				<TabsContent value="teams">
-					<AllTeamsForUserCard userId={userId} />
+					<AllTeamMembershipsForUserCard userId={userId} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">

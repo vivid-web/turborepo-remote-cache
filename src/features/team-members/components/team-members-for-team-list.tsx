@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { MoreVerticalIcon, UsersIcon } from "lucide-react";
+import { MoreVerticalIcon, UserIcon } from "lucide-react";
 import * as React from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -9,24 +10,31 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getAvatarFallback } from "@/features/users/utils";
 
-import { DetachTeamFromUserAlertDialog } from "./detach-team-from-user-alert-dialog";
+import { DetachTeamMemberFromTeamAlertDialog } from "./detach-team-member-from-team-alert-dialog";
 
 type Params = {
-	userId: string;
-};
-
-type Team = {
-	name: string;
 	teamId: string;
 };
 
-function FilledListItem({ name, teamId, userId }: Params & Team) {
+type User = {
+	email: string;
+	image: null | string;
+	name: string;
+	userId: string;
+};
+
+function FilledListItem({ name, userId, image, teamId }: Params & User) {
 	return (
 		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
 				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-					<UsersIcon className="h-4 w-4 text-primary" />
+					<Avatar className="h-8 w-8">
+						{image && <AvatarImage src={image} alt={name} />}
+						<AvatarFallback>{getAvatarFallback(name)}</AvatarFallback>
+					</Avatar>
+					<UserIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
 					<p className="text-sm font-medium">{name}</p>
@@ -41,11 +49,11 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuItem asChild>
-						<Link to="/teams/$teamId" params={{ teamId }}>
+						<Link to="/users/$userId" params={{ userId }}>
 							View
 						</Link>
 					</DropdownMenuItem>
-					<DetachTeamFromUserAlertDialog teamId={teamId} userId={userId}>
+					<DetachTeamMemberFromTeamAlertDialog userId={userId} teamId={teamId}>
 						<DropdownMenuItem
 							className="text-destructive"
 							onSelect={(e) => {
@@ -54,7 +62,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 						>
 							Detach
 						</DropdownMenuItem>
-					</DetachTeamFromUserAlertDialog>
+					</DetachTeamMemberFromTeamAlertDialog>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</div>
@@ -66,12 +74,12 @@ function EmptyListItem() {
 		<div className="flex items-center justify-between rounded-lg border border-dashed bg-card p-3">
 			<div className="flex items-center gap-3">
 				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-					<UsersIcon className="h-4 w-4 text-primary" />
+					<UserIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
-					<p className="text-sm font-medium">No teams found</p>
+					<p className="text-sm font-medium">No team members found</p>
 					<p className="text-xs text-muted-foreground">
-						This user is not a member of any teams
+						This team does not have any team members
 					</p>
 				</div>
 			</div>
@@ -83,8 +91,11 @@ function Layout({ children }: React.PropsWithChildren) {
 	return <div className="grid gap-2">{children}</div>;
 }
 
-function TeamsForUserList({ teams, userId }: Params & { teams: Array<Team> }) {
-	if (teams.length === 0) {
+function TeamMembersForTeamList({
+	users,
+	teamId,
+}: Params & { users: Array<User> }) {
+	if (!users.length) {
 		return (
 			<Layout>
 				<EmptyListItem />
@@ -94,11 +105,11 @@ function TeamsForUserList({ teams, userId }: Params & { teams: Array<Team> }) {
 
 	return (
 		<Layout>
-			{teams.map((team) => (
-				<FilledListItem {...team} key={team.teamId} userId={userId} />
+			{users.map((user) => (
+				<FilledListItem {...user} teamId={teamId} key={user.userId} />
 			))}
 		</Layout>
 	);
 }
 
-export { TeamsForUserList };
+export { TeamMembersForTeamList };

@@ -28,9 +28,12 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
-import { attachTeamsToUser } from "../actions/attach-teams-to-user";
-import { ATTACH_TEAMS_TO_USER_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
-import { checkIfSomeTeamsAreAttachedToUser } from "../queries/check-if-some-teams-are-attached-to-user";
+import { createMultipleTeamMembers } from "../actions/create-multiple-team-members";
+import {
+	ATTACH_TEAM_MEMBERS_TO_USER_FORM_ID,
+	TEAM_MEMBERS_QUERY_KEY,
+} from "../constants";
+import { checkTeamMemberDuplicates } from "../queries/check-team-member-duplicates";
 
 type Params = z.input<typeof ParamsSchema>;
 
@@ -59,14 +62,14 @@ function attachableTeamOptionsForUserQueryOptions(params: Params) {
 	return queryOptions({
 		queryFn: async () => getAttachableTeamOptionsForUser({ data: params }),
 		queryKey: [
-			TEAMS_QUERY_KEY,
+			TEAM_MEMBERS_QUERY_KEY,
 			"attachable-team-options-for-user",
 			params.userId,
 		],
 	});
 }
 
-function AttachTeamsToUserDialog({
+function AttachTeamMembersToUserDialog({
 	children,
 	userId,
 }: PropsWithChildren<Params>) {
@@ -87,8 +90,10 @@ function AttachTeamsToUserDialog({
 				userId: IdSchema,
 				teamIds: IdSchema.array(),
 			}),
-			onSubmitAsync: async ({ value }) => {
-				if (await checkIfSomeTeamsAreAttachedToUser({ data: value })) {
+			onSubmitAsync: async ({ value: { teamIds, userId } }) => {
+				const data = teamIds.map((teamId) => ({ userId, teamId }));
+
+				if (await checkTeamMemberDuplicates({ data })) {
 					return {
 						fields: {
 							teamIds: {
@@ -102,8 +107,10 @@ function AttachTeamsToUserDialog({
 				return null;
 			},
 		},
-		onSubmit: async ({ value, formApi }) => {
-			await attachTeamsToUser({ data: value });
+		onSubmit: async ({ value: { teamIds, userId }, formApi }) => {
+			const data = teamIds.map((teamId) => ({ teamId, userId }));
+
+			await createMultipleTeamMembers({ data });
 
 			toast.success("Teams attached successfully");
 
@@ -136,7 +143,7 @@ function AttachTeamsToUserDialog({
 					noValidate
 					onSubmit={handleSubmit}
 					className="grid gap-4"
-					id={ATTACH_TEAMS_TO_USER_FORM_ID}
+					id={ATTACH_TEAM_MEMBERS_TO_USER_FORM_ID}
 				>
 					<form.AppField
 						name="userId"
@@ -179,7 +186,7 @@ function AttachTeamsToUserDialog({
 							<ButtonWithPendingState
 								isPending={isSubmitting}
 								type="submit"
-								form={ATTACH_TEAMS_TO_USER_FORM_ID}
+								form={ATTACH_TEAM_MEMBERS_TO_USER_FORM_ID}
 								disabled={!canSubmit}
 							>
 								Save
@@ -192,6 +199,7 @@ function AttachTeamsToUserDialog({
 	);
 }
 
-AttachTeamsToUserDialog.queryOptions = attachableTeamOptionsForUserQueryOptions;
+AttachTeamMembersToUserDialog.queryOptions =
+	attachableTeamOptionsForUserQueryOptions;
 
-export { AttachTeamsToUserDialog };
+export { AttachTeamMembersToUserDialog };
