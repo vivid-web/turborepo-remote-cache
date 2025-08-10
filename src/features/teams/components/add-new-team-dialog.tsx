@@ -58,7 +58,7 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 		onSubmit: async ({ value, formApi }) => {
 			const data = {
 				...value,
-				description: value.description || undefined,
+				description: value.description || null,
 			};
 
 			await createTeam({ data });

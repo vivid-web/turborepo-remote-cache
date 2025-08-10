@@ -104,7 +104,7 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 		onSubmit: async ({ value, formApi }) => {
 			const data = {
 				...value,
-				description: value.description || undefined,
+				description: value.description || null,
 			};
 
 			await updateTeam({ data });

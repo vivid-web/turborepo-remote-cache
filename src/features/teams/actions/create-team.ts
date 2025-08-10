@@ -13,7 +13,7 @@ const createTeam = createServerFn({ method: "POST" })
 		z.object({
 			name: NameSchema,
 			slug: SlugSchema,
-			description: DescriptionSchema.optional(),
+			description: DescriptionSchema.nullable(),
 		}),
 	)
 	.handler(async ({ data }) => {

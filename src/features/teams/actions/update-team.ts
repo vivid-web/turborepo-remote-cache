@@ -16,7 +16,7 @@ const updateTeam = createServerFn({ method: "POST" })
 			teamId: IdSchema,
 			name: NameSchema,
 			slug: SlugSchema,
-			description: DescriptionSchema.optional(),
+			description: DescriptionSchema.nullable(),
 		}),
 	)
 	.handler(async ({ data: { teamId, ...data } }) => {
