@@ -53,13 +53,13 @@ function RouteComponent() {
 				<TotalTeamsForUserCard userId={userId} />
 			</div>
 
-			<Tabs defaultValue="teams" className="space-y-4">
+			<Tabs defaultValue="team-memberships" className="space-y-4">
 				<TabsList>
-					<TabsTrigger value="teams">Team Memberships</TabsTrigger>
+					<TabsTrigger value="team-memberships">Team Memberships</TabsTrigger>
 					<TabsTrigger value="settings">Settings</TabsTrigger>
 				</TabsList>
 
-				<TabsContent value="teams">
+				<TabsContent value="team-memberships">
 					<AllTeamMembershipsForUserCard userId={userId} />
 				</TabsContent>
 

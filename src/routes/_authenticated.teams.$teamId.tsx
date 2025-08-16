@@ -55,12 +55,12 @@ function RouteComponent() {
 
 			<Tabs defaultValue="member" className="space-y-4">
 				<TabsList>
-					<TabsTrigger value="member">Members</TabsTrigger>
+					<TabsTrigger value="members">Members</TabsTrigger>
 					<TabsTrigger value="artifacts">Artifacts</TabsTrigger>
 					<TabsTrigger value="settings">Settings</TabsTrigger>
 				</TabsList>
 
-				<TabsContent value="member">
+				<TabsContent value="members">
 					<AllTeamMembersForTeamCard teamId={teamId} />
 				</TabsContent>
 
