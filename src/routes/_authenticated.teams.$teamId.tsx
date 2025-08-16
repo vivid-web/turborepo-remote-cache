@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AllArtifactsForTeamCard } from "@/features/artifacts/components/all-artifacts-for-team-card";
 import { TotalArtifactsForTeamCard } from "@/features/artifacts/components/total-artifacts-for-team-card";
 import { AllTeamMembersForTeamCard } from "@/features/team-members/components/all-team-members-for-team-card";
 import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone-card";
@@ -18,18 +19,14 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForTeam({ data: params });
 
+		// prettier-ignore
 		await Promise.all([
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				TotalArtifactsForTeamCard.queryOptions(params),
-			),
-			queryClient.ensureQueryData(
-				AllTeamMembersForTeamCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(TotalArtifactsForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllArtifactsForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				AllTeamMembersForTeamCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
 		]);
 
 		return { crumb };
@@ -59,11 +56,16 @@ function RouteComponent() {
 			<Tabs defaultValue="member" className="space-y-4">
 				<TabsList>
 					<TabsTrigger value="member">Members</TabsTrigger>
+					<TabsTrigger value="artifacts">Artifacts</TabsTrigger>
 					<TabsTrigger value="settings">Settings</TabsTrigger>
 				</TabsList>
 
 				<TabsContent value="member">
 					<AllTeamMembersForTeamCard teamId={teamId} />
+				</TabsContent>
+
+				<TabsContent value="artifacts">
+					<AllArtifactsForTeamCard teamId={teamId} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
