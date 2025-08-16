@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TotalArtifactsForTeamCard } from "@/features/artifacts/components/total-artifacts-for-team-card";
 import { AllTeamMembersForTeamCard } from "@/features/team-members/components/all-team-members-for-team-card";
 import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone-card";
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
@@ -19,6 +20,9 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 
 		await Promise.all([
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(
+				TotalArtifactsForTeamCard.queryOptions(params),
+			),
 			queryClient.ensureQueryData(
 				AllTeamMembersForTeamCard.queryOptions(params),
 			),
@@ -48,6 +52,8 @@ function RouteComponent() {
 
 			<div className="grid gap-4 md:grid-cols-3">
 				<TotalUsersForTeamCard teamId={teamId} />
+
+				<TotalArtifactsForTeamCard teamId={teamId} />
 			</div>
 
 			<Tabs defaultValue="member" className="space-y-4">
