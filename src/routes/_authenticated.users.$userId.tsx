@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 });
 
 function RouteComponent() {
-	const { userId } = Route.useParams();
+	const params = Route.useParams();
 
 	return (
 		<div className="grid gap-6">
@@ -47,10 +47,10 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<UserGeneralInfoCard userId={userId} />
+			<UserGeneralInfoCard {...params} />
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<TotalTeamsForUserCard userId={userId} />
+				<TotalTeamsForUserCard {...params} />
 			</div>
 
 			<Tabs defaultValue="team-memberships" className="space-y-4">
@@ -60,12 +60,12 @@ function RouteComponent() {
 				</TabsList>
 
 				<TabsContent value="team-memberships">
-					<AllTeamMembershipsForUserCard userId={userId} />
+					<AllTeamMembershipsForUserCard {...params} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
-					<UserSettingsCard userId={userId} />
-					<UserDangerZoneCard userId={userId} />
+					<UserSettingsCard {...params} />
+					<UserDangerZoneCard {...params} />
 				</TabsContent>
 			</Tabs>
 		</div>
