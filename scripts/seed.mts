@@ -2,6 +2,7 @@ import { seed } from "drizzle-seed";
 import { db } from "drizzle/db";
 import {
 	account,
+	artifact,
 	session,
 	team,
 	teamMember,
@@ -17,6 +18,7 @@ async function run() {
 
 	console.time("🧹 Cleaned up the database...");
 
+	await db.delete(artifact);
 	await db.delete(teamMember);
 	await db.delete(team);
 	await db.delete(verification);
@@ -34,7 +36,7 @@ async function run() {
 		},
 	});
 
-	await seed(db, { user, team, teamMember }).refine((f) => ({
+	await seed(db, { user, team, teamMember, artifact }).refine((f) => ({
 		user: {
 			columns: { image: f.default({ defaultValue: null }) },
 		},
