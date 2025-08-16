@@ -18,19 +18,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { formatCreatedDate } from "@/features/artifacts/utils";
 
 import { getAvatarFallback } from "../utils";
 import { EditUserDialog } from "./edit-user-dialog";
 import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 
 type User = {
+	createdAt: Date;
 	email: string;
 	image: null | string;
 	name: string;
 	userId: string;
 };
 
-function FilledRow({ image, name, email, userId }: User) {
+function FilledRow({ image, name, email, userId, createdAt }: User) {
 	return (
 		<TableRow>
 			<TableCell>
@@ -44,6 +46,9 @@ function FilledRow({ image, name, email, userId }: User) {
 						<div className="text-sm text-muted-foreground">{email}</div>
 					</div>
 				</div>
+			</TableCell>
+			<TableCell className="text-muted-foreground">
+				{formatCreatedDate(createdAt)}
 			</TableCell>
 			<TableCell>
 				<DropdownMenu>
@@ -102,6 +107,7 @@ function Layout({ children }: React.PropsWithChildren) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>User</TableHead>
+					<TableHead>Joined</TableHead>
 					<TableHead className="w-[50px]"></TableHead>
 				</TableRow>
 			</TableHeader>
