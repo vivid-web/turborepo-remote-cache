@@ -42,6 +42,7 @@ const getAllUsers = createServerFn({ method: "GET" })
 				name: user.name,
 				image: user.image,
 				email: user.email,
+				createdAt: user.createdAt,
 			})
 			.from(user)
 			.where(or(...filters))
