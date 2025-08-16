@@ -34,7 +34,7 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 });
 
 function RouteComponent() {
-	const { teamId } = Route.useParams();
+	const params = Route.useParams();
 
 	return (
 		<div className="grid gap-6">
@@ -48,9 +48,9 @@ function RouteComponent() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
-				<TotalUsersForTeamCard teamId={teamId} />
+				<TotalUsersForTeamCard {...params} />
 
-				<TotalArtifactsForTeamCard teamId={teamId} />
+				<TotalArtifactsForTeamCard {...params} />
 			</div>
 
 			<Tabs defaultValue="member" className="space-y-4">
@@ -61,16 +61,16 @@ function RouteComponent() {
 				</TabsList>
 
 				<TabsContent value="members">
-					<AllTeamMembersForTeamCard teamId={teamId} />
+					<AllTeamMembersForTeamCard {...params} />
 				</TabsContent>
 
 				<TabsContent value="artifacts">
-					<AllArtifactsForTeamCard teamId={teamId} />
+					<AllArtifactsForTeamCard {...params} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
-					<TeamSettingsCard teamId={teamId} />
-					<TeamDangerZoneCard teamId={teamId} />
+					<TeamSettingsCard {...params} />
+					<TeamDangerZoneCard {...params} />
 				</TabsContent>
 			</Tabs>
 		</div>
