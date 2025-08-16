@@ -5,7 +5,12 @@ import {
 	Outlet,
 	redirect,
 } from "@tanstack/react-router";
-import { DatabaseZapIcon, UserIcon, UsersIcon } from "lucide-react";
+import {
+	DatabaseZapIcon,
+	PackageIcon,
+	UserIcon,
+	UsersIcon,
+} from "lucide-react";
 import * as React from "react";
 
 import { RouteBreadcrumb } from "@/components/route-breadcrumb";
@@ -93,6 +98,14 @@ function PathlessLayoutComponent() {
 										<Link to="/teams">
 											<UsersIcon />
 											<span>Teams</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+								<SidebarMenuItem>
+									<SidebarMenuButton tooltip="Artifacts" asChild>
+										<Link to="/artifacts">
+											<PackageIcon />
+											<span>Artifacts</span>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
