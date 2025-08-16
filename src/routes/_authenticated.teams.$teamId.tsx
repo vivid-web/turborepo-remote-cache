@@ -11,8 +11,13 @@ import { getBreadcrumbForTeam } from "@/features/teams/queries/get-breadcrumb-fo
 import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
 import { IdSchema } from "@/lib/schemas";
 
+const TabSchema = z.enum(["members", "artifacts", "settings"]);
+
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	component: RouteComponent,
+	validateSearch: z.object({
+		tab: TabSchema.optional().default("members"),
+	}),
 	params: {
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
@@ -35,6 +40,14 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 
 function RouteComponent() {
 	const params = Route.useParams();
+	const navigate = Route.useNavigate();
+	const search = Route.useSearch();
+
+	const handleTabChange = (value: string) => {
+		const tab = TabSchema.parse(value);
+
+		void navigate({ search: (curr) => ({ ...curr, tab }) });
+	};
 
 	return (
 		<div className="grid gap-6">
@@ -53,7 +66,11 @@ function RouteComponent() {
 				<TotalArtifactsForTeamCard {...params} />
 			</div>
 
-			<Tabs defaultValue="member" className="space-y-4">
+			<Tabs
+				defaultValue={search.tab}
+				className="space-y-4"
+				onValueChange={handleTabChange}
+			>
 				<TabsList>
 					<TabsTrigger value="members">Members</TabsTrigger>
 					<TabsTrigger value="artifacts">Artifacts</TabsTrigger>
