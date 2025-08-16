@@ -1,8 +1,9 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { asc, ilike, or, SQL } from "drizzle-orm";
+import { asc, desc, eq, ilike, inArray, or, SQL } from "drizzle-orm";
 import { db } from "drizzle/db";
-import { user } from "drizzle/schema";
+import { session, user } from "drizzle/schema";
+import * as R from "remeda";
 import { z } from "zod";
 
 import {
@@ -36,7 +37,7 @@ const getAllUsers = createServerFn({ method: "GET" })
 			filters.push(ilike(user.name, `%${query}%`));
 		}
 
-		return db
+		const users = await db
 			.select({
 				userId: user.id,
 				name: user.name,
@@ -47,6 +48,26 @@ const getAllUsers = createServerFn({ method: "GET" })
 			.from(user)
 			.where(or(...filters))
 			.orderBy(asc(user.name));
+
+		const sessions = await db
+			.selectDistinct({
+				userId: session.userId,
+				lastLoggedInAt: session.createdAt,
+			})
+			.from(session)
+			.innerJoin(user, eq(session.userId, user.id))
+			.where(inArray(user.id, users.map(R.prop("userId"))))
+			.orderBy(desc(session.createdAt));
+
+		return users.map((user) => {
+			const session = sessions.find(
+				(session) => session.userId === user.userId,
+			);
+
+			const lastLoggedInAt = session?.lastLoggedInAt ?? null;
+
+			return { ...user, lastLoggedInAt };
+		});
 	});
 
 function allUsersQueryOptions(params: Params) {
