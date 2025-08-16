@@ -18,12 +18,11 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForUser({ data: params });
 
+		// prettier-ignore
 		await Promise.all([
 			queryClient.ensureQueryData(UserGeneralInfoCard.queryOptions(params)),
 			queryClient.ensureQueryData(TotalTeamsForUserCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				AllTeamMembershipsForUserCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(AllTeamMembershipsForUserCard.queryOptions(params)),
 			queryClient.ensureQueryData(UserSettingsCard.queryOptions(params)),
 		]);
 
