@@ -10,20 +10,24 @@ import { UserSettingsCard } from "@/features/users/components/user-settings-card
 import { getBreadcrumbForUser } from "@/features/users/queries/get-breadcrumb-for-user";
 import { IdSchema } from "@/lib/schemas";
 
+const TabSchema = z.enum(["team-memberships", "settings"]);
+
 export const Route = createFileRoute("/_authenticated/users/$userId")({
 	component: RouteComponent,
+	validateSearch: z.object({
+		tab: TabSchema.optional().default("team-memberships"),
+	}),
 	params: {
 		parse: (params) => z.object({ userId: IdSchema }).parse(params),
 	},
 	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForUser({ data: params });
 
+		// prettier-ignore
 		await Promise.all([
 			queryClient.ensureQueryData(UserGeneralInfoCard.queryOptions(params)),
 			queryClient.ensureQueryData(TotalTeamsForUserCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				AllTeamMembershipsForUserCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(AllTeamMembershipsForUserCard.queryOptions(params)),
 			queryClient.ensureQueryData(UserSettingsCard.queryOptions(params)),
 		]);
 
@@ -32,7 +36,15 @@ export const Route = createFileRoute("/_authenticated/users/$userId")({
 });
 
 function RouteComponent() {
-	const { userId } = Route.useParams();
+	const params = Route.useParams();
+	const navigate = Route.useNavigate();
+	const search = Route.useSearch();
+
+	const handleTabChange = (value: string) => {
+		const tab = TabSchema.parse(value);
+
+		void navigate({ search: (curr) => ({ ...curr, tab }) });
+	};
 
 	return (
 		<div className="grid gap-6">
@@ -47,25 +59,29 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<UserGeneralInfoCard userId={userId} />
+			<UserGeneralInfoCard {...params} />
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<TotalTeamsForUserCard userId={userId} />
+				<TotalTeamsForUserCard {...params} />
 			</div>
 
-			<Tabs defaultValue="teams" className="space-y-4">
+			<Tabs
+				defaultValue={search.tab}
+				className="space-y-4"
+				onValueChange={handleTabChange}
+			>
 				<TabsList>
-					<TabsTrigger value="teams">Team Memberships</TabsTrigger>
+					<TabsTrigger value="team-memberships">Team Memberships</TabsTrigger>
 					<TabsTrigger value="settings">Settings</TabsTrigger>
 				</TabsList>
 
-				<TabsContent value="teams">
-					<AllTeamMembershipsForUserCard userId={userId} />
+				<TabsContent value="team-memberships">
+					<AllTeamMembershipsForUserCard {...params} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
-					<UserSettingsCard userId={userId} />
-					<UserDangerZoneCard userId={userId} />
+					<UserSettingsCard {...params} />
+					<UserDangerZoneCard {...params} />
 				</TabsContent>
 			</Tabs>
 		</div>

@@ -5,6 +5,7 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "drizzle/db";
 import { session, user } from "drizzle/schema";
 import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
+import * as R from "remeda";
 import { z } from "zod";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -29,7 +30,7 @@ const getUserGeneralInfo = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
-		const [foundUser] = await db
+		const foundUser = await db
 			.select({
 				email: user.email,
 				name: user.name,
@@ -38,22 +39,26 @@ const getUserGeneralInfo = createServerFn({ method: "GET" })
 			})
 			.from(user)
 			.where(eq(user.id, userId))
-			.limit(1);
-
-		const [foundSession] = await db
-			.select({ lastLoggedInAt: session.createdAt })
-			.from(session)
-			.where(eq(session.userId, userId))
-			.orderBy(desc(session.createdAt))
-			.limit(1);
+			.limit(1)
+			.then(R.first());
 
 		if (!foundUser) {
 			throw notFound();
 		}
 
+		const foundSession = await db
+			.select({ lastLoggedInAt: session.createdAt })
+			.from(session)
+			.where(eq(session.userId, userId))
+			.orderBy(desc(session.createdAt))
+			.limit(1)
+			.then(R.first());
+
+		const lastLoggedInAt = foundSession?.lastLoggedInAt ?? null;
+
 		return {
 			...foundUser,
-			...foundSession,
+			lastLoggedInAt,
 		};
 	});
 

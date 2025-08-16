@@ -8,7 +8,7 @@ function formatCreatedDate(date: Date) {
 	}).format(date);
 }
 
-function formatLastLoginDate(date: Date | undefined) {
+function formatLastLoginDate(date: Date | null) {
 	if (!date) {
 		return "-";
 	}

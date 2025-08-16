@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AllArtifactsForTeamCard } from "@/features/artifacts/components/all-artifacts-for-team-card";
+import { TotalArtifactsForTeamCard } from "@/features/artifacts/components/total-artifacts-for-team-card";
 import { AllTeamMembersForTeamCard } from "@/features/team-members/components/all-team-members-for-team-card";
 import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone-card";
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
@@ -9,23 +11,27 @@ import { getBreadcrumbForTeam } from "@/features/teams/queries/get-breadcrumb-fo
 import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
 import { IdSchema } from "@/lib/schemas";
 
+const TabSchema = z.enum(["members", "artifacts", "settings"]);
+
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	component: RouteComponent,
+	validateSearch: z.object({
+		tab: TabSchema.optional().default("members"),
+	}),
 	params: {
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
 	loader: async ({ context: { queryClient }, params }) => {
 		const crumb = await getBreadcrumbForTeam({ data: params });
 
+		// prettier-ignore
 		await Promise.all([
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				AllTeamMembersForTeamCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(TotalArtifactsForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllArtifactsForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
-			queryClient.ensureQueryData(
-				AllTeamMembersForTeamCard.queryOptions(params),
-			),
+			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
 		]);
 
 		return { crumb };
@@ -33,7 +39,15 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 });
 
 function RouteComponent() {
-	const { teamId } = Route.useParams();
+	const params = Route.useParams();
+	const navigate = Route.useNavigate();
+	const search = Route.useSearch();
+
+	const handleTabChange = (value: string) => {
+		const tab = TabSchema.parse(value);
+
+		void navigate({ search: (curr) => ({ ...curr, tab }) });
+	};
 
 	return (
 		<div className="grid gap-6">
@@ -47,22 +61,33 @@ function RouteComponent() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
-				<TotalUsersForTeamCard teamId={teamId} />
+				<TotalUsersForTeamCard {...params} />
+
+				<TotalArtifactsForTeamCard {...params} />
 			</div>
 
-			<Tabs defaultValue="member" className="space-y-4">
+			<Tabs
+				defaultValue={search.tab}
+				className="space-y-4"
+				onValueChange={handleTabChange}
+			>
 				<TabsList>
-					<TabsTrigger value="member">Members</TabsTrigger>
+					<TabsTrigger value="members">Members</TabsTrigger>
+					<TabsTrigger value="artifacts">Artifacts</TabsTrigger>
 					<TabsTrigger value="settings">Settings</TabsTrigger>
 				</TabsList>
 
-				<TabsContent value="member">
-					<AllTeamMembersForTeamCard teamId={teamId} />
+				<TabsContent value="members">
+					<AllTeamMembersForTeamCard {...params} />
+				</TabsContent>
+
+				<TabsContent value="artifacts">
+					<AllArtifactsForTeamCard {...params} />
 				</TabsContent>
 
 				<TabsContent value="settings" className="grid gap-6">
-					<TeamSettingsCard teamId={teamId} />
-					<TeamDangerZoneCard teamId={teamId} />
+					<TeamSettingsCard {...params} />
+					<TeamDangerZoneCard {...params} />
 				</TabsContent>
 			</Tabs>
 		</div>

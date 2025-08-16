@@ -18,19 +18,29 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { formatCreatedDate } from "@/features/artifacts/utils";
 
-import { getAvatarFallback } from "../utils";
+import { formatLastLoginDate, getAvatarFallback } from "../utils";
 import { EditUserDialog } from "./edit-user-dialog";
 import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
 
 type User = {
+	createdAt: Date;
 	email: string;
 	image: null | string;
+	lastLoggedInAt: Date | null;
 	name: string;
 	userId: string;
 };
 
-function FilledRow({ image, name, email, userId }: User) {
+function FilledRow({
+	image,
+	name,
+	email,
+	userId,
+	createdAt,
+	lastLoggedInAt,
+}: User) {
 	return (
 		<TableRow>
 			<TableCell>
@@ -45,6 +55,10 @@ function FilledRow({ image, name, email, userId }: User) {
 					</div>
 				</div>
 			</TableCell>
+			<TableCell className="text-muted-foreground">
+				{formatCreatedDate(createdAt)}
+			</TableCell>
+			<TableCell>{formatLastLoginDate(lastLoggedInAt)}</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -91,7 +105,7 @@ function FilledRow({ image, name, email, userId }: User) {
 function EmptyRow() {
 	return (
 		<TableRow>
-			<TableCell colSpan={2}>No users found...</TableCell>
+			<TableCell colSpan={4}>No users found...</TableCell>
 		</TableRow>
 	);
 }
@@ -102,6 +116,8 @@ function Layout({ children }: React.PropsWithChildren) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>User</TableHead>
+					<TableHead>Joined</TableHead>
+					<TableHead>Last Active</TableHead>
 					<TableHead className="w-[50px]"></TableHead>
 				</TableRow>
 			</TableHeader>
