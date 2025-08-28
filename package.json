@@ -65,7 +65,7 @@
 		"@types/pg": "^8.15.5",
 		"@types/react": "^19.1.12",
 		"@types/react-dom": "^19.1.8",
-		"@vitejs/plugin-react": "^5.0.1",
+		"@vitejs/plugin-react": "^5.0.2",
 		"dotenv-cli": "^10.0.0",
 		"drizzle-kit": "^0.31.4",
 		"eslint": "^9.34.0",
