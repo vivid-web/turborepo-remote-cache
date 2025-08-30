@@ -1,0 +1,7 @@
+{
+	"extends": "@turborepo-remote-cache/tsconfig/tsc/no-dom/library",
+	"compilerOptions": {
+		"tsBuildInfoFile": ".cache/tsconfig.tsbuildinfo"
+	},
+	"exclude": ["node_modules"]
+}
