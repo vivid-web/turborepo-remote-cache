@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq, SQL } from "drizzle-orm";
-import { db } from "drizzle/db";
-import { teamMember } from "drizzle/schema";
+import { and, eq, SQL } from "@turborepo-remote-cache/db";
+import { db } from "@turborepo-remote-cache/db/client";
+import { teamMember } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";

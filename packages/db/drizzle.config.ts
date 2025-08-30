@@ -7,6 +7,6 @@ export default defineConfig({
 		url: process.env.DATABASE_URL!,
 	},
 	dialect: "postgresql",
-	out: "./drizzle/migrations",
-	schema: "./drizzle/schema",
+	out: "./migrations",
+	schema: "./src/schema.ts",
 });
