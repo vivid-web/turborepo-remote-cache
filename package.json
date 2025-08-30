@@ -15,9 +15,11 @@
 		"build": "turbo run build",
 		"lint": "turbo run lint",
 		"format": "prettier --check --cache .",
-		"prepare": "husky"
+		"prepare": "husky",
+		"postinstall": "manypkg check"
 	},
 	"devDependencies": {
+		"@manypkg/cli": "^0.25.1",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.1.5",
 		"prettier": "^3.6.2",
