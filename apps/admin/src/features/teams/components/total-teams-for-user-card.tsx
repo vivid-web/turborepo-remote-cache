@@ -55,7 +55,7 @@ function TotalTeamsForUserCard({ userId }: Params) {
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
-				<p className="text-muted-foreground text-xs">Active memberships</p>
+				<p className="text-xs text-muted-foreground">Active memberships</p>
 			</CardContent>
 		</Card>
 	);

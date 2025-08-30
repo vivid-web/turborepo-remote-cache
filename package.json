@@ -14,20 +14,22 @@
 		"dev": "turbo run dev",
 		"build": "turbo run build",
 		"lint": "turbo run lint",
-		"format": "prettier --check --cache .",
+		"format": "turbo run format",
+		"format:fix": "turbo run format -- --write",
 		"prepare": "husky",
 		"postinstall": "manypkg check"
 	},
 	"devDependencies": {
 		"@manypkg/cli": "^0.25.1",
+		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.1.5",
 		"prettier": "^3.6.2",
-		"prettier-plugin-tailwindcss": "^0.6.14",
 		"turbo": "^2.5.6"
 	},
 	"engines": {
 		"node": ">=22.19.0"
 	},
-	"packageManager": "pnpm@10.15.0"
+	"packageManager": "pnpm@10.15.0",
+	"prettier": "@turborepo-remote-cache/prettier-config"
 }

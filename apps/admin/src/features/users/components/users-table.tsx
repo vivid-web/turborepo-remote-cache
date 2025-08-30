@@ -51,7 +51,7 @@ function FilledRow({
 					</Avatar>
 					<div>
 						<div className="font-medium">{name}</div>
-						<div className="text-muted-foreground text-sm">{email}</div>
+						<div className="text-sm text-muted-foreground">{email}</div>
 					</div>
 				</div>
 			</TableCell>

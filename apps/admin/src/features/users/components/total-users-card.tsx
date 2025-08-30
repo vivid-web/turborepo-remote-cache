@@ -33,7 +33,7 @@ function TotalUsersCard() {
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
-				<p className="text-muted-foreground text-xs">
+				<p className="text-xs text-muted-foreground">
 					Registered in the system
 				</p>
 			</CardContent>

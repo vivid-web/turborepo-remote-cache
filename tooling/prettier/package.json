@@ -1,0 +1,16 @@
+{
+	"name": "@turborepo-remote-cache/prettier-config",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"exports": {
+		".": "./index.js"
+	},
+	"scripts": {
+		"format": "prettier --cache --cache-location .cache/prettier --check ."
+	},
+	"dependencies": {
+		"prettier": "^3.6.2",
+		"prettier-plugin-tailwindcss": "^0.6.14"
+	}
+}

@@ -40,7 +40,7 @@ function UserDropdownMenu({ image, name, email }: User) {
 					</Avatar>
 					<div className="grid flex-1 text-left text-sm leading-tight">
 						<span className="truncate font-medium">{name}</span>
-						<span className="text-muted-foreground truncate text-xs">
+						<span className="truncate text-xs text-muted-foreground">
 							{email}
 						</span>
 					</div>
@@ -63,7 +63,7 @@ function UserDropdownMenu({ image, name, email }: User) {
 						</Avatar>
 						<div className="grid flex-1 text-left text-sm leading-tight">
 							<span className="truncate font-medium">{name}</span>
-							<span className="text-muted-foreground truncate text-xs">
+							<span className="truncate text-xs text-muted-foreground">
 								{email}
 							</span>
 						</div>

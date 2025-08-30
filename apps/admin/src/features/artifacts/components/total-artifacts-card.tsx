@@ -33,7 +33,7 @@ function TotalArtifactsCard() {
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
-				<p className="text-muted-foreground text-xs">
+				<p className="text-xs text-muted-foreground">
 					Artifacts uploaded in the system
 				</p>
 			</CardContent>

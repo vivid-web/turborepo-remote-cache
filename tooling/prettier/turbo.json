@@ -2,9 +2,6 @@
 	"$schema": "../../node_modules/turbo/schema.json",
 	"extends": ["//"],
 	"tasks": {
-		"build": {
-			"outputs": [".nitro/**", ".output/**", ".tanstack/**"]
-		},
 		"format": {
 			"outputs": [".cache/prettier"]
 		}

@@ -43,7 +43,7 @@ function MultiSelectItem({
 
 	return (
 		<CommandItem {...props}>
-			{Icon && <Icon className="text-foreground !h-4 !w-4 font-medium" />}
+			{Icon && <Icon className="!h-4 !w-4 font-medium text-foreground" />}
 			{children}
 		</CommandItem>
 	);
@@ -146,7 +146,7 @@ function MultiSelect({
 			className="flex flex-col gap-2 overflow-visible bg-transparent"
 			onKeyDown={handleKeyDown}
 		>
-			<div className="border-input ring-offset-background focus-within:ring-ring group flex max-w-full gap-4 overflow-hidden rounded-md border px-4 py-2 text-sm focus-within:ring-2 focus-within:ring-offset-2">
+			<div className="group flex max-w-full gap-4 overflow-hidden rounded-md border border-input px-4 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
 				<div className="flex flex-1 flex-wrap gap-2">
 					{selectedOptions.length > 0 && (
 						<div className="flex flex-wrap gap-2">
@@ -181,7 +181,7 @@ function MultiSelect({
 						onFocus={() => {
 							setIsOpen(true);
 						}}
-						className="max-w-auto min-w-auto placeholder:text-muted-foreground flex flex-1 bg-transparent outline-none"
+						className="max-w-auto flex min-w-auto flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
 					/>
 				</div>
 				<div className="flex items-center gap-4">
@@ -196,7 +196,7 @@ function MultiSelect({
 								}}
 								type="button"
 							>
-								<XIcon className="text-muted-foreground !h-4 !w-4" />
+								<XIcon className="!h-4 !w-4 text-muted-foreground" />
 							</button>
 							<Separator orientation="vertical" className="max-h-6" />
 						</React.Fragment>
@@ -210,7 +210,7 @@ function MultiSelect({
 						}}
 						type="button"
 					>
-						<ChevronDownIcon className="text-muted-foreground !h-4 !w-4" />
+						<ChevronDownIcon className="!h-4 !w-4 text-muted-foreground" />
 					</button>
 				</div>
 			</div>
@@ -218,7 +218,7 @@ function MultiSelect({
 				<div className="relative">
 					<CommandList>
 						<React.Fragment>
-							<div className="animate-in bg-popover text-popover-foreground absolute top-0 z-10 w-full rounded-md border shadow-md outline-none">
+							<div className="absolute top-0 z-10 w-full animate-in rounded-md border bg-popover text-popover-foreground shadow-md outline-none">
 								<CommandEmpty>No results found</CommandEmpty>
 								<CommandGroup>
 									{options.length > 0 &&
