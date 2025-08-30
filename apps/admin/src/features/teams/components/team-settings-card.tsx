@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 import { notFound, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
-import { db } from "drizzle/db";
-import { team } from "drizzle/schema";
+import { eq } from "@turborepo-remote-cache/db";
+import { db } from "@turborepo-remote-cache/db/client";
+import { team } from "@turborepo-remote-cache/db/schema";
 import * as React from "react";
 import { toast } from "sonner";
 import { z } from "zod";

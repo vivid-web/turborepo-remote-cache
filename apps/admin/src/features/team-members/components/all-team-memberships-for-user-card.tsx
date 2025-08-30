@@ -1,8 +1,8 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
-import { db } from "drizzle/db";
-import { team, teamMember, user } from "drizzle/schema";
+import { eq } from "@turborepo-remote-cache/db";
+import { db } from "@turborepo-remote-cache/db/client";
+import { team, teamMember, user } from "@turborepo-remote-cache/db/schema";
 import { Loader2Icon, SquarePlusIcon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
