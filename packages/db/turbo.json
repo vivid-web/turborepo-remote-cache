@@ -1,0 +1,18 @@
+{
+	"$schema": "../../node_modules/turbo/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"outputs": ["dist", ".cache/tsconfig.build.tsbuildinfo"]
+		},
+		"lint": {
+			"outputs": [".cache/eslint"]
+		},
+		"typecheck": {
+			"outputs": [".cache/tsconfig.tsbuildinfo"]
+		},
+		"format": {
+			"outputs": [".cache/prettier"]
+		}
+	}
+}

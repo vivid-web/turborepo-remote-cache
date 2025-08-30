@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "drizzle/db";
-import { team } from "drizzle/schema";
+import { db } from "@turborepo-remote-cache/db/client";
+import { team } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { auth } from "@/middlewares/auth";

@@ -1,8 +1,8 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
-import { db } from "drizzle/db";
-import { artifact } from "drizzle/schema";
+import { eq } from "@turborepo-remote-cache/db";
+import { db } from "@turborepo-remote-cache/db/client";
+import { artifact } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import {

@@ -1,32 +1,10 @@
-import { seed } from "drizzle-seed";
-import { db } from "drizzle/db";
-import {
-	account,
-	artifact,
-	session,
-	team,
-	teamMember,
-	user,
-	verification,
-} from "drizzle/schema";
-
 import { auth } from "@/lib/auth";
 
 async function run() {
 	console.log("🌱 Seeding...");
-	console.time(`🌱 Database has been seeded`);
+	console.time(`🌱 Auth has been seeded`);
 
-	console.time("🧹 Cleaned up the database...");
-
-	await db.delete(artifact);
-	await db.delete(teamMember);
-	await db.delete(team);
-	await db.delete(verification);
-	await db.delete(session);
-	await db.delete(account);
-	await db.delete(user);
-
-	console.timeEnd("🧹 Cleaned up the database...");
+	console.time("👤 Created admin user...");
 
 	await auth.api.signUpEmail({
 		body: {
@@ -36,13 +14,9 @@ async function run() {
 		},
 	});
 
-	await seed(db, { user, team, teamMember, artifact }).refine((f) => ({
-		user: {
-			columns: { image: f.default({ defaultValue: null }) },
-		},
-	}));
+	console.timeEnd("👤 Created admin user...");
 
-	console.timeEnd(`🌱 Database has been seeded`);
+	console.timeEnd(`🌱 Auth has been seeded`);
 }
 
 try {

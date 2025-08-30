@@ -1,5 +1,6 @@
 import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
-import { db } from "drizzle/db";
+
+import { db } from "../src/client.js";
 
 async function migrate() {
 	console.log("🔄️ Migrating database...");
@@ -7,7 +8,7 @@ async function migrate() {
 	console.time("🗄️ Running DB migrations...");
 
 	await baseMigrate(db, {
-		migrationsFolder: "./drizzle/migrations",
+		migrationsFolder: "./migrations",
 	});
 
 	console.timeEnd("🗄️ Running DB migrations...");

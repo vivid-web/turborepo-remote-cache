@@ -1,8 +1,8 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { asc, eq, ilike, inArray, or, SQL } from "drizzle-orm";
-import { db } from "drizzle/db";
-import { team, teamMember, user } from "drizzle/schema";
+import { asc, eq, ilike, inArray, or, SQL } from "@turborepo-remote-cache/db";
+import { db } from "@turborepo-remote-cache/db/client";
+import { team, teamMember, user } from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
 import { z } from "zod";
 
