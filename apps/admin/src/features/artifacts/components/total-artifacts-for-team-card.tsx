@@ -55,7 +55,7 @@ function TotalArtifactsForTeamCard({ teamId }: Params) {
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">{query.data}</div>
-				<p className="text-muted-foreground text-xs">Artifacts for this team</p>
+				<p className="text-xs text-muted-foreground">Artifacts for this team</p>
 			</CardContent>
 		</Card>
 	);

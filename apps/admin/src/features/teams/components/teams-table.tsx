@@ -40,7 +40,7 @@ type Team = {
 
 function TeamMemberAvatar({ image, name }: Member) {
 	return (
-		<Avatar className="border-background h-8 w-8 border-2">
+		<Avatar className="h-8 w-8 border-2 border-background">
 			{image && <AvatarImage src={image} />}
 			<AvatarFallback>{getAvatarFallback(name)}</AvatarFallback>
 		</Avatar>
@@ -61,7 +61,7 @@ function TeamMembersContent({
 			))}
 
 			{members.length > cutoff && (
-				<div className="border-background bg-muted flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-medium">
+				<div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-muted text-xs font-medium">
 					+{members.length - cutoff}
 				</div>
 			)}
@@ -75,7 +75,7 @@ function FilledRow({ name, teamId, createdAt, members }: Team) {
 			<TableCell>
 				<div className="flex flex-col space-x-3">
 					<div className="font-medium">{name}</div>
-					<div className="text-muted-foreground text-sm">ID: {teamId}</div>
+					<div className="text-sm text-muted-foreground">ID: {teamId}</div>
 				</div>
 			</TableCell>
 			<TableCell>
