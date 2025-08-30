@@ -2,11 +2,11 @@
 	"$schema": "../../node_modules/turbo/schema.json",
 	"extends": ["//"],
 	"tasks": {
-		"build": {
-			"outputs": [".nitro/**", ".output/**", ".tanstack/**"]
-		},
 		"lint": {
 			"outputs": [".cache/eslint"]
+		},
+		"typecheck": {
+			"outputs": [".cache/tsconfig.tsbuildinfo"]
 		},
 		"format": {
 			"outputs": [".cache/prettier"]
