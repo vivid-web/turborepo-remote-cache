@@ -1,5 +1,8 @@
 # PNPM files
 pnpm-lock.yaml
 
-# TanStack Start files
-src/routeTree.gen.ts
+# @turborepo-remote-cache/admin
+apps/admin/.nitro
+apps/admin/.output
+apps/admin/.tanstack
+apps/admin/src/routeTree.gen.ts

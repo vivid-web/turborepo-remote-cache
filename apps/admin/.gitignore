@@ -1,0 +1,8 @@
+/.nitro
+/.output
+/.tanstack
+/.vite
+/node_modules
+
+.env
+.eslintcache
