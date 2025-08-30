@@ -23,14 +23,14 @@ type Team = {
 
 function FilledListItem({ name, teamId, userId }: Params & Team) {
 	return (
-		<div className="bg-card flex items-center justify-between rounded-lg border p-3">
+		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
-				<div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
-					<UsersIcon className="text-primary h-4 w-4" />
+				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+					<UsersIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
 					<p className="text-sm font-medium">{name}</p>
-					<p className="text-muted-foreground text-xs">Member</p>
+					<p className="text-xs text-muted-foreground">Member</p>
 				</div>
 			</div>
 			<DropdownMenu>
@@ -63,14 +63,14 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 
 function EmptyListItem() {
 	return (
-		<div className="bg-card flex items-center justify-between rounded-lg border border-dashed p-3">
+		<div className="flex items-center justify-between rounded-lg border border-dashed bg-card p-3">
 			<div className="flex items-center gap-3">
-				<div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
-					<UsersIcon className="text-primary h-4 w-4" />
+				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+					<UsersIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
 					<p className="text-sm font-medium">No teams found</p>
-					<p className="text-muted-foreground text-xs">
+					<p className="text-xs text-muted-foreground">
 						This user is not a member of any teams
 					</p>
 				</div>

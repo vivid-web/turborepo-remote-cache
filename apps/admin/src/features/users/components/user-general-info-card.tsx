@@ -85,17 +85,17 @@ function UserGeneralInfoCard({ userId }: Params) {
 						</Avatar>
 						<div className="space-y-2">
 							<div>
-								<h2 className="text-foreground text-xl font-semibold">
+								<h2 className="text-xl font-semibold text-foreground">
 									{data.name}
 								</h2>
-								<div className="text-muted-foreground flex items-center gap-2">
+								<div className="flex items-center gap-2 text-muted-foreground">
 									<MailIcon className="h-4 w-4" />
 									<span>{data.email}</span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="text-muted-foreground space-y-1 text-right text-sm">
+					<div className="space-y-1 text-right text-sm text-muted-foreground">
 						<div className="flex items-center gap-2">
 							<CalendarIcon className="h-4 w-4" />
 							<span>Joined {formatCreatedDate(data.createdAt)}</span>

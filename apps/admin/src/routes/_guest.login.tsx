@@ -58,7 +58,7 @@ function RouteComponent() {
 						<div className="flex flex-col gap-6">
 							<div className="flex flex-col items-center text-center">
 								<h1 className="text-2xl font-bold">Welcome back</h1>
-								<p className="text-muted-foreground text-balance">
+								<p className="text-balance text-muted-foreground">
 									Login to the Turborepo cache dashboard
 								</p>
 							</div>
@@ -121,7 +121,7 @@ function RouteComponent() {
 						</div>
 					</form>
 				</form.AppForm>
-				<div className="bg-muted relative hidden md:block">
+				<div className="relative hidden bg-muted md:block">
 					<img
 						alt="Image"
 						className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

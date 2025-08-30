@@ -12,6 +12,9 @@
 			"dependsOn": ["^build"],
 			"cache": false,
 			"persistent": true
+		},
+		"format": {
+			"outputLogs": "new-only"
 		}
 	}
 }

@@ -39,7 +39,7 @@ function SearchTeamsForm({ query, onSearch }: Props) {
 					name="query"
 					children={(field) => (
 						<field.FormItem className="relative w-64">
-							<field.FormLabel className="text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 transform">
+							<field.FormLabel className="absolute top-1/2 left-3 -translate-y-1/2 transform text-muted-foreground">
 								<SearchIcon className="h-4 w-4" />
 							</field.FormLabel>
 							<field.FormControl>

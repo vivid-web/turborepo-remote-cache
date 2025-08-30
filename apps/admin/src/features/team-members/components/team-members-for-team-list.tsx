@@ -27,18 +27,18 @@ type User = {
 
 function FilledListItem({ name, userId, image, teamId }: Params & User) {
 	return (
-		<div className="bg-card flex items-center justify-between rounded-lg border p-3">
+		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
 			<div className="flex items-center gap-3">
-				<div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
+				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
 					<Avatar className="h-8 w-8">
 						{image && <AvatarImage src={image} alt={name} />}
 						<AvatarFallback>{getAvatarFallback(name)}</AvatarFallback>
 					</Avatar>
-					<UserIcon className="text-primary h-4 w-4" />
+					<UserIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
 					<p className="text-sm font-medium">{name}</p>
-					<p className="text-muted-foreground text-xs">Member</p>
+					<p className="text-xs text-muted-foreground">Member</p>
 				</div>
 			</div>
 			<DropdownMenu>
@@ -71,14 +71,14 @@ function FilledListItem({ name, userId, image, teamId }: Params & User) {
 
 function EmptyListItem() {
 	return (
-		<div className="bg-card flex items-center justify-between rounded-lg border border-dashed p-3">
+		<div className="flex items-center justify-between rounded-lg border border-dashed bg-card p-3">
 			<div className="flex items-center gap-3">
-				<div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
-					<UserIcon className="text-primary h-4 w-4" />
+				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+					<UserIcon className="h-4 w-4 text-primary" />
 				</div>
 				<div>
 					<p className="text-sm font-medium">No team members found</p>
-					<p className="text-muted-foreground text-xs">
+					<p className="text-xs text-muted-foreground">
 						This team does not have any team members
 					</p>
 				</div>
