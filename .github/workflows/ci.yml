@@ -60,3 +60,28 @@ jobs:
 
       - name: 🎨 Format
         run: pnpm run format
+
+  typecheck:
+    name: 🛠️ typecheck
+    runs-on: ubuntu-24.04
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v5.0.0
+        with:
+          fetch-depth: 0
+
+      - name: ▫️ Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: "pnpm"
+
+      - name: 📥 Install dependencies
+        shell: bash
+        run: pnpm install --frozen-lockfile
+
+      - name: 🛠️ Typecheck
+        run: pnpm run typecheck

@@ -1,16 +1,22 @@
 {
+	"extends": "@turborepo-remote-cache/tsconfig/bundler/dom",
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"moduleResolution": "Bundler",
 		"module": "ESNext",
-		"target": "ES2022",
-		"skipLibCheck": true,
-		"noUncheckedIndexedAccess": true,
 		"strictNullChecks": true,
 		"baseUrl": ".",
 		"types": ["vite/client"],
 		"paths": {
 			"@/*": ["./src/*"]
 		}
-	}
+	},
+	"exclude": [
+		".cache",
+		".nitro",
+		".output",
+		".tanstack",
+		".turbo",
+		"node_modules"
+	]
 }
