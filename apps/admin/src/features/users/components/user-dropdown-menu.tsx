@@ -1,5 +1,6 @@
+import type { User } from "better-auth";
+
 import { useNavigate } from "@tanstack/react-router";
-import { User } from "better-auth";
 import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

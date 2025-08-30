@@ -140,6 +140,9 @@ importers:
       "@turborepo-remote-cache/prettier-config":
         specifier: workspace:*
         version: link:../../tooling/prettier
+      "@turborepo-remote-cache/tsconfig":
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       "@types/pg":
         specifier: ^8.15.5
         version: 8.15.5
@@ -218,6 +221,8 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
         version: 0.6.14(prettier@3.6.2)
+
+  tooling/typescript: {}
 
 packages:
   "@ampproject/remapping@2.3.0":
