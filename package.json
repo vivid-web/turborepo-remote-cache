@@ -24,7 +24,7 @@
 		"@manypkg/cli": "^0.25.1",
 		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.1.5",
+		"lint-staged": "^16.1.6",
 		"prettier": "^3.6.2",
 		"turbo": "^2.5.6"
 	},
