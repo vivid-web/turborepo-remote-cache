@@ -113,10 +113,28 @@ export const artifact = pgTable("artifact", {
 		.notNull(),
 });
 
+export const apiKey = pgTable("api_key", {
+	id: text()
+		.primaryKey()
+		.$defaultFn(() => cuid()),
+	userId: text()
+		.notNull()
+		.references(() => user.id, { onDelete: "cascade" }),
+	name: text().notNull(),
+	secret: text().notNull().unique(),
+	createdAt: timestamp()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.notNull(),
+	expiresAt: timestamp(),
+	lastUsedAt: timestamp(),
+	revokedAt: timestamp(),
+});
+
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
 	accounts: many(account),
 	teamMembers: many(teamMember),
+	apiKeys: many(apiKey),
 }));
 
 export const accountRelations = relations(account, ({ one }) => ({
@@ -153,5 +171,12 @@ export const artifactRelations = relations(artifact, ({ one }) => ({
 	team: one(team, {
 		fields: [artifact.teamId],
 		references: [team.id],
+	}),
+}));
+
+export const apiKeyRelations = relations(apiKey, ({ one }) => ({
+	user: one(user, {
+		fields: [apiKey.userId],
+		references: [user.id],
 	}),
 }));
