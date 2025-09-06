@@ -15,7 +15,8 @@ const SlugSchema = z
 
 const DescriptionSchema = z
 	.string("Description must be a string")
-	.max(1024, "Description must be less than 1024 characters");
+	.max(1024, "Description must be less than 1024 characters")
+	.nullable();
 
 const QuerySchema = z.string("Query must be a string");
 

@@ -24,6 +24,14 @@ import { checkIfSlugIsTaken } from "../queries/check-if-slug-is-taken";
 import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 import { slugify } from "../utils";
 
+const AddNewTeamSchema = z.object({
+	name: NameSchema,
+	slug: SlugSchema,
+	description: DescriptionSchema,
+});
+
+type AddNewTeamInput = z.input<typeof AddNewTeamSchema>;
+
 function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -33,14 +41,10 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 		defaultValues: {
 			name: "",
 			slug: "",
-			description: "",
-		},
+			description: null,
+		} as AddNewTeamInput,
 		validators: {
-			onChange: z.object({
-				name: NameSchema,
-				slug: SlugSchema,
-				description: DescriptionSchema,
-			}),
+			onChange: AddNewTeamSchema,
 			onSubmitAsync: async ({ value }) => {
 				if (await checkIfSlugIsTaken({ data: value })) {
 					return {
@@ -55,12 +59,7 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value, formApi }) => {
-			const data = {
-				...value,
-				description: value.description || null,
-			};
-
+		onSubmit: async ({ value: data, formApi }) => {
 			await createTeam({ data });
 
 			toast.success("Team created successfully");
@@ -148,9 +147,9 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 									<field.FormControl>
 										<Textarea
 											name={field.name}
-											value={field.state.value}
+											value={field.state.value ?? ""}
 											onChange={(e) => {
-												field.handleChange(e.target.value);
+												field.handleChange(e.target.value || null);
 											}}
 											onBlur={field.handleBlur}
 										></Textarea>
