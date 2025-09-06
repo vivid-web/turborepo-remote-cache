@@ -1,7 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { TotalApiKeysForAccountCard } from "@/features/api-keys/components/total-api-keys-for-account-card";
+
 export const Route = createFileRoute("/_authenticated/account/api-keys/")({
 	component: RouteComponent,
+	loader: async ({ context: { queryClient } }) => {
+		await Promise.all([
+			queryClient.ensureQueryData(TotalApiKeysForAccountCard.queryOptions()),
+		]);
+	},
 });
 
 function RouteComponent() {
@@ -14,6 +21,10 @@ function RouteComponent() {
 						Manage your account API keys here
 					</p>
 				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-3">
+				<TotalApiKeysForAccountCard />
 			</div>
 		</div>
 	);
