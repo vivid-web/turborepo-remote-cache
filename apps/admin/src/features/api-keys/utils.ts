@@ -1,4 +1,5 @@
-import { formatDistance } from "date-fns";
+import { init as createCuid } from "@paralleldrive/cuid2";
+import { add, formatDistance } from "date-fns";
 
 export function formatCreatedDate(date: Date) {
 	return new Intl.DateTimeFormat(undefined, {
@@ -41,4 +42,19 @@ export function maskSecret(
 	const hidden = maskChar.repeat(secret.length - revealLength);
 
 	return `${revealed}${hidden}`;
+}
+
+export function isValidExpirationDate(date: Date) {
+	const now = new Date();
+
+	const isInTheFuture = date > now;
+	const isWithinOneYear = date < add(now, { years: 1 });
+
+	return isInTheFuture && isWithinOneYear;
+}
+
+export function generateSecret() {
+	const cuid = createCuid({ length: 32 });
+
+	return `sk_live_${cuid()}`;
 }
