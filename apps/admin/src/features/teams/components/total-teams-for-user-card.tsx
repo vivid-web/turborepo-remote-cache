@@ -1,5 +1,4 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { count, eq } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
@@ -8,6 +7,7 @@ import { UsersIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { invariant } from "@/lib/invariant";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
@@ -23,16 +23,14 @@ const getTotalTeamsForUser = createServerFn({ method: "GET" })
 	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
-		const [member] = await db
+		const [result] = await db
 			.select({ count: count() })
 			.from(teamMember)
 			.where(eq(teamMember.userId, userId));
 
-		if (!member) {
-			throw notFound();
-		}
+		invariant(result, "Failed to count team memberships for user");
 
-		return member.count;
+		return result.count;
 	});
 
 function totalTeamsForUserQueryOptions(params: Params) {
