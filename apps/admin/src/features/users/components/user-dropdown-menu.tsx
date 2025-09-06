@@ -1,12 +1,13 @@
 import type { User } from "better-auth";
 
-import { useNavigate } from "@tanstack/react-router";
-import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { EllipsisVerticalIcon, KeyRoundIcon, LogOutIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
@@ -70,6 +71,15 @@ function UserDropdownMenu({ image, name, email }: User) {
 						</div>
 					</div>
 				</DropdownMenuLabel>
+				<DropdownMenuSeparator />
+				<DropdownMenuGroup>
+					<DropdownMenuItem asChild>
+						<Link to="/account/api-keys">
+							<KeyRoundIcon />
+							API keys
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					onClick={() => {

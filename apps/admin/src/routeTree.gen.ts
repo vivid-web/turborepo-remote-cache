@@ -18,11 +18,14 @@ import { Route as GuestLoginRouteImport } from './routes/_guest.login'
 import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated.users'
 import { Route as AuthenticatedTeamsRouteImport } from './routes/_authenticated.teams'
 import { Route as AuthenticatedArtifactsRouteImport } from './routes/_authenticated.artifacts'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated.account'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated.users.index'
 import { Route as AuthenticatedTeamsIndexRouteImport } from './routes/_authenticated.teams.index'
 import { Route as AuthenticatedArtifactsIndexRouteImport } from './routes/_authenticated.artifacts.index'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated.users.$userId'
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated.teams.$teamId'
+import { Route as AuthenticatedAccountApiKeysRouteImport } from './routes/_authenticated.account.api-keys'
+import { Route as AuthenticatedAccountApiKeysIndexRouteImport } from './routes/_authenticated.account.api-keys.index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api.auth.$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -60,6 +63,11 @@ const AuthenticatedArtifactsRoute = AuthenticatedArtifactsRouteImport.update({
   path: '/artifacts',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -88,6 +96,18 @@ const AuthenticatedTeamsTeamIdRoute =
     path: '/$teamId',
     getParentRoute: () => AuthenticatedTeamsRoute,
   } as any)
+const AuthenticatedAccountApiKeysRoute =
+  AuthenticatedAccountApiKeysRouteImport.update({
+    id: '/api-keys',
+    path: '/api-keys',
+    getParentRoute: () => AuthenticatedAccountRoute,
+  } as any)
+const AuthenticatedAccountApiKeysIndexRoute =
+  AuthenticatedAccountApiKeysIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAccountApiKeysRoute,
+  } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -95,18 +115,22 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/account': typeof AuthenticatedAccountRouteWithChildren
   '/artifacts': typeof AuthenticatedArtifactsRouteWithChildren
   '/teams': typeof AuthenticatedTeamsRouteWithChildren
   '/users': typeof AuthenticatedUsersRouteWithChildren
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/account/api-keys': typeof AuthenticatedAccountApiKeysRouteWithChildren
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/artifacts/': typeof AuthenticatedArtifactsIndexRoute
   '/teams/': typeof AuthenticatedTeamsIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/account/api-keys/': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRoutesByTo {
+  '/account': typeof AuthenticatedAccountRouteWithChildren
   '/login': typeof GuestLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
@@ -114,37 +138,45 @@ export interface FileRoutesByTo {
   '/artifacts': typeof AuthenticatedArtifactsIndexRoute
   '/teams': typeof AuthenticatedTeamsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/account/api-keys': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
+  '/_authenticated/account': typeof AuthenticatedAccountRouteWithChildren
   '/_authenticated/artifacts': typeof AuthenticatedArtifactsRouteWithChildren
   '/_authenticated/teams': typeof AuthenticatedTeamsRouteWithChildren
   '/_authenticated/users': typeof AuthenticatedUsersRouteWithChildren
   '/_guest/login': typeof GuestLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/account/api-keys': typeof AuthenticatedAccountApiKeysRouteWithChildren
   '/_authenticated/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/_authenticated/artifacts/': typeof AuthenticatedArtifactsIndexRoute
   '/_authenticated/teams/': typeof AuthenticatedTeamsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/account/api-keys/': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/account'
     | '/artifacts'
     | '/teams'
     | '/users'
     | '/login'
     | '/'
+    | '/account/api-keys'
     | '/teams/$teamId'
     | '/users/$userId'
     | '/artifacts/'
     | '/teams/'
     | '/users/'
+    | '/account/api-keys/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/account'
     | '/login'
     | '/'
     | '/teams/$teamId'
@@ -152,20 +184,24 @@ export interface FileRouteTypes {
     | '/artifacts'
     | '/teams'
     | '/users'
+    | '/account/api-keys'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_guest'
+    | '/_authenticated/account'
     | '/_authenticated/artifacts'
     | '/_authenticated/teams'
     | '/_authenticated/users'
     | '/_guest/login'
     | '/_authenticated/'
+    | '/_authenticated/account/api-keys'
     | '/_authenticated/teams/$teamId'
     | '/_authenticated/users/$userId'
     | '/_authenticated/artifacts/'
     | '/_authenticated/teams/'
     | '/_authenticated/users/'
+    | '/_authenticated/account/api-keys/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -245,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArtifactsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/'
@@ -280,6 +323,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeamsTeamIdRouteImport
       parentRoute: typeof AuthenticatedTeamsRoute
     }
+    '/_authenticated/account/api-keys': {
+      id: '/_authenticated/account/api-keys'
+      path: '/api-keys'
+      fullPath: '/account/api-keys'
+      preLoaderRoute: typeof AuthenticatedAccountApiKeysRouteImport
+      parentRoute: typeof AuthenticatedAccountRoute
+    }
+    '/_authenticated/account/api-keys/': {
+      id: '/_authenticated/account/api-keys/'
+      path: '/'
+      fullPath: '/account/api-keys/'
+      preLoaderRoute: typeof AuthenticatedAccountApiKeysIndexRouteImport
+      parentRoute: typeof AuthenticatedAccountApiKeysRoute
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -293,6 +350,33 @@ declare module '@tanstack/react-start/server' {
     }
   }
 }
+
+interface AuthenticatedAccountApiKeysRouteChildren {
+  AuthenticatedAccountApiKeysIndexRoute: typeof AuthenticatedAccountApiKeysIndexRoute
+}
+
+const AuthenticatedAccountApiKeysRouteChildren: AuthenticatedAccountApiKeysRouteChildren =
+  {
+    AuthenticatedAccountApiKeysIndexRoute:
+      AuthenticatedAccountApiKeysIndexRoute,
+  }
+
+const AuthenticatedAccountApiKeysRouteWithChildren =
+  AuthenticatedAccountApiKeysRoute._addFileChildren(
+    AuthenticatedAccountApiKeysRouteChildren,
+  )
+
+interface AuthenticatedAccountRouteChildren {
+  AuthenticatedAccountApiKeysRoute: typeof AuthenticatedAccountApiKeysRouteWithChildren
+}
+
+const AuthenticatedAccountRouteChildren: AuthenticatedAccountRouteChildren = {
+  AuthenticatedAccountApiKeysRoute:
+    AuthenticatedAccountApiKeysRouteWithChildren,
+}
+
+const AuthenticatedAccountRouteWithChildren =
+  AuthenticatedAccountRoute._addFileChildren(AuthenticatedAccountRouteChildren)
 
 interface AuthenticatedArtifactsRouteChildren {
   AuthenticatedArtifactsIndexRoute: typeof AuthenticatedArtifactsIndexRoute
@@ -335,6 +419,7 @@ const AuthenticatedUsersRouteWithChildren =
   AuthenticatedUsersRoute._addFileChildren(AuthenticatedUsersRouteChildren)
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRouteWithChildren
   AuthenticatedArtifactsRoute: typeof AuthenticatedArtifactsRouteWithChildren
   AuthenticatedTeamsRoute: typeof AuthenticatedTeamsRouteWithChildren
   AuthenticatedUsersRoute: typeof AuthenticatedUsersRouteWithChildren
@@ -342,6 +427,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRouteWithChildren,
   AuthenticatedArtifactsRoute: AuthenticatedArtifactsRouteWithChildren,
   AuthenticatedTeamsRoute: AuthenticatedTeamsRouteWithChildren,
   AuthenticatedUsersRoute: AuthenticatedUsersRouteWithChildren,
