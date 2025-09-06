@@ -24,6 +24,10 @@ export function formatExpiresDate(date: Date | null) {
 	return formatDistance(date, new Date(), { addSuffix: true });
 }
 
+export function wait(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 type MaskOptions = {
 	maskChar?: string;
 	revealLength?: number;

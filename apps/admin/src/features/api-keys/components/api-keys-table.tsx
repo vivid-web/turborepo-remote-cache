@@ -1,4 +1,4 @@
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import * as React from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,7 @@ import {
 	formatExpiresDate,
 	formatLastUsedDate,
 	maskSecret,
+	wait,
 } from "../utils";
 
 type ApiKey = {
@@ -38,6 +39,7 @@ function FilledRow({
 	revokedAt,
 }: ApiKey) {
 	const [isSecretVisible, setIsSecretVisible] = React.useState(false);
+	const [isCopied, setIsCopied] = React.useState(false);
 
 	const status = React.useMemo(() => {
 		const now = new Date();
@@ -53,6 +55,16 @@ function FilledRow({
 		return "active";
 	}, [expiresAt, revokedAt]);
 
+	const copySecret = async () => {
+		await navigator.clipboard.writeText(secret);
+
+		setIsCopied(true);
+
+		await wait(1500);
+
+		setIsCopied(false);
+	};
+
 	const toggleSecretVisibility = () => {
 		setIsSecretVisible((prev) => !prev);
 	};
@@ -61,17 +73,18 @@ function FilledRow({
 		<TableRow>
 			<TableCell>{name}</TableCell>
 			<TableCell>
-				<div className="flex items-center space-x-2">
+				<div className="flex items-center gap-x-2">
 					<code className="rounded bg-muted px-2 py-1 text-sm">
 						{isSecretVisible ? secret : maskSecret(secret)}
 					</code>
-					<Button variant="ghost" size="sm" onClick={toggleSecretVisibility}>
-						{isSecretVisible ? (
-							<EyeOffIcon className="h-4 w-4" />
-						) : (
-							<EyeIcon className="h-4 w-4" />
-						)}
-					</Button>
+					<div className="flex">
+						<Button variant="ghost" size="sm" onClick={toggleSecretVisibility}>
+							{isSecretVisible ? <EyeOffIcon /> : <EyeIcon />}
+						</Button>
+						<Button variant="ghost" size="sm" onClick={() => void copySecret()}>
+							{isCopied ? <CheckIcon /> : <CopyIcon />}
+						</Button>
+					</div>
 				</div>
 			</TableCell>
 			<TableCell>
