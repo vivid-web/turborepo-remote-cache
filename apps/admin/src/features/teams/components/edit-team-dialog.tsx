@@ -76,10 +76,7 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 	const queryClient = useQueryClient();
 
 	const form = useAppForm({
-		defaultValues: {
-			...query.data,
-			description: query.data.description ?? "",
-		},
+		defaultValues: query.data,
 		validators: {
 			onChange: z.object({
 				teamId: IdSchema,
@@ -101,12 +98,7 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value, formApi }) => {
-			const data = {
-				...value,
-				description: value.description || null,
-			};
-
+		onSubmit: async ({ value: data, formApi }) => {
 			await updateTeam({ data });
 
 			toast.success("Team updated successfully");
@@ -204,9 +196,9 @@ function EditTeamDialog({ children, teamId }: React.PropsWithChildren<Params>) {
 									<field.FormControl>
 										<Textarea
 											name={field.name}
-											value={field.state.value}
+											value={field.state.value ?? ""}
 											onChange={(e) => {
-												field.handleChange(e.target.value);
+												field.handleChange(e.target.value || null);
 											}}
 											onBlur={field.handleBlur}
 										></Textarea>

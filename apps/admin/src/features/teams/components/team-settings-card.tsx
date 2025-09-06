@@ -74,10 +74,7 @@ function TeamSettingsCard({ teamId }: Params) {
 	const query = useSuspenseQuery(settingsForTeamQueryOptions({ teamId }));
 
 	const form = useAppForm({
-		defaultValues: {
-			...query.data,
-			description: query.data.description ?? "",
-		},
+		defaultValues: query.data,
 		validators: {
 			onChange: z.object({
 				teamId: IdSchema,
@@ -99,12 +96,7 @@ function TeamSettingsCard({ teamId }: Params) {
 				return null;
 			},
 		},
-		onSubmit: async ({ value, formApi }) => {
-			const data = {
-				...value,
-				description: value.description || null,
-			};
-
+		onSubmit: async ({ value: data, formApi }) => {
 			await updateTeam({ data });
 
 			toast.success("Team settings updated successfully");
@@ -198,9 +190,9 @@ function TeamSettingsCard({ teamId }: Params) {
 									<field.FormControl>
 										<Textarea
 											name={field.name}
-											value={field.state.value}
+											value={field.state.value ?? ""}
 											onChange={(e) => {
-												field.handleChange(e.target.value);
+												field.handleChange(e.target.value || null);
 											}}
 											onBlur={field.handleBlur}
 										></Textarea>
