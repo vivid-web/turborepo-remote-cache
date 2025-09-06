@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PlusCircleIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import { AddNewApiKeyForAccountDialog } from "@/features/api-keys/components/add-new-api-key-for-account-dialog";
 import { AllApiKeysForAccountCard } from "@/features/api-keys/components/all-api-keys-for-account-card";
 import { TotalApiKeysForAccountCard } from "@/features/api-keys/components/total-api-keys-for-account-card";
 
@@ -23,6 +26,13 @@ function RouteComponent() {
 						Manage your account API keys here
 					</p>
 				</div>
+
+				<AddNewApiKeyForAccountDialog>
+					<Button className="gap-2">
+						<PlusCircleIcon className="!h-5 !w-5" />
+						Add API key
+					</Button>
+				</AddNewApiKeyForAccountDialog>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
