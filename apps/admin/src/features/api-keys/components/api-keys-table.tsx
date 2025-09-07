@@ -43,6 +43,10 @@ const { RevokeApiKeyForAccountAlertDialog } = lazily(
 	() => import("./revoke-api-key-for-account-alert-dialog"),
 );
 
+const { RemoveApiKeyForAccountAlertDialog } = lazily(
+	() => import("./remove-api-key-for-account-alert-dialog"),
+);
+
 type ApiKey = {
 	apiKeyId: string;
 	createdAt: Date;
@@ -159,6 +163,18 @@ function FilledRow({
 										Revoke
 									</DropdownMenuItem>
 								</RevokeApiKeyForAccountAlertDialog>
+							)}
+							{status !== "active" && (
+								<RemoveApiKeyForAccountAlertDialog apiKeyId={apiKeyId}>
+									<DropdownMenuItem
+										variant="destructive"
+										onSelect={(e) => {
+											e.preventDefault();
+										}}
+									>
+										Delete
+									</DropdownMenuItem>
+								</RemoveApiKeyForAccountAlertDialog>
 							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
