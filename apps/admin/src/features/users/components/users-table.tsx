@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MoreHorizontalIcon } from "lucide-react";
+import { Loader2Icon, MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -60,21 +60,29 @@ function FilledRow({
 			</TableCell>
 			<TableCell>{formatLastLoginDate(lastLoggedInAt)}</TableCell>
 			<TableCell>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="sm">
-							<MoreHorizontalIcon className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem asChild>
-							<Link to="/users/$userId" params={{ userId }}>
-								View
-							</Link>
-						</DropdownMenuItem>
-						<React.Suspense
-							fallback={<DropdownMenuItem>Edit</DropdownMenuItem>}
-						>
+				<React.Suspense
+					fallback={
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" size="sm" disabled>
+									<Loader2Icon className="h-4 w-4 animate-spin" />
+								</Button>
+							</DropdownMenuTrigger>
+						</DropdownMenu>
+					}
+				>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="sm">
+								<MoreHorizontalIcon className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem asChild>
+								<Link to="/users/$userId" params={{ userId }}>
+									View
+								</Link>
+							</DropdownMenuItem>
 							<EditUserDialog userId={userId}>
 								<DropdownMenuItem
 									onSelect={(e) => {
@@ -84,19 +92,19 @@ function FilledRow({
 									Edit
 								</DropdownMenuItem>
 							</EditUserDialog>
-						</React.Suspense>
-						<RemoveUserAlertDialog userId={userId}>
-							<DropdownMenuItem
-								variant="destructive"
-								onSelect={(e) => {
-									e.preventDefault();
-								}}
-							>
-								Delete
-							</DropdownMenuItem>
-						</RemoveUserAlertDialog>
-					</DropdownMenuContent>
-				</DropdownMenu>
+							<RemoveUserAlertDialog userId={userId}>
+								<DropdownMenuItem
+									variant="destructive"
+									onSelect={(e) => {
+										e.preventDefault();
+									}}
+								>
+									Delete
+								</DropdownMenuItem>
+							</RemoveUserAlertDialog>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</React.Suspense>
 			</TableCell>
 		</TableRow>
 	);
