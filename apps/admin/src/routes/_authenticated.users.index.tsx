@@ -1,12 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PlusCircleIcon } from "lucide-react";
+import { Loader2Icon, PlusCircleIcon } from "lucide-react";
+import * as React from "react";
+import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { AddNewUserDialog } from "@/features/users/components/add-new-user-dialog";
 import { AllUsersCard } from "@/features/users/components/all-users-card";
 import { TotalUsersCard } from "@/features/users/components/total-users-card";
 import { QuerySchema } from "@/features/users/schemas";
+
+const { AddNewUserDialog } = lazily(
+	() => import("@/features/users/components/add-new-user-dialog"),
+);
 
 export const Route = createFileRoute("/_authenticated/users/")({
 	component: RouteComponent,
@@ -41,12 +46,21 @@ function RouteComponent() {
 						Manage users and their access to the Turborepo cache
 					</p>
 				</div>
-				<AddNewUserDialog>
-					<Button className="gap-2">
-						<PlusCircleIcon className="!h-5 !w-5" />
-						Add User
-					</Button>
-				</AddNewUserDialog>
+				<React.Suspense
+					fallback={
+						<Button className="gap-2" disabled>
+							<Loader2Icon className="!h-5 !w-5 animate-spin" />
+							Add User
+						</Button>
+					}
+				>
+					<AddNewUserDialog>
+						<Button className="gap-2">
+							<PlusCircleIcon className="!h-5 !w-5" />
+							Add User
+						</Button>
+					</AddNewUserDialog>
+				</React.Suspense>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">

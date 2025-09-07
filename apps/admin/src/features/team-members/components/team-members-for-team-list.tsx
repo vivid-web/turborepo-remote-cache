@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { MoreVerticalIcon, UserIcon } from "lucide-react";
+import { Loader2Icon, MoreVerticalIcon, UserIcon } from "lucide-react";
 import * as React from "react";
+import { lazily } from "react-lazily";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getAvatarFallback } from "@/features/users/utils";
 
-import { DetachTeamMemberFromTeamAlertDialog } from "./detach-team-member-from-team-alert-dialog";
+const { DetachTeamMemberFromTeamAlertDialog } = lazily(
+	() => import("./detach-team-member-from-team-alert-dialog"),
+);
 
 type Params = {
 	teamId: string;
@@ -41,30 +44,45 @@ function FilledListItem({ name, userId, image, teamId }: Params & User) {
 					<p className="text-xs text-muted-foreground">Member</p>
 				</div>
 			</div>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="outline" size="sm">
-						<MoreVerticalIcon className="h-4 w-4" />
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align="end">
-					<DropdownMenuItem asChild>
-						<Link to="/users/$userId" params={{ userId }}>
-							View
-						</Link>
-					</DropdownMenuItem>
-					<DetachTeamMemberFromTeamAlertDialog userId={userId} teamId={teamId}>
-						<DropdownMenuItem
-							className="text-destructive"
-							onSelect={(e) => {
-								e.preventDefault();
-							}}
-						>
-							Detach
+			<React.Suspense
+				fallback={
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="outline" size="sm" disabled>
+								<Loader2Icon className="h-4 w-4 animate-spin" />
+							</Button>
+						</DropdownMenuTrigger>
+					</DropdownMenu>
+				}
+			>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="outline" size="sm">
+							<MoreVerticalIcon className="h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem asChild>
+							<Link to="/users/$userId" params={{ userId }}>
+								View
+							</Link>
 						</DropdownMenuItem>
-					</DetachTeamMemberFromTeamAlertDialog>
-				</DropdownMenuContent>
-			</DropdownMenu>
+						<DetachTeamMemberFromTeamAlertDialog
+							userId={userId}
+							teamId={teamId}
+						>
+							<DropdownMenuItem
+								className="text-destructive"
+								onSelect={(e) => {
+									e.preventDefault();
+								}}
+							>
+								Detach
+							</DropdownMenuItem>
+						</DetachTeamMemberFromTeamAlertDialog>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</React.Suspense>
 		</div>
 	);
 }

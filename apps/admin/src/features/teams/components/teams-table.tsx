@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Loader2Icon, MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
+import { lazily } from "react-lazily";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,12 @@ import {
 import { getAvatarFallback } from "@/features/users/utils";
 
 import { formatCreatedDate } from "../utils";
-import { EditTeamDialog } from "./edit-team-dialog";
-import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
+
+const { EditTeamDialog } = lazily(() => import("./edit-team-dialog"));
+
+const { RemoveTeamAlertDialog } = lazily(
+	() => import("./remove-team-alert-dialog"),
+);
 
 type Member = {
 	email: string;

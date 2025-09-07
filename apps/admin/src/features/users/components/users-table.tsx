@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Loader2Icon, MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
+import { lazily } from "react-lazily";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,12 @@ import {
 import { formatCreatedDate } from "@/features/artifacts/utils";
 
 import { formatLastLoginDate, getAvatarFallback } from "../utils";
-import { EditUserDialog } from "./edit-user-dialog";
-import { RemoveUserAlertDialog } from "./remove-user-alert-dialog";
+
+const { EditUserDialog } = lazily(() => import("./edit-user-dialog"));
+
+const { RemoveUserAlertDialog } = lazily(
+	() => import("./remove-user-alert-dialog"),
+);
 
 type User = {
 	createdAt: Date;
