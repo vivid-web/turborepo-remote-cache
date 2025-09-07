@@ -1,6 +1,7 @@
 export const ADD_NEW_API_KEY_FOR_ACCOUNT_FORM_ID =
 	"add-new-api-key-for-account-form";
 export const REROLL_API_KEY_FORM_ID = "reroll-api-key-form";
+export const REVOKE_API_KEY_FORM_ID = "revoke-api-key-form";
 
 export const API_KEYS_QUERY_KEY = "api-keys";
 

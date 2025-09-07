@@ -39,6 +39,10 @@ const { RerollApiKeyForAccountDialog } = lazily(
 	() => import("./reroll-api-key-for-account-dialog"),
 );
 
+const { RevokeApiKeyForAccountAlertDialog } = lazily(
+	() => import("./revoke-api-key-for-account-alert-dialog"),
+);
+
 type ApiKey = {
 	apiKeyId: string;
 	createdAt: Date;
@@ -144,6 +148,18 @@ function FilledRow({
 									Reroll
 								</DropdownMenuItem>
 							</RerollApiKeyForAccountDialog>
+							{status === "active" && (
+								<RevokeApiKeyForAccountAlertDialog apiKeyId={apiKeyId}>
+									<DropdownMenuItem
+										variant="destructive"
+										onSelect={(e) => {
+											e.preventDefault();
+										}}
+									>
+										Revoke
+									</DropdownMenuItem>
+								</RevokeApiKeyForAccountAlertDialog>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</React.Suspense>
