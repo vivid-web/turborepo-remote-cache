@@ -1,4 +1,6 @@
-import { TrashIcon } from "lucide-react";
+import { Loader2Icon, TrashIcon } from "lucide-react";
+import * as React from "react";
+import { lazily } from "react-lazily";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +11,9 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { RemoveTeamAlertDialog } from "./remove-team-alert-dialog";
+const { RemoveTeamAlertDialog } = lazily(
+	() => import("./remove-team-alert-dialog"),
+);
 
 type Props = {
 	teamId: string;
@@ -24,12 +28,21 @@ function TeamDangerZoneCard({ teamId }: Props) {
 			</CardHeader>
 			<CardContent className="space-y-4">
 				<div className="flex justify-start">
-					<RemoveTeamAlertDialog teamId={teamId}>
-						<Button variant="destructive">
-							<TrashIcon className="mr-2 h-4 w-4" />
-							Delete Team
-						</Button>
-					</RemoveTeamAlertDialog>
+					<React.Suspense
+						fallback={
+							<Button variant="destructive" disabled>
+								<Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+								Delete Team
+							</Button>
+						}
+					>
+						<RemoveTeamAlertDialog teamId={teamId}>
+							<Button variant="destructive">
+								<TrashIcon className="mr-2 h-4 w-4" />
+								Delete Team
+							</Button>
+						</RemoveTeamAlertDialog>
+					</React.Suspense>
 				</div>
 			</CardContent>
 		</Card>

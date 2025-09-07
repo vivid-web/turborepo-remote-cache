@@ -1,12 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PlusCircleIcon } from "lucide-react";
+import { Loader2Icon, PlusCircleIcon } from "lucide-react";
+import * as React from "react";
+import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { AddNewTeamDialog } from "@/features/teams/components/add-new-team-dialog";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
 import { QuerySchema } from "@/features/teams/schemas";
+
+const { AddNewTeamDialog } = lazily(
+	() => import("@/features/teams/components/add-new-team-dialog"),
+);
 
 export const Route = createFileRoute("/_authenticated/teams/")({
 	component: RouteComponent,
@@ -42,12 +47,21 @@ function RouteComponent() {
 					</p>
 				</div>
 
-				<AddNewTeamDialog>
-					<Button className="gap-2">
-						<PlusCircleIcon className="!h-5 !w-5" />
-						Add Team
-					</Button>
-				</AddNewTeamDialog>
+				<React.Suspense
+					fallback={
+						<Button className="gap-2" disabled>
+							<Loader2Icon className="!h-5 !w-5 animate-spin" />
+							Add Team
+						</Button>
+					}
+				>
+					<AddNewTeamDialog>
+						<Button className="gap-2">
+							<PlusCircleIcon className="!h-5 !w-5" />
+							Add Team
+						</Button>
+					</AddNewTeamDialog>
+				</React.Suspense>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">

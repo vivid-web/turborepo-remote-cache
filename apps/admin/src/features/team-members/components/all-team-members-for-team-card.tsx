@@ -5,6 +5,7 @@ import { db } from "@turborepo-remote-cache/db/client";
 import { teamMember, user } from "@turborepo-remote-cache/db/schema";
 import { Loader2Icon, SquarePlusIcon } from "lucide-react";
 import * as React from "react";
+import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -19,8 +20,11 @@ import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAM_MEMBERS_QUERY_KEY } from "../constants";
-import { AttachTeamMembersToTeamDialog } from "./attach-team-members-to-team-dialog";
 import { TeamMembersForTeamList } from "./team-members-for-team-list";
+
+const { AttachTeamMembersToTeamDialog } = lazily(
+	() => import("./attach-team-members-to-team-dialog"),
+);
 
 type Params = z.input<typeof ParamsSchema>;
 
