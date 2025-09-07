@@ -62,7 +62,7 @@ jobs:
         run: pnpm run format
 
   typecheck:
-    name: 🛠️ typecheck
+    name: 🛠️ TypeScript
     runs-on: ubuntu-24.04
     steps:
       - name: ⬇️ Checkout repo
