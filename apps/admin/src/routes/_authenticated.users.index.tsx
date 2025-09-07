@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { AllUsersCard } from "@/features/users/components/all-users-card";
 import { TotalUsersCard } from "@/features/users/components/total-users-card";
 import { QuerySchema } from "@/features/users/schemas";
+import { cn } from "@/lib/utils";
 
 const { AddNewUserDialog } = lazily(
 	() => import("@/features/users/components/add-new-user-dialog"),
@@ -26,6 +27,17 @@ export const Route = createFileRoute("/_authenticated/users/")({
 		]);
 	},
 });
+
+function AddUserButton({ isLoading = false }: { isLoading?: boolean }) {
+	const Icon = isLoading ? Loader2Icon : PlusCircleIcon;
+
+	return (
+		<Button className="gap-2" disabled={isLoading}>
+			<Icon className={cn("!h-5 !w-5", isLoading && "animate-spin")} />
+			Add User
+		</Button>
+	);
+}
 
 function RouteComponent() {
 	const navigate = Route.useNavigate();
@@ -46,19 +58,9 @@ function RouteComponent() {
 						Manage users and their access to the Turborepo cache
 					</p>
 				</div>
-				<React.Suspense
-					fallback={
-						<Button className="gap-2" disabled>
-							<Loader2Icon className="!h-5 !w-5 animate-spin" />
-							Add User
-						</Button>
-					}
-				>
+				<React.Suspense fallback={<AddUserButton isLoading />}>
 					<AddNewUserDialog>
-						<Button className="gap-2">
-							<PlusCircleIcon className="!h-5 !w-5" />
-							Add User
-						</Button>
+						<AddUserButton />
 					</AddNewUserDialog>
 				</React.Suspense>
 			</div>

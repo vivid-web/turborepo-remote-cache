@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
 import { QuerySchema } from "@/features/teams/schemas";
+import { cn } from "@/lib/utils";
 
 const { AddNewTeamDialog } = lazily(
 	() => import("@/features/teams/components/add-new-team-dialog"),
@@ -26,6 +27,17 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 		]);
 	},
 });
+
+function AddTeamButton({ isLoading = false }: { isLoading?: boolean }) {
+	const Icon = isLoading ? Loader2Icon : PlusCircleIcon;
+
+	return (
+		<Button className="gap-2" disabled={isLoading}>
+			<Icon className={cn("!h-5 !w-5", isLoading && "animate-spin")} />
+			Add Team
+		</Button>
+	);
+}
 
 function RouteComponent() {
 	const navigate = Route.useNavigate();
@@ -47,19 +59,9 @@ function RouteComponent() {
 					</p>
 				</div>
 
-				<React.Suspense
-					fallback={
-						<Button className="gap-2" disabled>
-							<Loader2Icon className="!h-5 !w-5 animate-spin" />
-							Add Team
-						</Button>
-					}
-				>
+				<React.Suspense fallback={<AddTeamButton isLoading />}>
 					<AddNewTeamDialog>
-						<Button className="gap-2">
-							<PlusCircleIcon className="!h-5 !w-5" />
-							Add Team
-						</Button>
+						<AddTeamButton />
 					</AddNewTeamDialog>
 				</React.Suspense>
 			</div>

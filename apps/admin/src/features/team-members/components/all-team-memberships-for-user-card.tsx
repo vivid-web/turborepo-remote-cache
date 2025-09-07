@@ -17,6 +17,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { IdSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 import { auth } from "@/middlewares/auth";
 
 import { TEAM_MEMBERS_QUERY_KEY } from "../constants";
@@ -51,6 +52,17 @@ function allTeamsForUserQueryOptions(params: Params) {
 	});
 }
 
+function AttachTeamsButton({ isLoading = false }: { isLoading?: boolean }) {
+	const Icon = isLoading ? Loader2Icon : SquarePlusIcon;
+
+	return (
+		<Button className="gap-2" disabled={isLoading}>
+			<Icon className={cn("!h-4 !w-4", isLoading && "animate-spin")} />
+			Attach Teams
+		</Button>
+	);
+}
+
 function AllTeamMembershipsForUserCard({ userId }: Params) {
 	const query = useSuspenseQuery(allTeamsForUserQueryOptions({ userId }));
 
@@ -63,18 +75,9 @@ function AllTeamMembershipsForUserCard({ userId }: Params) {
 						<CardDescription>Teams this user belongs to</CardDescription>
 					</div>
 
-					<React.Suspense
-						fallback={
-							<Button className="gap-2" disabled>
-								<Loader2Icon className="animate-spin" />
-							</Button>
-						}
-					>
+					<React.Suspense fallback={<AttachTeamsButton isLoading />}>
 						<AttachTeamMembersToUserDialog userId={userId}>
-							<Button className="gap-2">
-								<SquarePlusIcon className="!h-4 !w-4" />
-								Attach Teams
-							</Button>
+							<AttachTeamsButton />
 						</AttachTeamMembersToUserDialog>
 					</React.Suspense>
 				</div>

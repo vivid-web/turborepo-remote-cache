@@ -6,6 +6,7 @@ import { lazily } from "react-lazily";
 import { Button } from "@/components/ui/button";
 import { AllApiKeysForAccountCard } from "@/features/api-keys/components/all-api-keys-for-account-card";
 import { TotalApiKeysForAccountCard } from "@/features/api-keys/components/total-api-keys-for-account-card";
+import { cn } from "@/lib/utils";
 
 const { AddNewApiKeyForAccountDialog } = lazily(
 	() =>
@@ -22,6 +23,17 @@ export const Route = createFileRoute("/_authenticated/account/api-keys/")({
 	},
 });
 
+function AddApiKeyButton({ isLoading = false }: { isLoading?: boolean }) {
+	const Icon = isLoading ? Loader2Icon : PlusCircleIcon;
+
+	return (
+		<Button className="gap-2" disabled={isLoading}>
+			<Icon className={cn("!h-5 !w-5", isLoading && "animate-spin")} />
+			Add API key
+		</Button>
+	);
+}
+
 function RouteComponent() {
 	return (
 		<div className="grid gap-6">
@@ -32,19 +44,9 @@ function RouteComponent() {
 						Manage your account API keys here
 					</p>
 				</div>
-				<React.Suspense
-					fallback={
-						<Button className="gap-2" disabled>
-							<Loader2Icon className="!h-5 !w-5 animate-spin" />
-							Add API key
-						</Button>
-					}
-				>
+				<React.Suspense fallback={<AddApiKeyButton isLoading />}>
 					<AddNewApiKeyForAccountDialog>
-						<Button className="gap-2">
-							<PlusCircleIcon className="!h-5 !w-5" />
-							Add API key
-						</Button>
+						<AddApiKeyButton />
 					</AddNewApiKeyForAccountDialog>
 				</React.Suspense>
 			</div>

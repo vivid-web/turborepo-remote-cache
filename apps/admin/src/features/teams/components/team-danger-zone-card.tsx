@@ -10,6 +10,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const { RemoveTeamAlertDialog } = lazily(
 	() => import("./remove-team-alert-dialog"),
@@ -18,6 +19,17 @@ const { RemoveTeamAlertDialog } = lazily(
 type Props = {
 	teamId: string;
 };
+
+function DeleteTeamButton({ isLoading = false }: { isLoading?: boolean }) {
+	const Icon = isLoading ? Loader2Icon : TrashIcon;
+
+	return (
+		<Button className="gap-2" variant="destructive" disabled={isLoading}>
+			<Icon className={cn("!h-4 !w-4", isLoading && "animate-spin")} />
+			Delete Team
+		</Button>
+	);
+}
 
 function TeamDangerZoneCard({ teamId }: Props) {
 	return (
@@ -28,19 +40,9 @@ function TeamDangerZoneCard({ teamId }: Props) {
 			</CardHeader>
 			<CardContent className="space-y-4">
 				<div className="flex justify-start">
-					<React.Suspense
-						fallback={
-							<Button variant="destructive" disabled>
-								<Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-								Delete Team
-							</Button>
-						}
-					>
+					<React.Suspense fallback={<DeleteTeamButton isLoading />}>
 						<RemoveTeamAlertDialog teamId={teamId}>
-							<Button variant="destructive">
-								<TrashIcon className="mr-2 h-4 w-4" />
-								Delete Team
-							</Button>
+							<DeleteTeamButton />
 						</RemoveTeamAlertDialog>
 					</React.Suspense>
 				</div>
