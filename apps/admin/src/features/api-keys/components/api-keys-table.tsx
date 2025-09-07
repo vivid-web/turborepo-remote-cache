@@ -1,9 +1,23 @@
-import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import {
+	CheckIcon,
+	CopyIcon,
+	EyeIcon,
+	EyeOffIcon,
+	Loader2Icon,
+	MoreHorizontalIcon,
+} from "lucide-react";
 import * as React from "react";
+import { lazily } from "react-lazily";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -21,6 +35,10 @@ import {
 	wait,
 } from "../utils";
 
+const { RerollApiKeyForAccountDialog } = lazily(
+	() => import("./reroll-api-key-for-account-dialog"),
+);
+
 type ApiKey = {
 	apiKeyId: string;
 	createdAt: Date;
@@ -32,6 +50,7 @@ type ApiKey = {
 };
 
 function FilledRow({
+	apiKeyId,
 	name,
 	secret,
 	createdAt,
@@ -96,6 +115,39 @@ function FilledRow({
 			<TableCell>{formatCreatedDate(createdAt)}</TableCell>
 			<TableCell>{formatLastUsedDate(lastUsedAt)}</TableCell>
 			<TableCell>{formatExpiresDate(expiresAt)}</TableCell>
+			<TableCell>
+				<React.Suspense
+					fallback={
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" size="sm" disabled>
+									<Loader2Icon className="h-4 w-4 animate-spin" />
+								</Button>
+							</DropdownMenuTrigger>
+						</DropdownMenu>
+					}
+				>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="sm">
+								<MoreHorizontalIcon className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<RerollApiKeyForAccountDialog apiKeyId={apiKeyId}>
+								<DropdownMenuItem
+									variant="destructive"
+									onSelect={(e) => {
+										e.preventDefault();
+									}}
+								>
+									Reroll
+								</DropdownMenuItem>
+							</RerollApiKeyForAccountDialog>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</React.Suspense>
+			</TableCell>
 		</TableRow>
 	);
 }
@@ -103,7 +155,7 @@ function FilledRow({
 function EmptyRow() {
 	return (
 		<TableRow>
-			<TableCell colSpan={6}>No API keys found...</TableCell>
+			<TableCell colSpan={7}>No API keys found...</TableCell>
 		</TableRow>
 	);
 }
@@ -119,6 +171,7 @@ function Layout({ children }: React.PropsWithChildren) {
 					<TableHead>Created</TableHead>
 					<TableHead>Last Used</TableHead>
 					<TableHead>Expires</TableHead>
+					<TableHead className="w-[50px]" />
 				</TableRow>
 			</TableHeader>
 			<TableBody>{children}</TableBody>
