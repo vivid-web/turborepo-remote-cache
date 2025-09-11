@@ -126,8 +126,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.7
+        version: 4.1.7
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.13
@@ -182,7 +182,7 @@ importers:
         version: 2.2.2
       '@t3-oss/env-core':
         specifier: ^0.13.8
-        version: 0.13.8(typescript@5.9.2)(zod@4.1.5)
+        version: 0.13.8(typescript@5.9.2)(zod@4.1.7)
       drizzle-orm:
         specifier: ^0.44.5
         version: 0.44.5(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)
@@ -196,8 +196,8 @@ importers:
         specifier: ^3.9.0
         version: 3.9.0
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.7
+        version: 4.1.7
     devDependencies:
       '@turborepo-remote-cache/eslint-config':
         specifier: workspace:*
@@ -5807,8 +5807,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.1.5:
-    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
+  zod@4.1.7:
+    resolution: {integrity: sha512-6qi6UYyzAl7W9uV29KvcSFXqK4QCYNYUz2YASPNBWpJE1RY6R1nArmmFPgGY/CBYWzpeMw3EOER+DR9a05O4IA==}
 
 snapshots:
 
@@ -7257,10 +7257,10 @@ snapshots:
 
   '@speed-highlight/core@1.2.7': {}
 
-  '@t3-oss/env-core@0.13.8(typescript@5.9.2)(zod@4.1.5)':
+  '@t3-oss/env-core@0.13.8(typescript@5.9.2)(zod@4.1.7)':
     optionalDependencies:
       typescript: 5.9.2
-      zod: 4.1.5
+      zod: 4.1.7
 
   '@tailwindcss/node@4.1.13':
     dependencies:
@@ -8201,7 +8201,7 @@ snapshots:
       jose: 6.1.0
       kysely: 0.28.5
       nanostores: 0.11.4
-      zod: 4.1.5
+      zod: 4.1.7
     optionalDependencies:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
@@ -11599,4 +11599,4 @@ snapshots:
 
   zod@3.25.76: {}
 
-  zod@4.1.5: {}
+  zod@4.1.7: {}
