@@ -58,7 +58,7 @@
 		"@turborepo-remote-cache/eslint-config": "workspace:*",
 		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"@turborepo-remote-cache/tsconfig": "workspace:*",
-		"@types/react": "^19.1.12",
+		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
 		"@vitejs/plugin-react": "^5.0.2",
 		"eslint": "^9.35.0",
