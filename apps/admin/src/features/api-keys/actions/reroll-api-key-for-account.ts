@@ -30,6 +30,7 @@ const rerollApiKeyForAccount = createServerFn({ method: "POST" })
 			...data,
 			name: data.name ?? DEFAULT_NAME,
 			secret: generateSecret(),
+			lastUsedAt: null,
 			revokedAt: null,
 		};
 
