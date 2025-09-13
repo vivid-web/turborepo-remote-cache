@@ -11,6 +11,7 @@ import { db } from "@turborepo-remote-cache/db/client";
 import {
 	apiKey,
 	artifact,
+	artifactTeam,
 	team,
 	teamMember,
 	user,
@@ -56,12 +57,14 @@ export async function getTeamForUserWithTeamIdOrSlug(
 export async function getArtifactForTeam(teamId: string, hash: string) {
 	const filters: Array<SQL> = [];
 
-	filters.push(eq(artifact.teamId, teamId));
+	filters.push(eq(team.id, teamId));
 	filters.push(eq(artifact.hash, hash));
 
 	return db
 		.select({ id: artifact.id })
 		.from(artifact)
+		.innerJoin(artifactTeam, eq(artifact.id, artifactTeam.artifactId))
+		.innerJoin(team, eq(artifactTeam.teamId, team.id))
 		.where(and(...filters))
 		.limit(1)
 		.then(R.first());

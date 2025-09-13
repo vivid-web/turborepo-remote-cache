@@ -2,7 +2,11 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { desc, eq, ilike, inArray, or, SQL } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
-import { artifact, team } from "@turborepo-remote-cache/db/schema";
+import {
+	artifact,
+	artifactTeam,
+	team,
+} from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
 import { z } from "zod";
 
@@ -13,7 +17,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { invariant } from "@/lib/invariant";
 import { auth } from "@/middlewares/auth";
 
 import { ARTIFACTS_QUERY_KEY } from "../constants";
@@ -40,7 +43,6 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 		const artifacts = await db
 			.select({
 				artifactId: artifact.id,
-				teamId: artifact.teamId,
 				hash: artifact.hash,
 				createdAt: artifact.createdAt,
 			})
@@ -48,22 +50,24 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 			.where(or(...filters))
 			.orderBy(desc(artifact.createdAt));
 
-		const teams = await db
+		const artifactTeamCollection = await db
 			.selectDistinct({
+				artifactId: artifact.id,
 				teamId: team.id,
 				name: team.name,
 				slug: team.slug,
 			})
 			.from(team)
-			.innerJoin(artifact, eq(team.id, artifact.teamId))
+			.innerJoin(artifactTeam, eq(team.id, artifactTeam.teamId))
+			.innerJoin(artifact, eq(artifactTeam.artifactId, artifact.id))
 			.where(inArray(artifact.id, artifacts.map(R.prop("artifactId"))));
 
 		return artifacts.map((artifact) => {
-			const team = teams.find((team) => team.teamId === artifact.teamId);
+			const teams = artifactTeamCollection.filter(
+				(team) => team.artifactId === artifact.artifactId,
+			);
 
-			invariant(team, `Team not found for artifact ${artifact.artifactId}`);
-
-			return { ...artifact, team };
+			return { ...artifact, teams };
 		});
 	});
 

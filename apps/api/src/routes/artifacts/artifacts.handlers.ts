@@ -14,7 +14,7 @@ import type {
 import { ENABLED_STATUS } from "../../lib/constants.js";
 import { env } from "../../lib/env.js";
 import { invariant } from "../../lib/invariant.js";
-import { createOrUpdateArtifact } from "../../lib/mutations.js";
+import { createArtifact } from "../../lib/mutations.js";
 import {
 	getArtifactForTeam,
 	getTeamForUserWithTeamIdOrSlug,
@@ -52,7 +52,7 @@ export const uploadArtifact: AppRouteHandler<UploadArtifactRoute> = async (
 	const blob = await c.req.blob();
 
 	await storage.set(hash, blob);
-	await createOrUpdateArtifact({ hash, teamId: team.id });
+	await createArtifact({ hash, teamId: team.id });
 
 	const urls = [`${env.BASE_URL}/v8/artifacts/${hash}`];
 

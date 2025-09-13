@@ -104,14 +104,24 @@ export const artifact = pgTable("artifact", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
-	teamId: text()
-		.notNull()
-		.references(() => team.id, { onDelete: "cascade" }),
 	hash: text().notNull().unique(),
 	createdAt: timestamp()
 		.$defaultFn(() => /* @__PURE__ */ new Date())
 		.notNull(),
 });
+
+export const artifactTeam = pgTable(
+	"artifact_team",
+	{
+		artifactId: text()
+			.notNull()
+			.references(() => artifact.id, { onDelete: "cascade" }),
+		teamId: text()
+			.notNull()
+			.references(() => team.id, { onDelete: "cascade" }),
+	},
+	(t) => [primaryKey({ columns: [t.artifactId, t.teamId] })],
+);
 
 export const apiKey = pgTable("api_key", {
 	id: text()
@@ -153,7 +163,7 @@ export const sessionRelations = relations(session, ({ one }) => ({
 
 export const teamRelations = relations(team, ({ many }) => ({
 	teamMembers: many(teamMember),
-	artifacts: many(artifact),
+	artifactTeams: many(artifactTeam),
 }));
 
 export const teamMemberRelations = relations(teamMember, ({ one }) => ({
@@ -167,9 +177,17 @@ export const teamMemberRelations = relations(teamMember, ({ one }) => ({
 	}),
 }));
 
-export const artifactRelations = relations(artifact, ({ one }) => ({
+export const artifactRelations = relations(artifact, ({ many }) => ({
+	artifactTeams: many(artifactTeam),
+}));
+
+export const artifactTeamRelations = relations(artifactTeam, ({ one }) => ({
+	artifact: one(artifact, {
+		fields: [artifactTeam.artifactId],
+		references: [artifact.id],
+	}),
 	team: one(team, {
-		fields: [artifact.teamId],
+		fields: [artifactTeam.teamId],
 		references: [team.id],
 	}),
 }));

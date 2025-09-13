@@ -1,6 +1,13 @@
 import { eq } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
-import { apiKey, artifact } from "@turborepo-remote-cache/db/schema";
+import {
+	apiKey,
+	artifact,
+	artifactTeam,
+} from "@turborepo-remote-cache/db/schema";
+import * as R from "remeda";
+
+import { invariant } from "./invariant.js";
 
 export async function touchApiKeyForToken(token: string) {
 	await db
@@ -9,9 +16,23 @@ export async function touchApiKeyForToken(token: string) {
 		.where(eq(apiKey.secret, token));
 }
 
-export async function createOrUpdateArtifact(input: {
+type CreateArtifactInput = {
 	hash: string;
 	teamId: string;
-}) {
-	await db.insert(artifact).values(input).onConflictDoNothing();
+};
+
+export async function createArtifact({ hash, teamId }: CreateArtifactInput) {
+	const upsertedArtifact = await db
+		.insert(artifact)
+		.values({ hash })
+		.onConflictDoUpdate({ target: artifact.hash, set: { hash } })
+		.returning({ id: artifact.id })
+		.then(R.first());
+
+	invariant(upsertedArtifact, "Failed to upsert artifact");
+
+	await db
+		.insert(artifactTeam)
+		.values({ artifactId: upsertedArtifact.id, teamId })
+		.onConflictDoNothing();
 }
