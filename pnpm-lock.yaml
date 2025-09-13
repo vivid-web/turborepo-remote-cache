@@ -178,7 +178,7 @@ importers:
   apps/api:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.19.1
+        specifier: ^1.19.2
         version: 1.19.2(hono@4.9.7)
       '@hono/zod-openapi':
         specifier: ^1.1.0
