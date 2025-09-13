@@ -1,0 +1,1 @@
+ALTER TABLE "artifact" ADD COLUMN "updated_at" timestamp NOT NULL;
