@@ -9,10 +9,10 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getWebRequest } from "@tanstack/react-start/server";
+import { auth } from "@turborepo-remote-cache/auth/server";
 import * as React from "react";
 
 import { Toaster } from "@/components/ui/sonner";
-import { auth } from "@/lib/auth";
 import appCss from "@/styles/app.css?url";
 
 const fetchUser = createServerFn({ method: "GET" }).handler(async () => {

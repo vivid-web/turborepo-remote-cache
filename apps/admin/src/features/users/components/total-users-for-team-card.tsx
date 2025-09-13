@@ -9,7 +9,7 @@ import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { invariant } from "@/lib/invariant";
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
 
@@ -20,7 +20,7 @@ const ParamsSchema = z.object({
 });
 
 const getTotalUsersForTeam = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const [result] = await db
