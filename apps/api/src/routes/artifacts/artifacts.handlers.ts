@@ -1,3 +1,4 @@
+import { invariant } from "@turborepo-remote-cache/core";
 import { stream } from "hono/streaming";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
@@ -13,7 +14,6 @@ import type {
 
 import { ENABLED_STATUS } from "../../lib/constants.js";
 import { env } from "../../lib/env.js";
-import { invariant } from "../../lib/invariant.js";
 import { createArtifact } from "../../lib/mutations.js";
 import {
 	getArtifactForTeam,

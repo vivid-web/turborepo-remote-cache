@@ -1,3 +1,4 @@
+import { invariant } from "@turborepo-remote-cache/core";
 import { Command } from "cmdk";
 import {
 	CheckSquareIcon,
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/command";
 import { Separator } from "@/components/ui/separator";
 import { useClickOutside } from "@/hooks/use-click-outside";
-import { invariant } from "@/lib/invariant";
 
 type Value = string;
 

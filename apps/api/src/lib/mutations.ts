@@ -1,3 +1,4 @@
+import { invariant } from "@turborepo-remote-cache/core";
 import { eq } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
 import {
@@ -6,8 +7,6 @@ import {
 	artifactTeam,
 } from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
-
-import { invariant } from "./invariant.js";
 
 export async function touchApiKeyForToken(token: string) {
 	await db
