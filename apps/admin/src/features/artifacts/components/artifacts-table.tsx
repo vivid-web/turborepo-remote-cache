@@ -20,17 +20,21 @@ type Artifact = {
 	artifactId: string;
 	createdAt: Date;
 	hash: string;
-	team: Team;
+	teams: Array<Team>;
 };
 
-function FilledRow({ hash, createdAt, team }: Artifact) {
+function FilledRow({ hash, createdAt, teams }: Artifact) {
 	return (
 		<TableRow>
 			<TableCell className="max-w-[200px] truncate font-mono text-sm">
 				{hash}
 			</TableCell>
-			<TableCell>
-				<Badge variant="outline">{team.slug}</Badge>
+			<TableCell className="flex gap-2">
+				{teams.map((team) => (
+					<Badge key={team.slug} variant="outline">
+						{team.slug}
+					</Badge>
+				))}
 			</TableCell>
 			<TableCell className="text-muted-foreground">
 				{formatCreatedDate(createdAt)}
@@ -53,7 +57,7 @@ function Layout({ children }: React.PropsWithChildren) {
 			<TableHeader>
 				<TableRow>
 					<TableHead>Hash</TableHead>
-					<TableHead>Team</TableHead>
+					<TableHead>Teams</TableHead>
 					<TableHead>Created</TableHead>
 				</TableRow>
 			</TableHeader>

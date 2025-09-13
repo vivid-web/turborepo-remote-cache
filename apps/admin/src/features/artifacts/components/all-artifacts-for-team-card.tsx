@@ -2,7 +2,11 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
-import { artifact } from "@turborepo-remote-cache/db/schema";
+import {
+	artifact,
+	artifactTeam,
+	team,
+} from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import {
@@ -35,7 +39,9 @@ const getAllArtifactsForTeam = createServerFn({ method: "GET" })
 				createdAt: artifact.createdAt,
 			})
 			.from(artifact)
-			.where(eq(artifact.teamId, teamId));
+			.innerJoin(artifactTeam, eq(artifact.id, artifactTeam.artifactId))
+			.innerJoin(team, eq(artifactTeam.teamId, team.id))
+			.where(eq(team.id, teamId));
 	});
 
 function allArtifactsForTeamQueryOptions(params: Params) {

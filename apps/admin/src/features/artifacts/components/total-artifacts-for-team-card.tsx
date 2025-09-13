@@ -3,7 +3,11 @@ import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { count, eq } from "@turborepo-remote-cache/db";
 import { db } from "@turborepo-remote-cache/db/client";
-import { artifact } from "@turborepo-remote-cache/db/schema";
+import {
+	artifact,
+	artifactTeam,
+	team,
+} from "@turborepo-remote-cache/db/schema";
 import { PackageIcon } from "lucide-react";
 import { z } from "zod";
 
@@ -26,7 +30,9 @@ const getTotalArtifactsForTeam = createServerFn({ method: "GET" })
 		const [item] = await db
 			.select({ count: count() })
 			.from(artifact)
-			.where(eq(artifact.teamId, teamId));
+			.innerJoin(artifactTeam, eq(artifact.id, artifactTeam.artifactId))
+			.innerJoin(team, eq(artifactTeam.teamId, team.id))
+			.where(eq(team.id, teamId));
 
 		if (!item) {
 			throw notFound();

@@ -5,6 +5,7 @@ import {
 	account,
 	apiKey,
 	artifact,
+	artifactTeam,
 	session,
 	team,
 	teamMember,
@@ -19,6 +20,7 @@ async function run() {
 	console.time("🧹 Cleaned up the database...");
 
 	await db.delete(apiKey);
+	await db.delete(artifactTeam);
 	await db.delete(artifact);
 	await db.delete(teamMember);
 	await db.delete(team);
@@ -29,7 +31,14 @@ async function run() {
 
 	console.timeEnd("🧹 Cleaned up the database...");
 
-	await seed(db, { user, team, teamMember, artifact, apiKey }).refine((f) => ({
+	await seed(db, {
+		user,
+		team,
+		teamMember,
+		artifact,
+		artifactTeam,
+		apiKey,
+	}).refine((f) => ({
 		user: {
 			columns: { image: f.default({ defaultValue: null }) },
 		},
