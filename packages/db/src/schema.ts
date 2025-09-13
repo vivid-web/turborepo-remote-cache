@@ -125,6 +125,10 @@ export const artifact = pgTable("artifact", {
 	createdAt: timestamp()
 		.notNull()
 		.$defaultFn(() => /* @__PURE__ */ new Date()),
+	updatedAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const artifactTeam = pgTable(
