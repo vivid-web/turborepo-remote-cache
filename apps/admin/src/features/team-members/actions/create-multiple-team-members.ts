@@ -4,10 +4,10 @@ import { teamMember } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 const createMultipleTeamMembers = createServerFn({ method: "POST" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
 	.handler(async ({ data }) => {
 		await db.insert(teamMember).values(data);

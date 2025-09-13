@@ -35,7 +35,7 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { rerollApiKeyForAccount } from "../actions/reroll-api-key-for-account";
 import { API_KEYS_QUERY_KEY, REROLL_API_KEY_FORM_ID } from "../constants";
@@ -55,7 +55,7 @@ const RerollApiKeySchema = z.object({
 type RerollApiKeyInput = z.input<typeof RerollApiKeySchema>;
 
 const getDefaultValuesForApiKey = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { apiKeyId }, context: { user } }) => {
 		const filters: Array<SQL> = [];
