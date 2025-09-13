@@ -36,7 +36,7 @@
 		"@turborepo-remote-cache/eslint-config": "workspace:*",
 		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"@turborepo-remote-cache/tsconfig": "workspace:*",
-		"@types/node": "^20.11.17",
+		"@types/node": "^20.19.14",
 		"eslint": "^9.35.0",
 		"nodemon": "^3.1.10",
 		"npm-run-all2": "^8.0.4",
