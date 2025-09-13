@@ -27,7 +27,7 @@ import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { updateTeam } from "../actions/update-team";
 import { EDIT_TEAM_FORM_ID, TEAMS_QUERY_KEY } from "../constants";
@@ -40,7 +40,7 @@ type Params = z.input<typeof ParamsSchema>;
 const ParamsSchema = z.object({ teamId: IdSchema });
 
 const getDefaultValuesForTeam = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const [foundTeam] = await db

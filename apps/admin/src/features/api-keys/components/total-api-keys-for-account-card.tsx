@@ -7,12 +7,12 @@ import { KeyRoundIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { invariant } from "@/lib/invariant";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { API_KEYS_QUERY_KEY } from "../constants";
 
 const getTotalApiKeysForAccount = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.handler(async ({ context: { user } }) => {
 		const [result] = await db
 			.select({ count: count() })

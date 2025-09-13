@@ -5,10 +5,10 @@ import { teamMember } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 const checkTeamMemberDuplicates = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
 	.handler(async ({ data }) => {
 		const filters = data.map(({ teamId, userId }) => {

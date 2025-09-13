@@ -11,13 +11,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { API_KEYS_QUERY_KEY } from "../constants";
 import { ApiKeysTable } from "./api-keys-table";
 
 const getAllApiKeysForAccount = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.handler(async ({ context: { user } }) => {
 		return db
 			.select({

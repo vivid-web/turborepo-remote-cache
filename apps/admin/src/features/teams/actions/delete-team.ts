@@ -5,10 +5,10 @@ import { team } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 const deleteTeam = createServerFn({ method: "POST" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(z.object({ teamId: IdSchema }))
 	.handler(async ({ data }) => {
 		await db.delete(team).where(eq(team.id, data.teamId));

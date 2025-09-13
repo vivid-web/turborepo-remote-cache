@@ -5,10 +5,10 @@ import { apiKey } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 const deleteApiKeyForAccount = createServerFn({ method: "POST" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(z.object({ apiKeyId: IdSchema }))
 	.handler(async ({ data, context: { user } }) => {
 		const filters: Array<SQL | undefined> = [];
