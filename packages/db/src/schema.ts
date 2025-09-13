@@ -19,11 +19,12 @@ export const user = pgTable("user", {
 		.notNull(),
 	image: text(),
 	createdAt: timestamp()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
 	updatedAt: timestamp()
+		.notNull()
 		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const session = pgTable("session", {
@@ -32,8 +33,13 @@ export const session = pgTable("session", {
 		.$defaultFn(() => cuid()),
 	expiresAt: timestamp().notNull(),
 	token: text().notNull().unique(),
-	createdAt: timestamp().notNull(),
-	updatedAt: timestamp().notNull(),
+	createdAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
+	updatedAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 	ipAddress: text(),
 	userAgent: text(),
 	userId: text()
@@ -57,8 +63,13 @@ export const account = pgTable("account", {
 	refreshTokenExpiresAt: timestamp(),
 	scope: text(),
 	password: text(),
-	createdAt: timestamp().notNull(),
-	updatedAt: timestamp().notNull(),
+	createdAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
+	updatedAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const verification = pgTable("verification", {
@@ -68,8 +79,13 @@ export const verification = pgTable("verification", {
 	identifier: text().notNull(),
 	value: text().notNull(),
 	expiresAt: timestamp().notNull(),
-	createdAt: timestamp().$defaultFn(() => /* @__PURE__ */ new Date()),
-	updatedAt: timestamp().$defaultFn(() => /* @__PURE__ */ new Date()),
+	createdAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
+	updatedAt: timestamp()
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const team = pgTable("team", {
@@ -80,11 +96,12 @@ export const team = pgTable("team", {
 	slug: text().notNull().unique(),
 	description: text(),
 	createdAt: timestamp()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
 	updatedAt: timestamp()
+		.notNull()
 		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const teamMember = pgTable(
@@ -106,8 +123,8 @@ export const artifact = pgTable("artifact", {
 		.$defaultFn(() => cuid()),
 	hash: text().notNull().unique(),
 	createdAt: timestamp()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
 });
 
 export const artifactTeam = pgTable(
@@ -133,8 +150,8 @@ export const apiKey = pgTable("api_key", {
 	name: text().notNull(),
 	secret: text().notNull().unique(),
 	createdAt: timestamp()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
-		.notNull(),
+		.notNull()
+		.$defaultFn(() => /* @__PURE__ */ new Date()),
 	expiresAt: timestamp(),
 	lastUsedAt: timestamp(),
 	revokedAt: timestamp(),
