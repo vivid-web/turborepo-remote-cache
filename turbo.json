@@ -9,7 +9,8 @@
 			"dependsOn": ["^build"]
 		},
 		"seed": {
-			"dependsOn": ["^seed"]
+			"dependsOn": ["^seed"],
+			"cache": false
 		},
 		"lint": {
 			"dependsOn": ["^topo", "^build"]
