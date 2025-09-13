@@ -26,7 +26,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { updateUser } from "../actions/update-user";
 import { EDIT_USER_FORM_ID, USERS_QUERY_KEY } from "../constants";
@@ -40,7 +40,7 @@ const ParamsSchema = z.object({
 });
 
 const getDefaultValuesForUser = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
 		const [foundUser] = await db

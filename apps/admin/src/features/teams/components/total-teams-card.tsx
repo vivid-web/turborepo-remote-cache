@@ -5,12 +5,12 @@ import { team } from "@turborepo-remote-cache/db/schema";
 import { UsersIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { auth } from "@/middlewares/auth";
+import { authMiddleware } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
 
 const getTotalTeams = createServerFn({ method: "GET" })
-	.middleware([auth])
+	.middleware([authMiddleware])
 	.handler(async () => db.$count(team));
 
 function totalTeamsQueryOptions() {
