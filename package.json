@@ -13,6 +13,7 @@
 	"scripts": {
 		"dev": "turbo run dev",
 		"build": "turbo run build",
+		"migrate": "turbo run migrate",
 		"seed": "turbo run seed",
 		"lint": "turbo run lint",
 		"typecheck": "turbo run typecheck",

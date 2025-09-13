@@ -1,17 +1,3 @@
-import { db } from "@turborepo-remote-cache/db/client";
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { createAuth } from "@turborepo-remote-cache/auth/server";
 
-export const auth = betterAuth({
-	emailAndPassword: {
-		enabled: true,
-	},
-	advanced: {
-		database: {
-			generateId: false,
-		},
-	},
-	database: drizzleAdapter(db, {
-		provider: "pg",
-	}),
-});
+export const auth = createAuth();
