@@ -1,12 +1,6 @@
-class InvariantError extends Error {
-	constructor(message: string) {
-		super(message);
+import { InvariantError } from "./invariant-error.js";
 
-		Object.setPrototypeOf(this, InvariantError.prototype);
-	}
-}
-
-function invariant(
+export function invariant(
 	condition: unknown,
 	message: (() => string) | string,
 ): asserts condition {
@@ -18,5 +12,3 @@ function invariant(
 
 	throw new InvariantError(derivedMessage);
 }
-
-export { invariant, InvariantError };
