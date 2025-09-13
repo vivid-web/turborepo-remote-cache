@@ -1,6 +1,7 @@
 import type { User } from "better-auth";
 
 import { Link, useNavigate } from "@tanstack/react-router";
+import { auth } from "@turborepo-remote-cache/auth/client";
 import { EllipsisVerticalIcon, KeyRoundIcon, LogOutIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +15,6 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
-import { signOut } from "@/lib/auth-client";
 
 import { getAvatarFallback } from "../utils";
 
@@ -23,7 +23,7 @@ function UserDropdownMenu({ image, name, email }: User) {
 	const { isMobile } = useSidebar();
 
 	const handleLogOut = async () => {
-		await signOut();
+		await auth.signOut();
 		await navigate({ to: "/login" });
 	};
 

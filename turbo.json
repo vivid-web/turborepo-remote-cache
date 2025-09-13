@@ -8,6 +8,10 @@
 		"build": {
 			"dependsOn": ["^build"]
 		},
+		"migrate": {
+			"dependsOn": ["^migrate"],
+			"cache": false
+		},
 		"seed": {
 			"dependsOn": ["^seed"],
 			"cache": false

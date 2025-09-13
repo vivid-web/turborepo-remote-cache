@@ -1,7 +1,6 @@
 import { createMiddleware } from "@tanstack/react-start";
 import { getWebRequest, setResponseStatus } from "@tanstack/react-start/server";
-
-import { auth as betterAuth } from "@/lib/auth";
+import { auth as betterAuth } from "@turborepo-remote-cache/auth/server";
 
 const auth = createMiddleware({ type: "function" }).server(async ({ next }) => {
 	const request = getWebRequest();
