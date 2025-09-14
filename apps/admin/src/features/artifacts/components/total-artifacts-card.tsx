@@ -5,12 +5,12 @@ import { artifact } from "@turborepo-remote-cache/db/schema";
 import { PackageIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { ARTIFACTS_QUERY_KEY } from "../constants";
 
 const getTotalArtifacts = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.handler(async () => db.$count(artifact));
 
 function totalArtifactsQueryOptions() {

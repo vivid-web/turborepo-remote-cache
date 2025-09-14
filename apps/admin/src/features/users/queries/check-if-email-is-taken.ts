@@ -5,12 +5,12 @@ import { user } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { EmailSchema } from "../schemas";
 
 const checkIfEmailIsTaken = createServerFn({ method: "POST" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(
 		z.object({
 			email: EmailSchema,

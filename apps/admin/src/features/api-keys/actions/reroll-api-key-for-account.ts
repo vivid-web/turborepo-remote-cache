@@ -5,14 +5,14 @@ import { apiKey } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { DEFAULT_NAME } from "../constants";
 import { ExpiresAtSchema, NameSchema } from "../schemas";
 import { generateSecret } from "../utils";
 
 const rerollApiKeyForAccount = createServerFn({ method: "POST" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(
 		z.object({
 			apiKeyId: IdSchema,
