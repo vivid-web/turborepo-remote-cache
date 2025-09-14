@@ -14,11 +14,11 @@ import {
 } from "../lib/queries.js";
 import { HashSchema, SlugSchema, TeamIdSchema } from "../lib/schemas.js";
 import { storage } from "../lib/storage.js";
-import { authMiddleware } from "../middlewares/auth-middleware.js";
+import { auth } from "../middlewares/auth.js";
 
 const router = new Hono();
 
-router.use(authMiddleware());
+router.use(auth());
 
 // https://turborepo.com/docs/openapi/artifacts/record-events
 router.post("/events", (c) => {
