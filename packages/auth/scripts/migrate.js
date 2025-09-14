@@ -1,5 +1,5 @@
 import { eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
+import { client, db } from "@turborepo-remote-cache/db/client";
 import { user } from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
 
@@ -52,4 +52,6 @@ try {
 } catch (e) {
 	console.error(e);
 	process.exit(1);
+} finally {
+	await client.end();
 }

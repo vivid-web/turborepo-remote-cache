@@ -4,7 +4,7 @@ import { Pool } from "pg";
 import { env } from "./env.js";
 import * as schema from "./schema.js";
 
-const client = new Pool({
+export const client = new Pool({
 	connectionString: env.DATABASE_URL,
 });
 
