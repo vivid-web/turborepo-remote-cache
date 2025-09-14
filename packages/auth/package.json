@@ -12,7 +12,7 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.build.json",
 		"dev": "tsc --project tsconfig.build.json --watch",
-		"migrate": "dotenv -e .env -- tsx scripts/migrate.mts",
+		"migrate": "dotenv -e .env -- node scripts/migrate.js",
 		"lint": "eslint --cache --cache-location .cache/eslint .",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
@@ -32,7 +32,6 @@
 		"dotenv-cli": "^10.0.0",
 		"eslint": "^9.35.0",
 		"prettier": "^3.6.2",
-		"tsx": "^4.20.5",
 		"typescript": "^5.9.2"
 	},
 	"prettier": "@turborepo-remote-cache/prettier-config"

@@ -9,11 +9,11 @@
 			"dependsOn": ["^build"]
 		},
 		"migrate": {
-			"dependsOn": ["^migrate"],
+			"dependsOn": ["^topo", "^build", "^migrate"],
 			"cache": false
 		},
 		"seed": {
-			"dependsOn": ["^seed"],
+			"dependsOn": ["^topo", "^build", "^seed"],
 			"cache": false
 		},
 		"lint": {

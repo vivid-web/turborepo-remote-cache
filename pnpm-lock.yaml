@@ -296,9 +296,6 @@ importers:
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
-      tsx:
-        specifier: ^4.20.5
-        version: 4.20.5
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
@@ -372,9 +369,6 @@ importers:
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
-      tsx:
-        specifier: ^4.20.5
-        version: 4.20.5
       typescript:
         specifier: ^5.9.2
         version: 5.9.2

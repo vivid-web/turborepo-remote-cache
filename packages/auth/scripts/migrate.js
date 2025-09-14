@@ -3,8 +3,8 @@ import { db } from "@turborepo-remote-cache/db/client";
 import { user } from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
 
-import { createAuth } from "../src/create-auth.js";
-import { env } from "../src/env.js";
+import { env } from "../dist/env.js";
+import { createAuth } from "../dist/index.js";
 
 const auth = createAuth();
 
