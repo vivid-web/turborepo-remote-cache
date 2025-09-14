@@ -17,7 +17,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { TEAM_MEMBERS_QUERY_KEY } from "../constants";
 import { TeamMembersForTeamList } from "./team-members-for-team-list";
@@ -31,7 +31,7 @@ type Params = z.input<typeof ParamsSchema>;
 const ParamsSchema = z.object({ teamId: IdSchema });
 
 const getAllUsersForTeam = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		return db

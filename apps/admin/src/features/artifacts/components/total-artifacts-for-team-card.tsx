@@ -13,7 +13,7 @@ import { z } from "zod";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { ARTIFACTS_QUERY_KEY } from "../constants";
 
@@ -24,7 +24,7 @@ const ParamsSchema = z.object({
 });
 
 const getTotalArtifactsForTeam = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const [item] = await db

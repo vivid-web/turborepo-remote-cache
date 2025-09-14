@@ -3,8 +3,8 @@ import { db } from "@turborepo-remote-cache/db/client";
 import { user } from "@turborepo-remote-cache/db/schema";
 import * as R from "remeda";
 
-import { createAuth } from "../src/server/create-auth.js";
-import { env } from "../src/server/env.js";
+import { createAuth } from "../src/create-auth.js";
+import { env } from "../src/env.js";
 
 const auth = createAuth();
 
@@ -34,7 +34,14 @@ async function migrateAdminUser() {
 		return;
 	}
 
-	await auth.api.signUpEmail({ body: { name, email, password } });
+	await auth.api.createUser({
+    body: {
+        email,
+        password,
+        name,
+        role: "admin",
+    },
+});
 }
 
 async function migrate() {

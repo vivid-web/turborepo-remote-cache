@@ -1,32 +1,19 @@
-import { logger } from "hono/logger";
+import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { notFound, onError } from "stoker/middlewares";
 
-import { createRouter } from "./lib/create-router.js";
-import artifacts from "./routes/artifacts/artifacts.index.js";
+import { logger } from "./middlewares/logger.js";
+import artifacts from "./routes/artifacts.js";
+import auth from "./routes/auth.js";
 
-const app = createRouter();
+const app = new Hono();
 
 app.use(requestId());
 app.use(logger());
 app.notFound(notFound);
 app.onError(onError);
 
-app.openAPIRegistry.registerComponent("securitySchemes", "Bearer", {
-	type: "http",
-	scheme: "bearer",
-});
-
-app.doc("/doc", {
-	openapi: "3.0.3",
-	info: {
-		title: "Turborepo Remote Cache API",
-		description:
-			"Turborepo is an intelligent build system optimized for JavaScript and TypeScript codebases.",
-		version: "8.0.0",
-	},
-});
-
-app.route("/", artifacts);
+app.route("/auth", auth);
+app.route("/v8/artifacts", artifacts);
 
 export { app };

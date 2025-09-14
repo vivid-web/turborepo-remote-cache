@@ -11,7 +11,7 @@ import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
 import {
@@ -27,7 +27,7 @@ const ParamsSchema = z.object({
 });
 
 const getUserGeneralInfo = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
 		const foundUser = await db

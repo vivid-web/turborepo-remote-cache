@@ -39,6 +39,7 @@
 		"@turborepo-remote-cache/auth": "workspace:*",
 		"@turborepo-remote-cache/core": "workspace:*",
 		"@turborepo-remote-cache/db": "workspace:*",
+		"better-auth": "^1.3.9",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",

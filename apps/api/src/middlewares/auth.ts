@@ -11,7 +11,7 @@ export type User = {
 
 const AUTH_REGEX = new RegExp(`^Bearer +([A-Za-z0-9._~+/-]+=*) *$`);
 
-export function authMiddleware(): MiddlewareHandler {
+export function auth(): MiddlewareHandler {
 	return async (c, next) => {
 		const header = c.req.header("Authorization");
 

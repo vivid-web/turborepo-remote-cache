@@ -5,12 +5,12 @@ import { user } from "@turborepo-remote-cache/db/schema";
 import { UserIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
 
 const getTotalUsers = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.handler(async () => db.$count(user));
 
 function totalUsersQueryOptions() {
