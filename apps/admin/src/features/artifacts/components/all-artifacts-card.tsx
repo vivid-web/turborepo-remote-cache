@@ -17,7 +17,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { ARTIFACTS_QUERY_KEY } from "../constants";
 import { QuerySchema } from "../schemas";
@@ -31,7 +31,7 @@ const ParamsSchema = z.object({
 });
 
 const getAllArtifacts = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
 		const filters: Array<SQL> = [];

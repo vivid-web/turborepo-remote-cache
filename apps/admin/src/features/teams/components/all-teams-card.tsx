@@ -13,7 +13,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
 import { QuerySchema } from "../schemas";
@@ -27,7 +27,7 @@ const ParamsSchema = z.object({
 });
 
 const getAllTeams = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
 		const teamFilters: Array<SQL> = [];

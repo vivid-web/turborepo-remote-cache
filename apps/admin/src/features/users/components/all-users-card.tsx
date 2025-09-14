@@ -21,7 +21,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
 import { QuerySchema } from "../schemas";
@@ -35,7 +35,7 @@ const ParamsSchema = z.object({
 });
 
 const getAllUsers = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
 		const filters: Array<SQL> = [];

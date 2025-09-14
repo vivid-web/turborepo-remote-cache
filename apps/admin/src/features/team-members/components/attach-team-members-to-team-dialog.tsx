@@ -25,7 +25,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { IdSchema } from "@/lib/schemas";
-import { authMiddleware } from "@/middlewares/auth";
+import { auth } from "@/middlewares/auth";
 
 import { createMultipleTeamMembers } from "../actions/create-multiple-team-members";
 import {
@@ -41,7 +41,7 @@ const ParamsSchema = z.object({
 });
 
 const getAttachableUserOptionsForTeam = createServerFn({ method: "GET" })
-	.middleware([authMiddleware])
+	.middleware([auth])
 	.validator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const joinFilters: Array<SQL> = [];
