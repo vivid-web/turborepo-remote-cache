@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { env } from "./env.js";
+import { env } from "../env.js";
 
 type Storage = {
 	delete: (hash: string) => Promise<void>;
