@@ -25,6 +25,11 @@ export const user = pgTable("user", {
 		.notNull()
 		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
+	role: text(),
+	banned: boolean().default(false),
+	banReason: text(),
+	// todo: figure out if this can be renamed to `banExpiresAt`
+	banExpires: timestamp(),
 });
 
 export const session = pgTable("session", {
@@ -45,6 +50,7 @@ export const session = pgTable("session", {
 	userId: text()
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
+	impersonatedBy: text(),
 });
 
 export const account = pgTable("account", {
