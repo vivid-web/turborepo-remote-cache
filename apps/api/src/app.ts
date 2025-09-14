@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { notFound, onError } from "stoker/middlewares";
 
-import { logMiddleware } from "./middlewares/log-middleware.js";
+import { logger } from "./middlewares/logger.js";
 import artifacts from "./routes/artifacts.js";
 
 const app = new Hono();
 
 app.use(requestId());
-app.use(logMiddleware());
+app.use(logger());
 app.notFound(notFound);
 app.onError(onError);
 
