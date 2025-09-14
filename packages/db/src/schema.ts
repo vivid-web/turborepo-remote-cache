@@ -20,10 +20,10 @@ export const user = pgTable("user", {
 	image: text(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
@@ -35,10 +35,10 @@ export const session = pgTable("session", {
 	token: text().notNull().unique(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 	ipAddress: text(),
 	userAgent: text(),
@@ -65,10 +65,10 @@ export const account = pgTable("account", {
 	password: text(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
@@ -81,10 +81,10 @@ export const verification = pgTable("verification", {
 	expiresAt: timestamp().notNull(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
@@ -97,10 +97,10 @@ export const team = pgTable("team", {
 	description: text(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
@@ -124,10 +124,10 @@ export const artifact = pgTable("artifact", {
 	hash: text().notNull().unique(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	updatedAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date())
+		.defaultNow()
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
@@ -155,7 +155,7 @@ export const apiKey = pgTable("api_key", {
 	secret: text().notNull().unique(),
 	createdAt: timestamp()
 		.notNull()
-		.$defaultFn(() => /* @__PURE__ */ new Date()),
+		.defaultNow(),
 	expiresAt: timestamp(),
 	lastUsedAt: timestamp(),
 	revokedAt: timestamp(),
