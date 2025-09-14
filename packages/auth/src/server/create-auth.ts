@@ -7,7 +7,9 @@ import { env } from "./env.js";
 export function createAuth() {
 	return betterAuth({
 		baseURL: env.BETTER_AUTH_URL,
+		basePath: "/auth",
 		secret: env.BETTER_AUTH_SECRET,
+		trustedOrigins: ["http://localhost:3000", "http://localhost:3001"],
 		emailAndPassword: {
 			enabled: true,
 		},

@@ -24,6 +24,7 @@
 		"@hono/node-server": "^1.19.2",
 		"@hono/zod-validator": "^0.7.2",
 		"@t3-oss/env-core": "^0.13.8",
+		"@turborepo-remote-cache/auth": "workspace:*",
 		"@turborepo-remote-cache/core": "workspace:*",
 		"@turborepo-remote-cache/db": "workspace:*",
 		"dotenv": "^17.2.2",

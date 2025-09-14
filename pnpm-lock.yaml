@@ -189,6 +189,9 @@ importers:
       '@t3-oss/env-core':
         specifier: ^0.13.8
         version: 0.13.8(typescript@5.9.2)(zod@4.1.8)
+      '@turborepo-remote-cache/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@turborepo-remote-cache/core':
         specifier: workspace:*
         version: link:../../packages/core
