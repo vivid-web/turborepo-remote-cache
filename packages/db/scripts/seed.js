@@ -1,6 +1,6 @@
 import { seed } from "drizzle-seed";
 
-import { db } from "../dist/client.js";
+import { client, db } from "../dist/client.js";
 import {
 	account,
 	apiKey,
@@ -52,4 +52,6 @@ try {
 } catch (e) {
 	console.error(e);
 	process.exit(1);
+} finally {
+	await client.end();
 }

@@ -1,6 +1,6 @@
 import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
 
-import { db } from "../dist/client.js";
+import { client, db } from "../dist/client.js";
 
 async function migrate() {
 	console.log("🔄️ Migrating database...");
@@ -21,4 +21,6 @@ try {
 } catch (e) {
 	console.error(e);
 	process.exit(1);
+} finally {
+	await client.end();
 }
