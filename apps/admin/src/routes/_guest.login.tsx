@@ -1,5 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { z } from "zod";
 
@@ -13,22 +12,8 @@ export const Route = createFileRoute("/_guest/login")({
 	component: RouteComponent,
 });
 
-const LoginSchema = z.object({
-	email: z.email(),
-	password: z.string(),
-});
-
-type LoginInput = z.input<typeof LoginSchema>;
-
 function RouteComponent() {
-	const mutation = useMutation({
-		mutationFn: async (input: LoginInput) => {
-			await signIn.email(input);
-		},
-		onSuccess: () => {
-			redirect({ throw: true, to: "/" });
-		},
-	});
+	const navigate = useNavigate();
 
 	const form = useAppForm({
 		defaultValues: {
@@ -36,10 +21,15 @@ function RouteComponent() {
 			password: "",
 		},
 		validators: {
-			onChange: LoginSchema,
+			onChange: z.object({
+				email: z.email(),
+				password: z.string(),
+			}),
 		},
 		onSubmit: async ({ value }) => {
-			await mutation.mutateAsync(value);
+			await signIn.email(value);
+
+			await navigate({ to: "/" });
 		},
 	});
 
