@@ -1,6 +1,6 @@
 import { seed } from "drizzle-seed";
 
-import { db } from "../src/client.js";
+import { db } from "../dist/client.js";
 import {
 	account,
 	apiKey,
@@ -11,7 +11,7 @@ import {
 	teamMember,
 	user,
 	verification,
-} from "../src/schema.js";
+} from "../dist/schema.js";
 
 async function run() {
 	console.log("🌱 Seeding...");
