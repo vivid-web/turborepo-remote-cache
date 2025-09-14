@@ -13,7 +13,7 @@
 			"cache": false
 		},
 		"seed": {
-			"dependsOn": ["^topo", "^build", "^seed"],
+			"dependsOn": ["^topo", "^build", "^migrate", "^seed"],
 			"cache": false
 		},
 		"lint": {
