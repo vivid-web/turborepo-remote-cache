@@ -1,6 +1,7 @@
 import { db } from "@turborepo-remote-cache/db/client";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin } from "better-auth/plugins";
 
 import { env } from "./env.js";
 
@@ -18,6 +19,7 @@ export function createAuth() {
 				generateId: false,
 			},
 		},
+		plugins: [admin()],
 		database: drizzleAdapter(db, {
 			provider: "pg",
 		}),

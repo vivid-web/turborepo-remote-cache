@@ -34,7 +34,14 @@ async function migrateAdminUser() {
 		return;
 	}
 
-	await auth.api.signUpEmail({ body: { name, email, password } });
+	await auth.api.createUser({
+    body: {
+        email,
+        password,
+        name,
+        role: "admin",
+    },
+});
 }
 
 async function migrate() {
