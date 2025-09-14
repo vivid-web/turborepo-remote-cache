@@ -1,5 +1,5 @@
-import { createAuth } from "@turborepo-remote-cache/auth/client";
+import { createAuthClient } from "better-auth/react";
 
-export const { signIn, signUp, useSession, signOut } = createAuth({
+export const { signIn, signUp, useSession, signOut } = createAuthClient({
 	baseURL: "http://localhost:3000",
 });
