@@ -93,8 +93,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       better-auth:
-        specifier: ^1.3.10
-        version: 1.3.10(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9)
+        specifier: ^1.3.11
+        version: 1.3.11(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -266,8 +266,8 @@ importers:
         specifier: workspace:*
         version: link:../db
       better-auth:
-        specifier: ^1.3.10
-        version: 1.3.10(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9)
+        specifier: ^1.3.11
+        version: 1.3.11(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9)
       remeda:
         specifier: ^2.31.1
         version: 2.31.1
@@ -2744,8 +2744,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-auth@1.3.10:
-    resolution: {integrity: sha512-cEdvbqJ2TlTXUSktHKs8V3rHdFYkEG7QmQZpLXGjXZX6F0nYbTk2QPsWXNhxbinFAlE2ca4virzuDsmsQlLIVw==}
+  better-auth@1.3.11:
+    resolution: {integrity: sha512-7l8bHX5rnON4vsVmWB7g2UucNpRlXnDUX/n65mHeR3Zn2/lcpQvfBvGbTaHYU8UGCQadtJ7DLHW/zA3ZR7IfdA==}
     peerDependencies:
       '@lynx-js/react': '*'
       '@sveltejs/kit': ^2.0.0
@@ -8563,7 +8563,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@1.3.10(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9):
+  better-auth@1.3.11(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9):
     dependencies:
       '@better-auth/utils': 0.3.0
       '@better-fetch/fetch': 1.1.18
