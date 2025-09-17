@@ -52,7 +52,7 @@
 		"remeda": "^2.31.1",
 		"sonner": "^2.0.7",
 		"tailwind-merge": "^3.3.1",
-		"zod": "^4.1.8"
+		"zod": "^4.1.9"
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.1.13",

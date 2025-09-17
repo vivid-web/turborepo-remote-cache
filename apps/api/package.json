@@ -35,7 +35,7 @@
 		"remeda": "^2.31.1",
 		"std-env": "^3.9.0",
 		"stoker": "^2.0.1",
-		"zod": "^4.1.8"
+		"zod": "^4.1.9"
 	},
 	"devDependencies": {
 		"@turborepo-remote-cache/eslint-config": "workspace:*",
