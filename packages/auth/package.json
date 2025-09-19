@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@t3-oss/env-core": "^0.13.8",
 		"@turborepo-remote-cache/db": "workspace:*",
-		"better-auth": "^1.3.11",
+		"better-auth": "^1.3.13",
 		"remeda": "^2.32.0",
 		"std-env": "^3.9.0",
 		"zod": "^4.1.9"
