@@ -7,7 +7,6 @@ import { stream } from "hono/streaming";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { z } from "zod";
 
-import { env } from "../env.js";
 import { ENABLED_STATUS } from "../lib/constants.js";
 import { createArtifact } from "../lib/mutations.js";
 import {
@@ -15,6 +14,7 @@ import {
 	getTeamForUserWithTeamIdOrSlug,
 } from "../lib/queries.js";
 import { HashSchema, SlugSchema, TeamIdSchema } from "../lib/schemas.js";
+import { getBaseUrl } from "../lib/utils.js";
 import { auth } from "../middlewares/auth.js";
 
 type Options = {
@@ -67,7 +67,9 @@ function createRouter({ storage }: Options) {
 			await storage.set(hash, blob);
 			await createArtifact({ hash, teamId: team.id });
 
-			const urls = [`${env.BASE_URL}/v8/artifacts/${hash}`];
+			const baseUrl = getBaseUrl();
+
+			const urls = [`${baseUrl}/v8/artifacts/${hash}`];
 
 			return c.json({ urls }, HttpStatusCodes.ACCEPTED);
 		},
