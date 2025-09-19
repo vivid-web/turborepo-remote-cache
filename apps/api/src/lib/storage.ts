@@ -1,4 +1,3 @@
-import { env } from "../env.js";
-import { createLocalStorage } from "../storage/index.js";
+import { createStorage } from "../storage/create-storage.js";
 
-export const storage = createLocalStorage({ basePath: env.LOCAL_STORAGE_PATH });
+export const storage = createStorage();
