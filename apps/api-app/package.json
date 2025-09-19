@@ -1,5 +1,5 @@
 {
-	"name": "@turborepo-remote-cache/api",
+	"name": "@turborepo-remote-cache/api-app",
 	"description": "The API layer for the Turborepo remote cache",
 	"keywords": [
 		"Turborepo",
