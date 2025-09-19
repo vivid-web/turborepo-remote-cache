@@ -2,12 +2,11 @@ import { db } from "@turborepo-remote-cache/db/client";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
-type Options = Pick<BetterAuthOptions, "baseURL" | "secret" | "trustedOrigins">;
+type Options = Pick<BetterAuthOptions, "baseURL" | "secret">;
 
 export function createAuth(options?: Options) {
 	return betterAuth({
 		...options,
-		basePath: "/auth",
 		emailAndPassword: {
 			enabled: true,
 		},
