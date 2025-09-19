@@ -3,7 +3,13 @@
 	"extends": ["//"],
 	"tasks": {
 		"build": {
-			"outputs": [".nitro/**", ".output/**", ".tanstack/**"]
+			"outputs": [
+				".netlify/**",
+				".nitro/**",
+				".output/**",
+				".tanstack/**",
+				"dist/**"
+			]
 		},
 		"lint": {
 			"outputs": [".cache/eslint"]
