@@ -26,7 +26,7 @@ import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenti
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated.teams.$teamId'
 import { Route as AuthenticatedAccountApiKeysRouteImport } from './routes/_authenticated.account.api-keys'
 import { Route as AuthenticatedAccountApiKeysIndexRouteImport } from './routes/_authenticated.account.api-keys.index'
-import { ServerRoute as ApiSplatServerRouteImport } from './routes/api.$'
+import { ServerRoute as ApiSplatServerRouteImport } from './routes/api/$'
 
 const rootServerRouteImport = createServerRootRoute()
 
