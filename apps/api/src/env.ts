@@ -9,6 +9,10 @@ export const env = createEnv({
 		ADMIN_URL: z.url(),
 		BASE_URL: z.url(),
 
+		// Storage
+		STORAGE_PROVIDER: z.literal(["local"]),
+
+		// Local storage
 		LOCAL_STORAGE_PATH: z.string().min(1),
 
 		LOG_LEVEL: z.literal("info").optional(),
@@ -21,6 +25,7 @@ export const env = createEnv({
 	runtimeEnvStrict: {
 		ADMIN_URL: process.env.ADMIN_URL,
 		BASE_URL: process.env.BASE_URL,
+		STORAGE_PROVIDER: process.env.STORAGE_PROVIDER,
 		LOCAL_STORAGE_PATH: process.env.LOCAL_STORAGE_PATH,
 		LOG_LEVEL: process.env.LOG_LEVEL,
 		NODE_ENV: process.env.NODE_ENV,
