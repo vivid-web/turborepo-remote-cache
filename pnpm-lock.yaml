@@ -213,6 +213,9 @@ importers:
       '@turborepo-remote-cache/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@turborepo-remote-cache/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       hono:
         specifier: ^4.9.8
         version: 4.9.8
