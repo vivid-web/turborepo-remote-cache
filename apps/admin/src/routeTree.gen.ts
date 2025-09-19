@@ -26,8 +26,8 @@ import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenti
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated.teams.$teamId'
 import { Route as AuthenticatedAccountApiKeysRouteImport } from './routes/_authenticated.account.api-keys'
 import { Route as AuthenticatedAccountApiKeysIndexRouteImport } from './routes/_authenticated.account.api-keys.index'
-import { ServerRoute as ApiSplatServerRouteImport } from './routes/api/$'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth.$'
+import { ServerRoute as ApiV8ArtifactsSplatServerRouteImport } from './routes/api/v8.artifacts.$'
 
 const rootServerRouteImport = createServerRootRoute()
 
@@ -109,16 +109,17 @@ const AuthenticatedAccountApiKeysIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedAccountApiKeysRoute,
   } as any)
-const ApiSplatServerRoute = ApiSplatServerRouteImport.update({
-  id: '/api/$',
-  path: '/api/$',
-  getParentRoute: () => rootServerRouteImport,
-} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootServerRouteImport,
 } as any)
+const ApiV8ArtifactsSplatServerRoute =
+  ApiV8ArtifactsSplatServerRouteImport.update({
+    id: '/api/v8/artifacts/$',
+    path: '/api/v8/artifacts/$',
+    getParentRoute: () => rootServerRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRouteWithChildren
@@ -215,29 +216,29 @@ export interface RootRouteChildren {
   GuestRoute: typeof GuestRouteWithChildren
 }
 export interface FileServerRoutesByFullPath {
-  '/api/$': typeof ApiSplatServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
 }
 export interface FileServerRoutesByTo {
-  '/api/$': typeof ApiSplatServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
-  '/api/$': typeof ApiSplatServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/$' | '/api/auth/$'
+  fullPaths: '/api/auth/$' | '/api/v8/artifacts/$'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/$' | '/api/auth/$'
-  id: '__root__' | '/api/$' | '/api/auth/$'
+  to: '/api/auth/$' | '/api/v8/artifacts/$'
+  id: '__root__' | '/api/auth/$' | '/api/v8/artifacts/$'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
-  ApiSplatServerRoute: typeof ApiSplatServerRoute
   ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
+  ApiV8ArtifactsSplatServerRoute: typeof ApiV8ArtifactsSplatServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -351,18 +352,18 @@ declare module '@tanstack/react-router' {
 }
 declare module '@tanstack/react-start/server' {
   interface ServerFileRoutesByPath {
-    '/api/$': {
-      id: '/api/$'
-      path: '/api/$'
-      fullPath: '/api/$'
-      preLoaderRoute: typeof ApiSplatServerRouteImport
-      parentRoute: typeof rootServerRouteImport
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/api/v8/artifacts/$': {
+      id: '/api/v8/artifacts/$'
+      path: '/api/v8/artifacts/$'
+      fullPath: '/api/v8/artifacts/$'
+      preLoaderRoute: typeof ApiV8ArtifactsSplatServerRouteImport
       parentRoute: typeof rootServerRouteImport
     }
   }
@@ -473,8 +474,8 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 const rootServerRouteChildren: RootServerRouteChildren = {
-  ApiSplatServerRoute: ApiSplatServerRoute,
   ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
+  ApiV8ArtifactsSplatServerRoute: ApiV8ArtifactsSplatServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
   ._addFileChildren(rootServerRouteChildren)
