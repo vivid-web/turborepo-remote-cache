@@ -1,0 +1,7 @@
+[build]
+base = "/"
+publish = "/apps/admin/dist"
+
+[dev]
+port = 3000
+autoLaunch = false
