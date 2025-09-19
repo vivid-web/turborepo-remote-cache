@@ -1,9 +1,11 @@
 /.cache
+/.netlify
 /.nitro
 /.output
 /.tanstack
 /.turbo
 /.vite
+/dist
 /node_modules
 
 .env

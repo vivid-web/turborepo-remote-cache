@@ -1,6 +1,7 @@
 {
 	"$schema": "./node_modules/turbo/schema.json",
 	"ui": "tui",
+	"globalEnv": ["NETLIFY"],
 	"tasks": {
 		"topo": {
 			"dependsOn": ["^topo"]
