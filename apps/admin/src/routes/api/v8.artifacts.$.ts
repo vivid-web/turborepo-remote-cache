@@ -1,7 +1,10 @@
 import { createServerFileRoute } from "@tanstack/react-start/server";
 import { createHandler } from "@turborepo-remote-cache/api/artifact";
 
+import { storage } from "@/lib/storage";
+
 const handler = createHandler({
+	storage,
 	basePath: "/api/v8/artifacts",
 });
 
