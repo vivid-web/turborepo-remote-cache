@@ -1,12 +1,11 @@
 import { createEnv } from "@t3-oss/env-core";
 import { netlify } from "@t3-oss/env-core/presets-zod";
-import { env as auth } from "@turborepo-remote-cache/auth";
 import { env as db } from "@turborepo-remote-cache/db";
 import { process } from "std-env";
 import { z } from "zod";
 
 export const env = createEnv({
-	extends: [netlify(), db, auth],
+	extends: [netlify(), db],
 	server: {
 		ADMIN_URL: z.url(),
 		BASE_URL: z.url(),

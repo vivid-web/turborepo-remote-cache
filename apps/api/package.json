@@ -23,7 +23,6 @@
 		"@netlify/blobs": "^10.0.10",
 		"@netlify/functions": "^4.2.5",
 		"@t3-oss/env-core": "^0.13.8",
-		"@turborepo-remote-cache/auth": "workspace:*",
 		"@turborepo-remote-cache/core": "workspace:*",
 		"@turborepo-remote-cache/db": "workspace:*",
 		"@turborepo-remote-cache/storage": "workspace:*",
