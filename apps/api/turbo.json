@@ -6,9 +6,11 @@
 			"outputs": ["dist", ".cache/tsconfig.build.tsbuildinfo"]
 		},
 		"lint": {
+			"dependsOn": ["^topo", "build"],
 			"outputs": [".cache/eslint"]
 		},
 		"typecheck": {
+			"dependsOn": ["^topo", "build"],
 			"outputs": [".cache/tsconfig.tsbuildinfo"]
 		},
 		"format": {
