@@ -1,5 +1,5 @@
 import { pinoLogger } from "hono-pino";
-import pino from "pino";
+import { pino } from "pino";
 import pretty from "pino-pretty";
 
 import { env } from "../env.js";
