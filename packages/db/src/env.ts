@@ -9,4 +9,5 @@ export const env = createEnv({
 	runtimeEnvStrict: {
 		DATABASE_URL: process.env.DATABASE_URL,
 	},
+	emptyStringAsUndefined: true,
 });
