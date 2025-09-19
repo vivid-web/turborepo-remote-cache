@@ -1,3 +1,5 @@
+import type { Storage } from "@turborepo-remote-cache/storage";
+
 import { zValidator } from "@hono/zod-validator";
 import { invariant } from "@turborepo-remote-cache/core";
 import { Hono } from "hono";
@@ -13,143 +15,150 @@ import {
 	getTeamForUserWithTeamIdOrSlug,
 } from "../lib/queries.js";
 import { HashSchema, SlugSchema, TeamIdSchema } from "../lib/schemas.js";
-import { storage } from "../lib/storage.js";
 import { auth } from "../middlewares/auth.js";
 
-const router = new Hono();
+type Options = {
+	storage: Storage;
+};
 
-router.use(auth());
+function createRouter({ storage }: Options) {
+	const router = new Hono();
 
-// https://turborepo.com/docs/openapi/artifacts/record-events
-router.post("/events", (c) => {
-	// todo: not yet implemented
-	return c.json("", HttpStatusCodes.OK);
-});
+	router.use(auth());
 
-// https://turborepo.com/docs/openapi/artifacts/status
-router.get("/status", (c) => {
-	return c.json({ status: ENABLED_STATUS }, HttpStatusCodes.OK);
-});
+	// https://turborepo.com/docs/openapi/artifacts/record-events
+	router.post("/events", (c) => {
+		// todo: not yet implemented
+		return c.json("", HttpStatusCodes.OK);
+	});
 
-// https://turborepo.com/docs/openapi/artifacts/upload-artifact
-router.put(
-	"/:hash",
-	zValidator("param", z.object({ hash: HashSchema })),
-	zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
-	async (c) => {
-		const user = c.get("user");
-		const { hash } = c.req.param();
-		const { teamId, slug } = c.req.query();
+	// https://turborepo.com/docs/openapi/artifacts/status
+	router.get("/status", (c) => {
+		return c.json({ status: ENABLED_STATUS }, HttpStatusCodes.OK);
+	});
 
-		invariant(user, "User should be authenticated by now");
+	// https://turborepo.com/docs/openapi/artifacts/upload-artifact
+	router.put(
+		"/:hash",
+		zValidator("param", z.object({ hash: HashSchema })),
+		zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
+		async (c) => {
+			const user = c.get("user");
+			const { hash } = c.req.param();
+			const { teamId, slug } = c.req.query();
 
-		if (!teamId && !slug) {
-			return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
-		}
+			invariant(user, "User should be authenticated by now");
 
-		const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
-			teamId,
-			slug,
-		});
+			if (!teamId && !slug) {
+				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
+			}
 
-		if (!team) {
-			return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
-		}
-
-		const blob = await c.req.blob();
-
-		await storage.set(hash, blob);
-		await createArtifact({ hash, teamId: team.id });
-
-		const urls = [`${env.BASE_URL}/v8/artifacts/${hash}`];
-
-		return c.json({ urls }, HttpStatusCodes.ACCEPTED);
-	},
-);
-
-// https://turborepo.com/docs/openapi/artifacts/download-artifact
-router.get(
-	"/:hash",
-	zValidator("param", z.object({ hash: HashSchema })),
-	zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
-	async (c) => {
-		const user = c.get("user");
-		const { hash } = c.req.param();
-		const { teamId, slug } = c.req.query();
-
-		invariant(user, "User should be authenticated by now");
-
-		if (!teamId && !slug) {
-			return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
-		}
-
-		const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
-			teamId,
-			slug,
-		});
-
-		if (!team) {
-			return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
-		}
-
-		const artifact = await getArtifactForTeam(team.id, hash);
-
-		if (!artifact) {
-			return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
-		}
-
-		const blob = await storage.get(hash);
-
-		return stream(c, async (stream) => {
-			stream.onAbort(() => {
-				console.log("Aborted!");
+			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+				teamId,
+				slug,
 			});
 
-			await stream.pipe(blob.stream());
-		});
-	},
-);
+			if (!team) {
+				return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
+			}
 
-// https://turborepo.com/docs/openapi/artifacts/artifact-exists
-router.on(
-	"HEAD",
-	"/:hash",
-	zValidator("param", z.object({ hash: HashSchema })),
-	zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
-	async (c) => {
-		const user = c.get("user");
-		const { hash } = c.req.param();
-		const { teamId, slug } = c.req.query();
+			const blob = await c.req.blob();
 
-		invariant(user, "User should be authenticated by now");
+			await storage.set(hash, blob);
+			await createArtifact({ hash, teamId: team.id });
 
-		if (!teamId && !slug) {
-			return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
-		}
+			const urls = [`${env.BASE_URL}/v8/artifacts/${hash}`];
 
-		const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
-			teamId,
-			slug,
-		});
+			return c.json({ urls }, HttpStatusCodes.ACCEPTED);
+		},
+	);
 
-		if (!team) {
-			return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
-		}
+	// https://turborepo.com/docs/openapi/artifacts/download-artifact
+	router.get(
+		"/:hash",
+		zValidator("param", z.object({ hash: HashSchema })),
+		zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
+		async (c) => {
+			const user = c.get("user");
+			const { hash } = c.req.param();
+			const { teamId, slug } = c.req.query();
 
-		const artifact = await getArtifactForTeam(team.id, hash);
+			invariant(user, "User should be authenticated by now");
 
-		if (!artifact) {
-			return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
-		}
+			if (!teamId && !slug) {
+				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
+			}
 
-		return c.json("OK", HttpStatusCodes.OK);
-	},
-);
+			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+				teamId,
+				slug,
+			});
 
-// https://turborepo.com/docs/openapi/artifacts/artifact-query
-router.post("/", (c) => {
-	// todo: not yet implemented
-	return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
-});
+			if (!team) {
+				return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
+			}
 
-export default router;
+			const artifact = await getArtifactForTeam(team.id, hash);
+
+			if (!artifact) {
+				return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
+			}
+
+			const blob = await storage.get(hash);
+
+			return stream(c, async (stream) => {
+				stream.onAbort(() => {
+					console.log("Aborted!");
+				});
+
+				await stream.pipe(blob.stream());
+			});
+		},
+	);
+
+	// https://turborepo.com/docs/openapi/artifacts/artifact-exists
+	router.on(
+		"HEAD",
+		"/:hash",
+		zValidator("param", z.object({ hash: HashSchema })),
+		zValidator("query", z.object({ teamId: TeamIdSchema, slug: SlugSchema })),
+		async (c) => {
+			const user = c.get("user");
+			const { hash } = c.req.param();
+			const { teamId, slug } = c.req.query();
+
+			invariant(user, "User should be authenticated by now");
+
+			if (!teamId && !slug) {
+				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
+			}
+
+			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+				teamId,
+				slug,
+			});
+
+			if (!team) {
+				return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
+			}
+
+			const artifact = await getArtifactForTeam(team.id, hash);
+
+			if (!artifact) {
+				return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
+			}
+
+			return c.json("OK", HttpStatusCodes.OK);
+		},
+	);
+
+	// https://turborepo.com/docs/openapi/artifacts/artifact-query
+	router.post("/", (c) => {
+		// todo: not yet implemented
+		return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
+	});
+
+	return router;
+}
+
+export { createRouter };
