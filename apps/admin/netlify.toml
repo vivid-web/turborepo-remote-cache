@@ -3,5 +3,6 @@ base = "/"
 publish = "/apps/admin/dist"
 
 [dev]
-port = 3000
+targetPort = 3000
+port = 8888
 autoLaunch = false
