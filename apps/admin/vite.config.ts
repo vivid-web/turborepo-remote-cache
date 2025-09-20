@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
@@ -16,10 +17,19 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+	build: {
+		sourcemap: true,
+	},
 	plugins: [
 		tsConfigPaths(),
 		tanstackStart({ customViteReactPlugin: true, target: getTarget() }),
 		react(),
 		tailwindcss(),
+		sentryVitePlugin({
+			authToken: process.env.SENTRY_AUTH_TOKEN,
+			org: process.env.SENTRY_ORG,
+			project: process.env.SENTRY_PROJECT,
+			telemetry: false,
+		}),
 	],
 });

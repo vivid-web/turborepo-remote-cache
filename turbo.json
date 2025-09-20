@@ -1,7 +1,7 @@
 {
 	"$schema": "./node_modules/turbo/schema.json",
 	"ui": "tui",
-	"globalEnv": ["NETLIFY"],
+	"globalEnv": ["NETLIFY", "SENTRY_AUTH_TOKEN", "SENTRY_ORG", "SENTRY_PROJECT"],
 	"tasks": {
 		"topo": {
 			"dependsOn": ["^topo"]
