@@ -61,6 +61,24 @@ function logOutgoing(
 	console.log(out);
 }
 
+const requestLogger = createMiddleware({ type: "request" }).server(
+	async ({ next, request }) => {
+		const { method, url } = request;
+
+		const start = Date.now();
+
+		logIncoming(method, url);
+
+		const result = await next();
+
+		const status = result.response.status;
+
+		logOutgoing(method, url, status, time(start));
+
+		return result;
+	},
+);
+
 const logger = createMiddleware({ type: "function" }).server(
 	async ({ next }) => {
 		const { method, url } = getWebRequest();
@@ -79,4 +97,4 @@ const logger = createMiddleware({ type: "function" }).server(
 	},
 );
 
-export { logger };
+export { logger, requestLogger };
