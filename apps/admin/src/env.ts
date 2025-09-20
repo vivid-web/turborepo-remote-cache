@@ -21,6 +21,9 @@ export const env = createEnv({
 		NETLIFY_BLOBS_SITE_ID: z.string().min(1).optional(),
 		NETLIFY_BLOBS_TOKEN: z.string().min(1).optional(),
 
+		// Sentry
+		VITE_SENTRY_DSN: z.url().optional(),
+
 		// Netlify override as the `netlify` preset doesn't cast NETLIFY to a boolean
 		NETLIFY: z.stringbool().optional(),
 	},
@@ -31,6 +34,7 @@ export const env = createEnv({
 		NETLIFY_BLOBS_STORE_NAME: process.env.NETLIFY_BLOBS_STORE_NAME,
 		NETLIFY_BLOBS_SITE_ID: process.env.NETLIFY_BLOBS_SITE_ID,
 		NETLIFY_BLOBS_TOKEN: process.env.NETLIFY_BLOBS_TOKEN,
+		VITE_SENTRY_DSN: process.env.VITE_SENTRY_DSN,
 		NETLIFY: process.env.NETLIFY,
 	},
 	emptyStringAsUndefined: true,

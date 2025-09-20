@@ -1,3 +1,4 @@
+import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
@@ -23,9 +24,11 @@ const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
 	return session?.user ?? null;
 });
 
-export const Route = createRootRouteWithContext<{
-	queryClient: QueryClient;
-}>()({
+const createRootRoute = wrapCreateRootRouteWithSentry(
+	createRootRouteWithContext<{ queryClient: QueryClient }>(),
+);
+
+export const Route = createRootRoute({
 	beforeLoad: async () => {
 		const user = await fetchUser();
 
