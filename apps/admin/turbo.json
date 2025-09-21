@@ -2,6 +2,15 @@
 	"$schema": "../../node_modules/turbo/schema.json",
 	"extends": ["//"],
 	"tasks": {
+		"migrate": {
+			"env": [
+				"ADMIN_NAME",
+				"ADMIN_EMAIL",
+				"ADMIN_PASSWORD",
+				"BETTER_AUTH_SECRET",
+				"DATABASE_URL"
+			]
+		},
 		"build": {
 			"outputs": [
 				".netlify/**",
