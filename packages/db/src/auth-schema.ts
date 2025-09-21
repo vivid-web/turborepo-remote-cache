@@ -1,77 +1,72 @@
 import { createId as cuid } from "@paralleldrive/cuid2";
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
-// Schema definitions
-const user = pgTable("user", {
-	id: text()
+export const user = pgTable("user", {
+	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => cuid()),
-	name: text().notNull(),
-	email: text().notNull().unique(),
-	emailVerified: boolean()
-		.$defaultFn(() => false)
+	name: text("name").notNull(),
+	email: text("email").notNull().unique(),
+	emailVerified: boolean("email_verified").default(false).notNull(),
+	image: text("image"),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
+		.defaultNow()
+		.$onUpdate(() => /* @__PURE__ */ new Date())
 		.notNull(),
-	image: text(),
-	createdAt: timestamp().notNull().defaultNow(),
-	updatedAt: timestamp()
-		.notNull()
-		.defaultNow()
-		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-const session = pgTable("session", {
-	id: text()
+export const session = pgTable("session", {
+	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => cuid()),
-	expiresAt: timestamp().notNull(),
-	token: text().notNull().unique(),
-	createdAt: timestamp().notNull().defaultNow(),
-	updatedAt: timestamp()
-		.notNull()
+	expiresAt: timestamp("expires_at").notNull(),
+	token: text("token").notNull().unique(),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
 		.defaultNow()
-		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
-	ipAddress: text(),
-	userAgent: text(),
-	userId: text()
+		.$onUpdate(() => /* @__PURE__ */ new Date())
+		.notNull(),
+	ipAddress: text("ip_address"),
+	userAgent: text("user_agent"),
+	userId: text("user_id")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
 });
 
-const account = pgTable("account", {
-	id: text()
+export const account = pgTable("account", {
+	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => cuid()),
-	accountId: text().notNull(),
-	providerId: text().notNull(),
-	userId: text()
+	accountId: text("account_id").notNull(),
+	providerId: text("provider_id").notNull(),
+	userId: text("user_id")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
-	accessToken: text(),
-	refreshToken: text(),
-	idToken: text(),
-	accessTokenExpiresAt: timestamp(),
-	refreshTokenExpiresAt: timestamp(),
-	scope: text(),
-	password: text(),
-	createdAt: timestamp().notNull().defaultNow(),
-	updatedAt: timestamp()
-		.notNull()
+	accessToken: text("access_token"),
+	refreshToken: text("refresh_token"),
+	idToken: text("id_token"),
+	accessTokenExpiresAt: timestamp("access_token_expires_at"),
+	refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+	scope: text("scope"),
+	password: text("password"),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
 		.defaultNow()
-		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
+		.$onUpdate(() => /* @__PURE__ */ new Date())
+		.notNull(),
 });
 
-const verification = pgTable("verification", {
-	id: text()
+export const verification = pgTable("verification", {
+	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => cuid()),
-	identifier: text().notNull(),
-	value: text().notNull(),
-	expiresAt: timestamp().notNull(),
-	createdAt: timestamp().notNull().defaultNow(),
-	updatedAt: timestamp()
-		.notNull()
+	identifier: text("identifier").notNull(),
+	value: text("value").notNull(),
+	expiresAt: timestamp("expires_at").notNull(),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
 		.defaultNow()
-		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
+		.$onUpdate(() => /* @__PURE__ */ new Date())
+		.notNull(),
 });
-
-export { account, session, user, verification };
