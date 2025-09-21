@@ -1,17 +1,12 @@
+import { client, db } from "@turborepo-remote-cache/db/client";
 import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
 
-import { client, db } from "../dist/client.js";
-
 async function migrate() {
-	console.log("🔄️ Migrating database...");
-
-	console.time("🗄️ Running DB migrations...");
+	console.log("🗄️ Migrating database...");
 
 	await baseMigrate(db, {
 		migrationsFolder: "./migrations",
 	});
-
-	console.timeEnd("🗄️ Running DB migrations...");
 
 	console.log("🏁 Finished migrating!");
 }

@@ -1,6 +1,4 @@
-import { seed } from "drizzle-seed";
-
-import { client, db } from "../dist/client.js";
+import { client, db } from "@turborepo-remote-cache/db/client";
 import {
 	account,
 	apiKey,
@@ -11,7 +9,8 @@ import {
 	teamMember,
 	user,
 	verification,
-} from "../dist/schema.js";
+} from "@turborepo-remote-cache/db/schema";
+import { seed } from "drizzle-seed";
 
 async function run() {
 	console.log("🌱 Seeding...");
