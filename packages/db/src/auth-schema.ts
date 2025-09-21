@@ -74,4 +74,4 @@ const verification = pgTable("verification", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export { account, session, user, verification }
+export { account, session, user, verification };

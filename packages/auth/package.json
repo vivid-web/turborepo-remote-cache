@@ -12,6 +12,7 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.build.json",
 		"dev": "tsc --project tsconfig.build.json --watch",
+		"generate": "dotenv -e .env -- pnpx @better-auth/cli generate --config scripts/auth.js --output ../db/src/auth-schema.ts",
 		"lint": "eslint --cache --cache-location .cache/eslint .",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
