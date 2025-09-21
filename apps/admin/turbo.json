@@ -12,6 +12,7 @@
 			]
 		},
 		"build": {
+			"env": ["NETLIFY", "SENTRY_AUTH_TOKEN", "SENTRY_ORG", "SENTRY_PROJECT"],
 			"outputs": [
 				".netlify/**",
 				".nitro/**",
