@@ -12,7 +12,6 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.build.json",
 		"dev": "tsc --project tsconfig.build.json --watch",
-		"migrate": "dotenv -e .env -- node scripts/migrate.js",
 		"lint": "eslint --cache --cache-location .cache/eslint .",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
@@ -21,7 +20,6 @@
 		"@t3-oss/env-core": "^0.13.8",
 		"@turborepo-remote-cache/db": "workspace:*",
 		"better-auth": "^1.3.11",
-		"remeda": "^2.32.0",
 		"std-env": "^3.9.0",
 		"zod": "^4.1.11"
 	},
@@ -30,7 +28,6 @@
 		"@turborepo-remote-cache/eslint-config": "workspace:*",
 		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"@turborepo-remote-cache/tsconfig": "workspace:*",
-		"dotenv-cli": "^10.0.0",
 		"eslint": "^9.36.0",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.2"
