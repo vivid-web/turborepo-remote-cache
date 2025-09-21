@@ -20,11 +20,6 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.build.json",
 		"dev": "tsc --project tsconfig.build.json --watch",
-		"db:push": "drizzle-kit push",
-		"db:generate": "drizzle-kit generate",
-		"db:studio": "drizzle-kit studio",
-		"migrate": "dotenv -e .env -- node scripts/migrate.js",
-		"seed": "dotenv -e .env -- node scripts/seed.js",
 		"lint": "eslint --cache --cache-location .cache/eslint .",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
@@ -33,7 +28,6 @@
 		"@paralleldrive/cuid2": "^2.2.2",
 		"@t3-oss/env-core": "^0.13.8",
 		"drizzle-orm": "^0.44.5",
-		"drizzle-seed": "^0.3.1",
 		"pg": "^8.16.3",
 		"std-env": "^3.9.0",
 		"zod": "^4.1.11"
@@ -44,8 +38,6 @@
 		"@turborepo-remote-cache/prettier-config": "workspace:*",
 		"@turborepo-remote-cache/tsconfig": "workspace:*",
 		"@types/pg": "^8.15.5",
-		"dotenv-cli": "^10.0.0",
-		"drizzle-kit": "^0.31.4",
 		"eslint": "^9.36.0",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.2"
