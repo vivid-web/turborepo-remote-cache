@@ -8,7 +8,8 @@ import {
 	timestamp,
 } from "drizzle-orm/pg-core";
 
-export const user = pgTable("user", {
+// Schema definitions
+const user = pgTable("user", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -25,7 +26,7 @@ export const user = pgTable("user", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export const session = pgTable("session", {
+const session = pgTable("session", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -43,7 +44,7 @@ export const session = pgTable("session", {
 		.references(() => user.id, { onDelete: "cascade" }),
 });
 
-export const account = pgTable("account", {
+const account = pgTable("account", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -66,7 +67,7 @@ export const account = pgTable("account", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export const verification = pgTable("verification", {
+const verification = pgTable("verification", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -80,7 +81,7 @@ export const verification = pgTable("verification", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export const team = pgTable("team", {
+const team = pgTable("team", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -94,7 +95,7 @@ export const team = pgTable("team", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export const teamMember = pgTable(
+const teamMember = pgTable(
 	"team_member",
 	{
 		teamId: text()
@@ -107,7 +108,7 @@ export const teamMember = pgTable(
 	(t) => [primaryKey({ columns: [t.teamId, t.userId] })],
 );
 
-export const artifact = pgTable("artifact", {
+const artifact = pgTable("artifact", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -119,7 +120,7 @@ export const artifact = pgTable("artifact", {
 		.$onUpdateFn(() => /* @__PURE__ */ new Date()),
 });
 
-export const artifactTeam = pgTable(
+const artifactTeam = pgTable(
 	"artifact_team",
 	{
 		artifactId: text()
@@ -132,7 +133,7 @@ export const artifactTeam = pgTable(
 	(t) => [primaryKey({ columns: [t.artifactId, t.teamId] })],
 );
 
-export const apiKey = pgTable("api_key", {
+const apiKey = pgTable("api_key", {
 	id: text()
 		.primaryKey()
 		.$defaultFn(() => cuid()),
@@ -147,33 +148,34 @@ export const apiKey = pgTable("api_key", {
 	revokedAt: timestamp(),
 });
 
-export const userRelations = relations(user, ({ many }) => ({
+// Relation definitions
+const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
 	accounts: many(account),
 	teamMembers: many(teamMember),
 	apiKeys: many(apiKey),
 }));
 
-export const accountRelations = relations(account, ({ one }) => ({
+const accountRelations = relations(account, ({ one }) => ({
 	user: one(user, {
 		fields: [account.userId],
 		references: [user.id],
 	}),
 }));
 
-export const sessionRelations = relations(session, ({ one }) => ({
+const sessionRelations = relations(session, ({ one }) => ({
 	user: one(user, {
 		fields: [session.userId],
 		references: [user.id],
 	}),
 }));
 
-export const teamRelations = relations(team, ({ many }) => ({
+const teamRelations = relations(team, ({ many }) => ({
 	teamMembers: many(teamMember),
 	artifactTeams: many(artifactTeam),
 }));
 
-export const teamMemberRelations = relations(teamMember, ({ one }) => ({
+const teamMemberRelations = relations(teamMember, ({ one }) => ({
 	team: one(team, {
 		fields: [teamMember.teamId],
 		references: [team.id],
@@ -184,11 +186,11 @@ export const teamMemberRelations = relations(teamMember, ({ one }) => ({
 	}),
 }));
 
-export const artifactRelations = relations(artifact, ({ many }) => ({
+const artifactRelations = relations(artifact, ({ many }) => ({
 	artifactTeams: many(artifactTeam),
 }));
 
-export const artifactTeamRelations = relations(artifactTeam, ({ one }) => ({
+const artifactTeamRelations = relations(artifactTeam, ({ one }) => ({
 	artifact: one(artifact, {
 		fields: [artifactTeam.artifactId],
 		references: [artifact.id],
@@ -199,9 +201,32 @@ export const artifactTeamRelations = relations(artifactTeam, ({ one }) => ({
 	}),
 }));
 
-export const apiKeyRelations = relations(apiKey, ({ one }) => ({
+const apiKeyRelations = relations(apiKey, ({ one }) => ({
 	user: one(user, {
 		fields: [apiKey.userId],
 		references: [user.id],
 	}),
 }));
+
+export {
+	account,
+	apiKey,
+	artifact,
+	artifactTeam,
+	session,
+	team,
+	teamMember,
+	user,
+	verification,
+};
+
+export {
+	accountRelations,
+	apiKeyRelations,
+	artifactRelations,
+	artifactTeamRelations,
+	sessionRelations,
+	teamMemberRelations,
+	teamRelations,
+	userRelations,
+};
