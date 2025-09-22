@@ -64,6 +64,13 @@
 			"when": 1758449766483,
 			"tag": "0008_even_omega_sentinel",
 			"breakpoints": true
+		},
+		{
+			"idx": 9,
+			"version": "7",
+			"when": 1758538618922,
+			"tag": "0009_certain_polaris",
+			"breakpoints": true
 		}
 	]
 }

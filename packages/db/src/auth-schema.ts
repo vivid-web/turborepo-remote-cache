@@ -1,10 +1,13 @@
 import { createId as cuid } from "@paralleldrive/cuid2";
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+
+export const roleEnum = pgEnum("role", ["user", "admin"]);
 
 export const user = pgTable("user", {
 	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => cuid()),
+	role: roleEnum("role").default("user").notNull(),
 	name: text("name").notNull(),
 	email: text("email").notNull().unique(),
 	emailVerified: boolean("email_verified").default(false).notNull(),

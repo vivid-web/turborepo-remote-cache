@@ -2,7 +2,13 @@ import { createId as cuid } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 import { pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
-import { account, session, user, verification } from "./auth-schema.js";
+import {
+	account,
+	roleEnum,
+	session,
+	user,
+	verification,
+} from "./auth-schema.js";
 
 // Schema definitions
 const team = pgTable("team", {
@@ -131,6 +137,8 @@ const apiKeyRelations = relations(apiKey, ({ one }) => ({
 		references: [user.id],
 	}),
 }));
+
+export { roleEnum };
 
 export {
 	account,
