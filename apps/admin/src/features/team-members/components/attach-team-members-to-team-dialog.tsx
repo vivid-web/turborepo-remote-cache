@@ -42,7 +42,7 @@ const ParamsSchema = z.object({
 
 const getAttachableUserOptionsForTeam = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const joinFilters: Array<SQL> = [];
 

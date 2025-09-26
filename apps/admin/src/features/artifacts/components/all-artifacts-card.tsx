@@ -32,7 +32,7 @@ const ParamsSchema = z.object({
 
 const getAllArtifacts = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
 		const filters: Array<SQL> = [];
 

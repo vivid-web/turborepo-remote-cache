@@ -8,7 +8,7 @@ import { z } from "zod";
 import { IdSchema } from "@/lib/schemas";
 
 const getBreadcrumbForUser = createServerFn({ method: "GET" })
-	.validator(z.object({ userId: IdSchema }))
+	.inputValidator(z.object({ userId: IdSchema }))
 	.handler(async ({ data: { userId } }) => {
 		const [foundUser] = await db
 			.select({ name: user.name })

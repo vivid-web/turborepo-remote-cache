@@ -9,7 +9,7 @@ import { EmailSchema, NameSchema } from "../schemas";
 
 const createUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			name: NameSchema,
 			email: EmailSchema,

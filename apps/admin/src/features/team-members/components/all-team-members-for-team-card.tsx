@@ -32,7 +32,7 @@ const ParamsSchema = z.object({ teamId: IdSchema });
 
 const getAllUsersForTeam = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		return db
 			.select({

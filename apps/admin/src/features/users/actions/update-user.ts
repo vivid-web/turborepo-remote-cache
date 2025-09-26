@@ -11,7 +11,7 @@ import { EmailSchema, NameSchema } from "../schemas";
 
 const updateUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			userId: IdSchema,
 			name: NameSchema,

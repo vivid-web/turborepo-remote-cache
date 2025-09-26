@@ -11,7 +11,7 @@ import { generateSecret } from "../utils";
 
 const createApiKeyForAccount = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			name: NameSchema,
 			expiresAt: ExpiresAtSchema,

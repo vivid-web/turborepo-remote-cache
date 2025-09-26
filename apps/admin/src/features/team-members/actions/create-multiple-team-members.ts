@@ -8,7 +8,7 @@ import { auth } from "@/middlewares/auth";
 
 const createMultipleTeamMembers = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
+	.inputValidator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
 	.handler(async ({ data }) => {
 		await db.insert(teamMember).values(data);
 	});

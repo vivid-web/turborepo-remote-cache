@@ -1,11 +1,12 @@
 import * as Sentry from "@sentry/tanstackstart-react";
-import { StartClient } from "@tanstack/react-start";
+import { StartClient } from "@tanstack/react-start/client";
+import { StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 import { env } from "./env-client";
-import { createRouter } from "./router";
+import { getRouter } from "./router";
 
-const router = createRouter();
+const router = getRouter();
 
 Sentry.init({
 	dsn: env.VITE_SENTRY_DSN,
@@ -40,4 +41,9 @@ Sentry.init({
 	replaysOnErrorSampleRate: 1.0,
 });
 
-hydrateRoot(document, <StartClient router={router} />);
+hydrateRoot(
+	document,
+	<StrictMode>
+		<StartClient />
+	</StrictMode>,
+);

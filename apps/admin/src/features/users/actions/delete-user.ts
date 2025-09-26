@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 const deleteUser = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ userId: IdSchema }))
+	.inputValidator(z.object({ userId: IdSchema }))
 	.handler(async ({ data }) => {
 		await db.delete(user).where(eq(user.id, data.userId));
 	});

@@ -28,7 +28,7 @@ const ParamsSchema = z.object({
 
 const getAllTeams = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { query } }) => {
 		const teamFilters: Array<SQL> = [];
 

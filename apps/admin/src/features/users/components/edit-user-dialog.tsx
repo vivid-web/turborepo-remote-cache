@@ -41,7 +41,7 @@ const ParamsSchema = z.object({
 
 const getDefaultValuesForUser = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { userId } }) => {
 		const [foundUser] = await db
 			.select({

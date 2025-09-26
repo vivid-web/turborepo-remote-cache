@@ -2,11 +2,9 @@ import * as Sentry from "@sentry/tanstackstart-react";
 import {
 	createStartHandler,
 	defaultStreamHandler,
-	defineHandlerCallback,
 } from "@tanstack/react-start/server";
 
 import { env } from "./env";
-import { createRouter } from "./router";
 
 Sentry.init({
 	dsn: env.VITE_SENTRY_DSN,
@@ -26,14 +24,10 @@ Sentry.init({
 	tracesSampleRate: 1.0,
 });
 
-const handlerFactory = Sentry.wrapStreamHandlerWithSentry(
-	createStartHandler({ createRouter }),
-);
-
-export default defineHandlerCallback(async (event) => {
-	// todo: figure out why Sentry doesn't play nice with the default stream handler
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	const startHandler = handlerFactory(defaultStreamHandler);
-
-	return startHandler(event);
+const fetch = createStartHandler((ctx) => {
+	return Sentry.wrapStreamHandlerWithSentry(defaultStreamHandler(ctx));
 });
+
+export default {
+	fetch,
+};

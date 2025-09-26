@@ -21,7 +21,7 @@ const ParamsSchema = z.object({
 
 const getTotalUsersForTeam = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const [result] = await db
 			.select({ count: count() })

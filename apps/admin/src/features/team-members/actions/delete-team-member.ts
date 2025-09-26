@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 const deleteTeamMember = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ teamId: IdSchema, userId: IdSchema }))
+	.inputValidator(z.object({ teamId: IdSchema, userId: IdSchema }))
 	.handler(async ({ data: { teamId, userId } }) => {
 		const filters: Array<SQL> = [];
 

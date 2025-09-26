@@ -13,7 +13,7 @@ import { generateSecret } from "../utils";
 
 const rerollApiKeyForAccount = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			apiKeyId: IdSchema,
 			name: NameSchema,
