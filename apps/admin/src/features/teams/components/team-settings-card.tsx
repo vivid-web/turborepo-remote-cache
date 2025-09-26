@@ -40,7 +40,7 @@ const ParamsSchema = z.object({
 
 const getSettingsForTeam = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		const [foundTeam] = await db
 			.select({

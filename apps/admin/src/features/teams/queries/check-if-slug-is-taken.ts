@@ -11,7 +11,7 @@ import { SlugSchema } from "../schemas";
 
 const checkIfSlugIsTaken = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			teamId: IdSchema.optional(),
 			slug: SlugSchema,

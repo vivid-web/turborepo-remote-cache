@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 const revokeApiKeyForAccount = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ apiKeyId: IdSchema }))
+	.inputValidator(z.object({ apiKeyId: IdSchema }))
 	.handler(async ({ data, context: { user } }) => {
 		const filters: Array<SQL> = [];
 

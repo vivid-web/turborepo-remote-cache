@@ -9,7 +9,7 @@ import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 
 const createTeam = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			name: NameSchema,
 			slug: SlugSchema,

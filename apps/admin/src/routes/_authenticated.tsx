@@ -1,10 +1,10 @@
 import {
 	createFileRoute,
-	invariant,
 	Link,
 	Outlet,
 	redirect,
 } from "@tanstack/react-router";
+import { invariant } from "@turborepo-remote-cache/core";
 import {
 	DatabaseZapIcon,
 	PackageIcon,

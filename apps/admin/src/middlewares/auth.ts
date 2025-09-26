@@ -1,13 +1,16 @@
 import { createMiddleware } from "@tanstack/react-start";
-import { getWebRequest, setResponseStatus } from "@tanstack/react-start/server";
+import {
+	getRequestHeaders,
+	setResponseStatus,
+} from "@tanstack/react-start/server";
 
 import { auth as betterAuth } from "@/lib/auth";
 
 const auth = createMiddleware({ type: "function" }).server(async ({ next }) => {
-	const request = getWebRequest();
+	const headers = getRequestHeaders();
 
 	const result = await betterAuth.api.getSession({
-		headers: request.headers,
+		headers,
 		query: {
 			// ensure session is fresh
 			// https://www.better-auth.com/docs/concepts/session-management#cookie-cache

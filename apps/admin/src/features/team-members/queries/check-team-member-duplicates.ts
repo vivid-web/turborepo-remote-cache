@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 const checkTeamMemberDuplicates = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
+	.inputValidator(z.object({ teamId: IdSchema, userId: IdSchema }).array())
 	.handler(async ({ data }) => {
 		const filters = data.map(({ teamId, userId }) => {
 			const filter: Array<SQL> = [];

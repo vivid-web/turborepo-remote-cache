@@ -11,7 +11,7 @@ import { DescriptionSchema, NameSchema, SlugSchema } from "../schemas";
 
 const updateTeam = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			teamId: IdSchema,
 			name: NameSchema,

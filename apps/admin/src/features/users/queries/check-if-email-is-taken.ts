@@ -11,7 +11,7 @@ import { EmailSchema } from "../schemas";
 
 const checkIfEmailIsTaken = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(
+	.inputValidator(
 		z.object({
 			email: EmailSchema,
 			userId: IdSchema.optional(),

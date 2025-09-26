@@ -9,7 +9,7 @@ import { auth } from "@/middlewares/auth";
 
 const deleteTeam = createServerFn({ method: "POST" })
 	.middleware([auth])
-	.validator(z.object({ teamId: IdSchema }))
+	.inputValidator(z.object({ teamId: IdSchema }))
 	.handler(async ({ data }) => {
 		await db.delete(team).where(eq(team.id, data.teamId));
 	});

@@ -8,8 +8,6 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createServerRootRoute } from '@tanstack/react-start/server'
-
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as GuestRouteImport } from './routes/_guest'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
@@ -22,14 +20,12 @@ import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated.users.index'
 import { Route as AuthenticatedTeamsIndexRouteImport } from './routes/_authenticated.teams.index'
 import { Route as AuthenticatedArtifactsIndexRouteImport } from './routes/_authenticated.artifacts.index'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated.users.$userId'
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated.teams.$teamId'
 import { Route as AuthenticatedAccountApiKeysRouteImport } from './routes/_authenticated.account.api-keys'
 import { Route as AuthenticatedAccountApiKeysIndexRouteImport } from './routes/_authenticated.account.api-keys.index'
-import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth.$'
-import { ServerRoute as ApiV8ArtifactsSplatServerRouteImport } from './routes/api/v8.artifacts.$'
-
-const rootServerRouteImport = createServerRootRoute()
+import { Route as ApiV8ArtifactsSplatRouteImport } from './routes/api/v8.artifacts.$'
 
 const GuestRoute = GuestRouteImport.update({
   id: '/_guest',
@@ -85,6 +81,11 @@ const AuthenticatedArtifactsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedArtifactsRoute,
   } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedUsersUserIdRoute =
   AuthenticatedUsersUserIdRouteImport.update({
     id: '/$userId',
@@ -109,17 +110,11 @@ const AuthenticatedAccountApiKeysIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedAccountApiKeysRoute,
   } as any)
-const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootServerRouteImport,
+const ApiV8ArtifactsSplatRoute = ApiV8ArtifactsSplatRouteImport.update({
+  id: '/api/v8/artifacts/$',
+  path: '/api/v8/artifacts/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ApiV8ArtifactsSplatServerRoute =
-  ApiV8ArtifactsSplatServerRouteImport.update({
-    id: '/api/v8/artifacts/$',
-    path: '/api/v8/artifacts/$',
-    getParentRoute: () => rootServerRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRouteWithChildren
@@ -131,9 +126,11 @@ export interface FileRoutesByFullPath {
   '/account/api-keys': typeof AuthenticatedAccountApiKeysRouteWithChildren
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/artifacts/': typeof AuthenticatedArtifactsIndexRoute
   '/teams/': typeof AuthenticatedTeamsIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatRoute
   '/account/api-keys/': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRoutesByTo {
@@ -142,9 +139,11 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/artifacts': typeof AuthenticatedArtifactsIndexRoute
   '/teams': typeof AuthenticatedTeamsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatRoute
   '/account/api-keys': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRoutesById {
@@ -160,9 +159,11 @@ export interface FileRoutesById {
   '/_authenticated/account/api-keys': typeof AuthenticatedAccountApiKeysRouteWithChildren
   '/_authenticated/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authenticated/artifacts/': typeof AuthenticatedArtifactsIndexRoute
   '/_authenticated/teams/': typeof AuthenticatedTeamsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatRoute
   '/_authenticated/account/api-keys/': typeof AuthenticatedAccountApiKeysIndexRoute
 }
 export interface FileRouteTypes {
@@ -177,9 +178,11 @@ export interface FileRouteTypes {
     | '/account/api-keys'
     | '/teams/$teamId'
     | '/users/$userId'
+    | '/api/auth/$'
     | '/artifacts/'
     | '/teams/'
     | '/users/'
+    | '/api/v8/artifacts/$'
     | '/account/api-keys/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -188,9 +191,11 @@ export interface FileRouteTypes {
     | '/'
     | '/teams/$teamId'
     | '/users/$userId'
+    | '/api/auth/$'
     | '/artifacts'
     | '/teams'
     | '/users'
+    | '/api/v8/artifacts/$'
     | '/account/api-keys'
   id:
     | '__root__'
@@ -205,40 +210,19 @@ export interface FileRouteTypes {
     | '/_authenticated/account/api-keys'
     | '/_authenticated/teams/$teamId'
     | '/_authenticated/users/$userId'
+    | '/api/auth/$'
     | '/_authenticated/artifacts/'
     | '/_authenticated/teams/'
     | '/_authenticated/users/'
+    | '/api/v8/artifacts/$'
     | '/_authenticated/account/api-keys/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   GuestRoute: typeof GuestRouteWithChildren
-}
-export interface FileServerRoutesByFullPath {
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
-}
-export interface FileServerRoutesByTo {
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
-}
-export interface FileServerRoutesById {
-  __root__: typeof rootServerRouteImport
-  '/api/auth/$': typeof ApiAuthSplatServerRoute
-  '/api/v8/artifacts/$': typeof ApiV8ArtifactsSplatServerRoute
-}
-export interface FileServerRouteTypes {
-  fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/auth/$' | '/api/v8/artifacts/$'
-  fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/auth/$' | '/api/v8/artifacts/$'
-  id: '__root__' | '/api/auth/$' | '/api/v8/artifacts/$'
-  fileServerRoutesById: FileServerRoutesById
-}
-export interface RootServerRouteChildren {
-  ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
-  ApiV8ArtifactsSplatServerRoute: typeof ApiV8ArtifactsSplatServerRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiV8ArtifactsSplatRoute: typeof ApiV8ArtifactsSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -320,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArtifactsIndexRouteImport
       parentRoute: typeof AuthenticatedArtifactsRoute
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/users/$userId': {
       id: '/_authenticated/users/$userId'
       path: '/$userId'
@@ -348,23 +339,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountApiKeysIndexRouteImport
       parentRoute: typeof AuthenticatedAccountApiKeysRoute
     }
-  }
-}
-declare module '@tanstack/react-start/server' {
-  interface ServerFileRoutesByPath {
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatServerRouteImport
-      parentRoute: typeof rootServerRouteImport
-    }
     '/api/v8/artifacts/$': {
       id: '/api/v8/artifacts/$'
       path: '/api/v8/artifacts/$'
       fullPath: '/api/v8/artifacts/$'
-      preLoaderRoute: typeof ApiV8ArtifactsSplatServerRouteImport
-      parentRoute: typeof rootServerRouteImport
+      preLoaderRoute: typeof ApiV8ArtifactsSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -469,14 +449,19 @@ const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   GuestRoute: GuestRouteWithChildren,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiV8ArtifactsSplatRoute: ApiV8ArtifactsSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-const rootServerRouteChildren: RootServerRouteChildren = {
-  ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
-  ApiV8ArtifactsSplatServerRoute: ApiV8ArtifactsSplatServerRoute,
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
 }
-export const serverRouteTree = rootServerRouteImport
-  ._addFileChildren(rootServerRouteChildren)
-  ._addFileTypes<FileServerRouteTypes>()

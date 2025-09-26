@@ -56,7 +56,7 @@ type RerollApiKeyInput = z.input<typeof RerollApiKeySchema>;
 
 const getDefaultValuesForApiKey = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { apiKeyId }, context: { user } }) => {
 		const filters: Array<SQL> = [];
 

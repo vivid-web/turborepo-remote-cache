@@ -30,7 +30,7 @@ const ParamsSchema = z.object({
 
 const getAllArtifactsForTeam = createServerFn({ method: "GET" })
 	.middleware([auth])
-	.validator(ParamsSchema)
+	.inputValidator(ParamsSchema)
 	.handler(async ({ data: { teamId } }) => {
 		return db
 			.select({
