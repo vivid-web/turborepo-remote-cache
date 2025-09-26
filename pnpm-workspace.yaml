@@ -2,9 +2,11 @@ packages:
   - apps/*
   - packages/*
   - tooling/*
+
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - "@sentry/cli"
   - "@tailwindcss/oxide"
   - esbuild
+  - sharp
   - unrs-resolver
