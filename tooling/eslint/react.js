@@ -1,9 +1,9 @@
 import { fixupPluginRules } from "@eslint/compat";
 import react from "eslint-plugin-react";
 import * as reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig } from "eslint/config";
 
-/** @type {Awaited<import('typescript-eslint').Config>} */
-export default [
+export default defineConfig([
 	{
 		files: ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"],
 		settings: {
@@ -27,4 +27,4 @@ export default [
 		...react.configs.flat.recommended,
 		...react.configs.flat["jsx-runtime"],
 	},
-];
+]);
