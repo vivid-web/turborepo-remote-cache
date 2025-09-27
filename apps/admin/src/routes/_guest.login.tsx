@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
 import { toast } from "sonner";
@@ -13,8 +14,38 @@ export const Route = createFileRoute("/_guest/login")({
 	component: RouteComponent,
 });
 
+const LoginFormSchema = z.object({
+	email: z.email(),
+	password: z.string(),
+});
+
+type LoginForm = z.output<typeof LoginFormSchema>;
+
 function RouteComponent() {
 	const navigate = useNavigate();
+
+	const mutation = useMutation({
+		mutationFn: async (params: LoginForm) => {
+			await signIn.email(params, { throw: true });
+		},
+		onSuccess: async () => {
+			toast.success("Logged in successfully");
+
+			await navigate({ to: "/" });
+		},
+		onError: () => {
+			form.setErrorMap({
+				onChange: {
+					fields: {
+						email: { message: "Incorrect email or password" },
+					},
+				},
+			});
+		},
+		onSettled: () => {
+			form.resetField("password");
+		},
+	});
 
 	const form = useAppForm({
 		defaultValues: {
@@ -22,17 +53,10 @@ function RouteComponent() {
 			password: "",
 		},
 		validators: {
-			onChange: z.object({
-				email: z.email(),
-				password: z.string(),
-			}),
+			onChange: LoginFormSchema,
 		},
 		onSubmit: async ({ value }) => {
-			await signIn.email(value);
-
-			toast.success("Logged in successfully");
-
-			await navigate({ to: "/" });
+			await mutation.mutateAsync(value);
 		},
 	});
 
@@ -58,21 +82,22 @@ function RouteComponent() {
 							<form.AppField
 								name="email"
 								children={(field) => (
-									<field.FormItem className="grid gap-3">
+									<field.FormItem>
 										<field.FormLabel>Email</field.FormLabel>
 										<field.FormControl>
 											<Input
-												onBlur={field.handleBlur}
+												placeholder="m@example.com"
+												name={field.name}
+												value={field.state.value}
 												onChange={(e) => {
 													field.handleChange(e.target.value);
 												}}
-												placeholder="m@example.com"
-												required
+												onBlur={field.handleBlur}
 												type="email"
-												value={field.state.value}
+												required
 											/>
 										</field.FormControl>
-										<field.FormMessage />
+										<field.FormMessage className="text-xs" />
 									</field.FormItem>
 								)}
 							/>
@@ -80,20 +105,21 @@ function RouteComponent() {
 							<form.AppField
 								name="password"
 								children={(field) => (
-									<field.FormItem className="grid gap-3">
+									<field.FormItem>
 										<field.FormLabel>Password</field.FormLabel>{" "}
 										<field.FormControl>
 											<Input
-												onBlur={field.handleBlur}
+												name={field.name}
+												value={field.state.value}
 												onChange={(e) => {
 													field.handleChange(e.target.value);
 												}}
-												required
+												onBlur={field.handleBlur}
 												type="password"
-												value={field.state.value}
+												required
 											/>
 										</field.FormControl>
-										<field.FormMessage />
+										<field.FormMessage className="text-xs" />
 									</field.FormItem>
 								)}
 							/>
