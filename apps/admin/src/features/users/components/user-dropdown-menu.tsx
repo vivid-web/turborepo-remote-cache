@@ -2,6 +2,7 @@ import type { User } from "better-auth";
 
 import { Link, useNavigate } from "@tanstack/react-router";
 import { EllipsisVerticalIcon, KeyRoundIcon, LogOutIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -24,6 +25,9 @@ function UserDropdownMenu({ image, name, email }: User) {
 
 	const handleLogOut = async () => {
 		await signOut();
+
+		toast.success("Logged out successfully");
+
 		await navigate({ to: "/login" });
 	};
 
