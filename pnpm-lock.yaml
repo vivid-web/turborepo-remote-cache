@@ -95,9 +95,6 @@ importers:
       '@turborepo-remote-cache/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@turborepo-remote-cache/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
       '@turborepo-remote-cache/core':
         specifier: workspace:*
         version: link:../../packages/core

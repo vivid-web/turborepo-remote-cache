@@ -13,11 +13,12 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"auth:generate": "dotenv -e .env -- pnpx @better-auth/cli generate --config ./src/lib/auth.server.ts --output ../../packages/db/src/auth-schema.ts",
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:studio": "drizzle-kit studio",
-		"migrate": "dotenv -e .env -- node scripts/migrate.js",
-		"seed": "dotenv -e .env -- node scripts/seed.js",
+		"migrate": "dotenv -e .env -- tsx ./scripts/migrate.ts",
+		"seed": "dotenv -e .env -- txs ./scripts/seed.ts",
 		"lint": "eslint --cache --cache-location .cache/eslint .",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
@@ -45,7 +46,6 @@
 		"@tanstack/react-router-ssr-query": "^1.132.7",
 		"@tanstack/react-start": "^1.132.9",
 		"@turborepo-remote-cache/api": "workspace:*",
-		"@turborepo-remote-cache/auth": "workspace:*",
 		"@turborepo-remote-cache/core": "workspace:*",
 		"@turborepo-remote-cache/db": "workspace:*",
 		"@turborepo-remote-cache/storage": "workspace:*",

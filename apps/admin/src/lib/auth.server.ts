@@ -1,4 +1,7 @@
-import { createAuth } from "@turborepo-remote-cache/auth";
+import { db } from "@turborepo-remote-cache/db/client";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { reactStartCookies } from "better-auth/react-start";
 
 import { env } from "@/env.server";
 
@@ -26,7 +29,21 @@ function getBaseUrl() {
 	return env.BASE_URL;
 }
 
-export const auth = createAuth({
+const auth = betterAuth({
 	secret: env.BETTER_AUTH_SECRET,
 	baseURL: getBaseUrl(),
+	plugins: [reactStartCookies()],
+	emailAndPassword: {
+		enabled: true,
+	},
+	advanced: {
+		database: {
+			generateId: false,
+		},
+	},
+	database: drizzleAdapter(db, {
+		provider: "pg",
+	}),
 });
+
+export { auth };
