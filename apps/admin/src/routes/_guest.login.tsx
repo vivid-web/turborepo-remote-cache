@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
@@ -28,6 +29,8 @@ function RouteComponent() {
 		},
 		onSubmit: async ({ value }) => {
 			await signIn.email(value);
+
+			toast.success("Logged in successfully");
 
 			await navigate({ to: "/" });
 		},
