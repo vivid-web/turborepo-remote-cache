@@ -3,7 +3,7 @@ import { StartClient } from "@tanstack/react-start/client";
 import { StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
-import { env } from "./env-client";
+import { env } from "./env.client";
 import { getRouter } from "./router";
 
 const router = getRouter();

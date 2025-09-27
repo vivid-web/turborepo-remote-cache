@@ -1,6 +1,6 @@
 import { createAuth } from "@turborepo-remote-cache/auth";
 
-import { env } from "@/env";
+import { env } from "@/env.server";
 
 function getNetlifyBaseUrl() {
 	if (env.CONTEXT === "production" && env.URL) {
