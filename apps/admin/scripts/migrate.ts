@@ -1,11 +1,10 @@
-import { createAuth } from "@turborepo-remote-cache/auth";
 import { eq } from "@turborepo-remote-cache/db";
 import { client, db } from "@turborepo-remote-cache/db/client";
 import { user } from "@turborepo-remote-cache/db/schema";
 import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
 import * as R from "remeda";
 
-const auth = createAuth({ secret: process.env.BETTER_AUTH_SECRET });
+import { auth } from "../src/lib/auth.server";
 
 async function migrateAdminUser() {
 	const name = process.env.ADMIN_NAME;
