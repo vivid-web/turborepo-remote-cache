@@ -278,46 +278,6 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
-  packages/auth:
-    dependencies:
-      '@t3-oss/env-core':
-        specifier: ^0.13.8
-        version: 0.13.8(typescript@5.9.2)(zod@4.1.11)
-      '@turborepo-remote-cache/db':
-        specifier: workspace:*
-        version: link:../db
-      better-auth:
-        specifier: ^1.3.18
-        version: 1.3.18(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(solid-js@1.9.9)
-      std-env:
-        specifier: ^3.9.0
-        version: 3.9.0
-      zod:
-        specifier: ^4.1.11
-        version: 4.1.11
-    devDependencies:
-      '@eslint/compat':
-        specifier: ^1.4.0
-        version: 1.4.0(eslint@9.36.0(jiti@2.6.0))
-      '@turborepo-remote-cache/eslint-config':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@turborepo-remote-cache/prettier-config':
-        specifier: workspace:*
-        version: link:../../tooling/prettier
-      '@turborepo-remote-cache/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
-      eslint:
-        specifier: ^9.36.0
-        version: 9.36.0(jiti@2.6.0)
-      prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
-      typescript:
-        specifier: ^5.9.2
-        version: 5.9.2
-
   packages/core:
     devDependencies:
       '@eslint/compat':
