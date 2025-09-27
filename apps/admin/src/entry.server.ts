@@ -4,7 +4,7 @@ import {
 	defaultStreamHandler,
 } from "@tanstack/react-start/server";
 
-import { env } from "./env";
+import { env } from "./env.server";
 
 Sentry.init({
 	dsn: env.VITE_SENTRY_DSN,

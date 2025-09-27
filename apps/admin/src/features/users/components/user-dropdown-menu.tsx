@@ -14,7 +14,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
-import { signOut } from "@/lib/auth-client";
+import { signOut } from "@/lib/auth.client";
 
 import { getAvatarFallback } from "../utils";
 

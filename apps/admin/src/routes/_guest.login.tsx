@@ -6,7 +6,7 @@ import { ButtonWithPendingState } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth.client";
 
 export const Route = createFileRoute("/_guest/login")({
 	component: RouteComponent,

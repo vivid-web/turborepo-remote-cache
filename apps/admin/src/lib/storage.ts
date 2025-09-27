@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 import { createStorage as createLocalStorage } from "@turborepo-remote-cache/storage/local";
 import { createStorage as createNetlifyBlobsStorage } from "@turborepo-remote-cache/storage/netlify-blobs";
 
-import { env } from "../env.js";
+import { env } from "../env.server";
 
 function handleLocalStorage() {
 	const basePath = env.LOCAL_STORAGE_PATH;
