@@ -3,11 +3,11 @@ import js from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
 import { importX } from "eslint-plugin-import-x";
 import perfectionist from "eslint-plugin-perfectionist";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import * as ts from "typescript-eslint";
 
-/** @type {import("eslint").Linter.Config[]} */
-export default ts.config(
+export default defineConfig(
 	prettierConfig,
 	perfectionist.configs["recommended-natural"],
 	comments.recommended,
