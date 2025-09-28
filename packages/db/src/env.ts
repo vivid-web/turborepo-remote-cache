@@ -4,7 +4,10 @@ import { z } from "zod";
 
 export const env = createEnv({
 	server: {
-		DATABASE_URL: z.url(),
+		DATABASE_URL: z
+			.url()
+			.optional()
+			.default("postgresql://postgres:postgres@localhost:5432/main"),
 	},
 	runtimeEnvStrict: {
 		DATABASE_URL: process.env.DATABASE_URL,
