@@ -1,7 +1,7 @@
+import { and, eq, SQL } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { teamMember } from "@remote-cache/db/schema";
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq, SQL } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import { teamMember } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { IdSchema } from "@/lib/schemas";

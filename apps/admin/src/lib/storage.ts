@@ -1,8 +1,8 @@
-import type { Storage } from "@turborepo-remote-cache/storage";
+import type { Storage } from "@remote-cache/storage";
 
 import { getStore } from "@netlify/blobs";
-import { createStorage as createLocalStorage } from "@turborepo-remote-cache/storage/local";
-import { createStorage as createNetlifyBlobsStorage } from "@turborepo-remote-cache/storage/netlify-blobs";
+import { createStorage as createLocalStorage } from "@remote-cache/storage/local";
+import { createStorage as createNetlifyBlobsStorage } from "@remote-cache/storage/netlify-blobs";
 
 import { env } from "../env.server";
 

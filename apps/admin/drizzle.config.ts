@@ -8,5 +8,5 @@ export default defineConfig({
 	},
 	dialect: "postgresql",
 	out: "./migrations",
-	schema: require.resolve("@turborepo-remote-cache/db/schema"),
+	schema: require.resolve("@remote-cache/db/schema"),
 });

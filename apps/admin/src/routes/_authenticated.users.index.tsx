@@ -43,7 +43,7 @@ function RouteComponent() {
 				<div>
 					<h1 className="text-3xl font-bold tracking-tight">Users</h1>
 					<p className="text-muted-foreground">
-						Manage users and their access to the Turborepo cache
+						Manage users and their access to the remote cache
 					</p>
 				</div>
 				<React.Suspense

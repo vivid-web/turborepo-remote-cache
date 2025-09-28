@@ -1,11 +1,7 @@
-import { invariant } from "@turborepo-remote-cache/core";
-import { eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import {
-	apiKey,
-	artifact,
-	artifactTeam,
-} from "@turborepo-remote-cache/db/schema";
+import { invariant } from "@remote-cache/core";
+import { eq } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { apiKey, artifact, artifactTeam } from "@remote-cache/db/schema";
 import * as R from "remeda";
 
 export async function touchApiKeyForToken(token: string) {

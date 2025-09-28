@@ -1,4 +1,4 @@
-import { invariant } from "@turborepo-remote-cache/core";
+import { invariant } from "@remote-cache/core";
 import { Command } from "cmdk";
 import {
 	CheckSquareIcon,

@@ -1,5 +1,5 @@
 {
-	"extends": "@turborepo-remote-cache/tsconfig/tsc/no-dom/library",
+	"extends": "@remote-cache/tsconfig/tsc/no-dom/library",
 	"compilerOptions": {
 		"tsBuildInfoFile": ".cache/tsconfig.tsbuildinfo",
 		"noEmit": true

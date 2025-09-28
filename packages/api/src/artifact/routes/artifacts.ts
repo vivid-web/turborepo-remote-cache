@@ -1,7 +1,7 @@
-import type { Storage } from "@turborepo-remote-cache/storage";
+import type { Storage } from "@remote-cache/storage";
 
 import { zValidator } from "@hono/zod-validator";
-import { invariant } from "@turborepo-remote-cache/core";
+import { invariant } from "@remote-cache/core";
 import { Hono } from "hono";
 import { stream } from "hono/streaming";
 import * as HttpStatusCodes from "stoker/http-status-codes";

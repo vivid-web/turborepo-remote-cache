@@ -1,5 +1,5 @@
 {
-	"name": "@turborepo-remote-cache/eslint-config",
+	"name": "@remote-cache/eslint-config",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
@@ -26,11 +26,11 @@
 		"typescript-eslint": "^8.44.1"
 	},
 	"devDependencies": {
-		"@turborepo-remote-cache/prettier-config": "workspace:*",
-		"@turborepo-remote-cache/tsconfig": "workspace:*",
+		"@remote-cache/prettier-config": "workspace:*",
+		"@remote-cache/tsconfig": "workspace:*",
 		"eslint": "^9.36.0",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.2"
 	},
-	"prettier": "@turborepo-remote-cache/prettier-config"
+	"prettier": "@remote-cache/prettier-config"
 }

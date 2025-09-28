@@ -1,5 +1,5 @@
 {
-	"extends": "@turborepo-remote-cache/tsconfig/bundler/dom",
+	"extends": "@remote-cache/tsconfig/bundler/dom",
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"moduleResolution": "Bundler",

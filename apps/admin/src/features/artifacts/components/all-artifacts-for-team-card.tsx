@@ -1,12 +1,8 @@
+import { eq } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { artifact, artifactTeam, team } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import {
-	artifact,
-	artifactTeam,
-	team,
-} from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import {

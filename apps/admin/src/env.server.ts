@@ -1,6 +1,6 @@
+import { env as db } from "@remote-cache/db";
 import { createEnv } from "@t3-oss/env-core";
 import { netlify } from "@t3-oss/env-core/presets-zod";
-import { env as db } from "@turborepo-remote-cache/db";
 import { process } from "std-env";
 import { z } from "zod";
 

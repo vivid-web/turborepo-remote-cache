@@ -1,4 +1,4 @@
-import { db } from "@turborepo-remote-cache/db/client";
+import { db } from "@remote-cache/db/client";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { reactStartCookies } from "better-auth/react-start";

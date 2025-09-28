@@ -1,10 +1,10 @@
+import { invariant } from "@remote-cache/core";
 import {
 	createFileRoute,
 	Link,
 	Outlet,
 	redirect,
 } from "@tanstack/react-router";
-import { invariant } from "@turborepo-remote-cache/core";
 import {
 	DatabaseZapIcon,
 	PackageIcon,
@@ -72,9 +72,7 @@ function PathlessLayoutComponent() {
 							>
 								<Link to="/">
 									<DatabaseZapIcon className="!size-5" />
-									<span className="text-base font-semibold">
-										Turborepo Cache
-									</span>
+									<span className="text-base font-semibold">Remote Cache</span>
 								</Link>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
