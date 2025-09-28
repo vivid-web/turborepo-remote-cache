@@ -1,10 +1,10 @@
 {
-	"name": "@remote-cache/admin",
-	"description": "The admin panel for the remote cache",
+	"name": "@remote-cache/web",
+	"description": "The web interface for the remote cache",
 	"keywords": [
 		"cache",
 		"remote",
-		"admin"
+		"web"
 	],
 	"author": "Peter van Meijgaard <peter@vivid-web.com>",
 	"license": "MIT",

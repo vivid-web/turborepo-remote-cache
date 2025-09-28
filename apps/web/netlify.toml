@@ -1,0 +1,11 @@
+[build]
+  base = "/"
+  publish = "apps/web/dist/client"
+  command = "turbo @remote-cache/web#build migrate"
+
+[dev]
+  base = "/"
+  port = 8888
+  targetPort = 3000
+  autoLaunch = false
+  command = "turbo @remote-cache/web#dev"
