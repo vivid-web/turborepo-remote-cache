@@ -76,7 +76,7 @@ function RouteComponent() {
 							<div className="flex flex-col items-center text-center">
 								<h1 className="text-2xl font-bold">Welcome back</h1>
 								<p className="text-balance text-muted-foreground">
-									Login to the Turborepo cache dashboard
+									Login to the remote cache dashboard
 								</p>
 							</div>
 							<form.AppField

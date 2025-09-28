@@ -1,8 +1,7 @@
 {
-	"name": "turborepo-remote-cache",
-	"description": "The monorepo for the Turborepo remote cache project",
+	"name": "remote-cache",
+	"description": "The monorepo for the remote cache project",
 	"keywords": [
-		"Turborepo",
 		"cache",
 		"remote",
 		"admin"
@@ -24,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@manypkg/cli": "^0.25.1",
-		"@turborepo-remote-cache/prettier-config": "workspace:*",
+		"@remote-cache/prettier-config": "workspace:*",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.1",
 		"prettier": "^3.6.2",
@@ -34,5 +33,5 @@
 		"node": ">=22.20.0"
 	},
 	"packageManager": "pnpm@10.17.1",
-	"prettier": "@turborepo-remote-cache/prettier-config"
+	"prettier": "@remote-cache/prettier-config"
 }

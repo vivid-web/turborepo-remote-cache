@@ -1,6 +1,6 @@
+import { db } from "@remote-cache/db/client";
+import { apiKey } from "@remote-cache/db/schema";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "@turborepo-remote-cache/db/client";
-import { apiKey } from "@turborepo-remote-cache/db/schema";
 import { z } from "zod";
 
 import { auth } from "@/middlewares/auth";

@@ -1,7 +1,7 @@
+import { db } from "@remote-cache/db/client";
+import { artifact } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "@turborepo-remote-cache/db/client";
-import { artifact } from "@turborepo-remote-cache/db/schema";
 import { PackageIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

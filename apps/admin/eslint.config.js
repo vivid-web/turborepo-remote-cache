@@ -1,6 +1,6 @@
 import { includeIgnoreFile } from "@eslint/compat";
-import baseConfig from "@turborepo-remote-cache/eslint-config/base";
-import reactConfig from "@turborepo-remote-cache/eslint-config/react";
+import baseConfig from "@remote-cache/eslint-config/base";
+import reactConfig from "@remote-cache/eslint-config/react";
 import { defineConfig } from "eslint/config";
 import { fileURLToPath } from "node:url";
 

@@ -1,5 +1,5 @@
+import { createHandler } from "@remote-cache/api/artifact";
 import { createFileRoute } from "@tanstack/react-router";
-import { createHandler } from "@turborepo-remote-cache/api/artifact";
 
 import { storage } from "@/lib/storage";
 

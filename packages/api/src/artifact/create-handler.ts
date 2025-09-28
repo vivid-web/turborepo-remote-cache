@@ -1,4 +1,4 @@
-import type { Storage } from "@turborepo-remote-cache/storage";
+import type { Storage } from "@remote-cache/storage";
 
 import { Hono } from "hono";
 

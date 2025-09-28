@@ -1,5 +1,5 @@
 {
-	"name": "@turborepo-remote-cache/api",
+	"name": "@remote-cache/api",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
@@ -18,10 +18,10 @@
 	},
 	"dependencies": {
 		"@hono/zod-validator": "^0.7.3",
+		"@remote-cache/core": "workspace:*",
+		"@remote-cache/db": "workspace:*",
+		"@remote-cache/storage": "workspace:*",
 		"@t3-oss/env-core": "^0.13.8",
-		"@turborepo-remote-cache/core": "workspace:*",
-		"@turborepo-remote-cache/db": "workspace:*",
-		"@turborepo-remote-cache/storage": "workspace:*",
 		"hono": "^4.9.8",
 		"remeda": "^2.32.0",
 		"std-env": "^3.9.0",
@@ -30,12 +30,12 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
-		"@turborepo-remote-cache/eslint-config": "workspace:*",
-		"@turborepo-remote-cache/prettier-config": "workspace:*",
-		"@turborepo-remote-cache/tsconfig": "workspace:*",
+		"@remote-cache/eslint-config": "workspace:*",
+		"@remote-cache/prettier-config": "workspace:*",
+		"@remote-cache/tsconfig": "workspace:*",
 		"eslint": "^9.36.0",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.2"
 	},
-	"prettier": "@turborepo-remote-cache/prettier-config"
+	"prettier": "@remote-cache/prettier-config"
 }

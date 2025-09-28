@@ -6,8 +6,8 @@ import {
 	or,
 	SQL,
 	type SQLWrapper,
-} from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
+} from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
 import {
 	apiKey,
 	artifact,
@@ -15,7 +15,7 @@ import {
 	team,
 	teamMember,
 	user,
-} from "@turborepo-remote-cache/db/schema";
+} from "@remote-cache/db/schema";
 import * as R from "remeda";
 
 type TeamIdOrSlug = {

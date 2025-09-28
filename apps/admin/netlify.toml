@@ -1,11 +1,11 @@
 [build]
   base = "/"
   publish = "apps/admin/dist/client"
-  command = "turbo @turborepo-remote-cache/admin#build migrate"
+  command = "turbo @remote-cache/admin#build migrate"
 
 [dev]
   base = "/"
   port = 8888
   targetPort = 3000
   autoLaunch = false
-  command = "turbo @turborepo-remote-cache/admin#dev"
+  command = "turbo @remote-cache/admin#dev"

@@ -1,3 +1,6 @@
+import { eq } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { team } from "@remote-cache/db/schema";
 import {
 	queryOptions,
 	useQueryClient,
@@ -5,9 +8,6 @@ import {
 } from "@tanstack/react-query";
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import { team } from "@turborepo-remote-cache/db/schema";
 import * as React from "react";
 import { toast } from "sonner";
 import { z } from "zod";

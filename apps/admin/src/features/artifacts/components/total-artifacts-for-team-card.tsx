@@ -1,13 +1,9 @@
+import { count, eq } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { artifact, artifactTeam, team } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { count, eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import {
-	artifact,
-	artifactTeam,
-	team,
-} from "@turborepo-remote-cache/db/schema";
 import { PackageIcon } from "lucide-react";
 import { z } from "zod";
 

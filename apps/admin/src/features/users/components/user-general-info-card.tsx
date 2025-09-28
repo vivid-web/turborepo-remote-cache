@@ -1,9 +1,9 @@
+import { desc, eq } from "@remote-cache/db";
+import { db } from "@remote-cache/db/client";
+import { session, user } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { desc, eq } from "@turborepo-remote-cache/db";
-import { db } from "@turborepo-remote-cache/db/client";
-import { session, user } from "@turborepo-remote-cache/db/schema";
 import { ActivityIcon, CalendarIcon, MailIcon } from "lucide-react";
 import * as R from "remeda";
 import { z } from "zod";
