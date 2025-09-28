@@ -1,8 +1,11 @@
 [build]
-base = "/"
-publish = "/apps/admin/dist"
+  base = "/"
+  publish = "apps/admin/dist/client"
+  command = "turbo @turborepo-remote-cache/admin#build migrate"
 
 [dev]
-targetPort = 3000
-port = 8888
-autoLaunch = false
+  base = "/"
+  port = 8888
+  targetPort = 3000
+  autoLaunch = false
+  command = "turbo @turborepo-remote-cache/admin#dev"
