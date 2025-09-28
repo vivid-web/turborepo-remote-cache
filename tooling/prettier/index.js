@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 /** @type { PrettierConfig | TailwindConfig } */
 const config = {
 	useTabs: true,
-	plugins: ["prettier-plugin-tailwindcss"],
+	plugins: [import("prettier-plugin-tailwindcss")],
 	tailwindStylesheet: fileURLToPath(
 		new URL("../../apps/web/src/styles/app.css", import.meta.url),
 	),
