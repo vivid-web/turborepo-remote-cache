@@ -198,9 +198,6 @@ importers:
       eslint:
         specifier: ^9.36.0
         version: 9.36.0(jiti@2.6.0)
-      h3:
-        specifier: 2.0.0-beta.4
-        version: 2.0.0-beta.4(crossws@0.4.1(srvx@0.8.7))
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
