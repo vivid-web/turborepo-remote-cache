@@ -13,13 +13,7 @@
 		},
 		"build": {
 			"env": ["NETLIFY", "SENTRY_AUTH_TOKEN", "SENTRY_ORG", "SENTRY_PROJECT"],
-			"outputs": [
-				".netlify/**",
-				".nitro/**",
-				".output/**",
-				".tanstack/**",
-				"dist/**"
-			]
+			"outputs": [".netlify/v1/functions/**", "dist/**"]
 		},
 		"lint": {
 			"outputs": [".cache/eslint"]
