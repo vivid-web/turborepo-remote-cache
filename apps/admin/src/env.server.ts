@@ -7,10 +7,13 @@ import { z } from "zod";
 export const env = createEnv({
 	extends: [netlify(), db],
 	server: {
-		BASE_URL: z.url(),
+		BASE_URL: z.url().optional().default("http://localhost:3000"),
 
 		// Storage
-		STORAGE_PROVIDER: z.literal(["local", "netlify-blobs"]),
+		STORAGE_PROVIDER: z
+			.literal(["local", "netlify-blobs"])
+			.optional()
+			.default("local"),
 
 		// Local storage
 		LOCAL_STORAGE_PATH: z.string().min(1).optional(),
