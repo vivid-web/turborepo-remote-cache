@@ -27,7 +27,7 @@ importers:
         specifier: ^2.5.8
         version: 2.5.8
 
-  apps/admin:
+  apps/web:
     dependencies:
       '@netlify/blobs':
         specifier: ^10.0.11

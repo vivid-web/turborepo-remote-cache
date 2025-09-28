@@ -8,7 +8,7 @@ const config = {
 	useTabs: true,
 	plugins: ["prettier-plugin-tailwindcss"],
 	tailwindStylesheet: fileURLToPath(
-		new URL("../../apps/admin/src/styles/app.css", import.meta.url),
+		new URL("../../apps/web/src/styles/app.css", import.meta.url),
 	),
 	tailwindFunctions: ["cn", "cva"],
 };
