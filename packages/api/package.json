@@ -22,7 +22,7 @@
 		"@remote-cache/db": "workspace:*",
 		"@remote-cache/storage": "workspace:*",
 		"@t3-oss/env-core": "^0.13.8",
-		"hono": "^4.9.8",
+		"hono": "^4.9.9",
 		"remeda": "^2.32.0",
 		"std-env": "^3.9.0",
 		"stoker": "^2.0.1",
