@@ -1,3 +1,9 @@
+import {
+	getRouteApi,
+	type RegisteredRouter,
+	type RouteIds,
+	useNavigate,
+} from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
@@ -11,12 +17,29 @@ import {
 
 import { QuerySchema } from "../schemas";
 
-type Props = {
-	onSearch: (query?: string) => Promise<void> | void;
-	query?: string | undefined;
+type Props<T extends RouteIds<RegisteredRouter["routeTree"]>> = {
+	routeId: T;
 };
 
-function SearchArtifactsForm({ query, onSearch }: Props) {
+function SearchArtifactsForm<
+	T extends RouteIds<RegisteredRouter["routeTree"]>,
+>({ routeId }: Props<T>) {
+	const routeApi = getRouteApi<T>(routeId);
+	const navigate = useNavigate();
+	const search = routeApi.useSearch();
+
+	const query = React.useMemo(() => {
+		if (typeof search === "function") {
+			return "";
+		}
+
+		if (!("query" in search) || typeof search.query !== "string") {
+			return "";
+		}
+
+		return search.query;
+	}, [search]);
+
 	const form = useAppForm({
 		defaultValues: { query },
 		validators: {
@@ -25,7 +48,7 @@ function SearchArtifactsForm({ query, onSearch }: Props) {
 			}),
 		},
 		onSubmit: async ({ value }) => {
-			await onSearch(value.query || undefined);
+			await navigate({ to: ".", search: { query: value.query } });
 		},
 	});
 
