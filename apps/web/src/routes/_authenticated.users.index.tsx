@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Loader2Icon, PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { AllUsersCard } from "@/features/users/components/all-users-card";
 import { TotalUsersCard } from "@/features/users/components/total-users-card";
 import { QuerySchema } from "@/features/users/schemas";
@@ -49,7 +50,7 @@ function RouteComponent() {
 				<React.Suspense
 					fallback={
 						<Button className="gap-2" disabled>
-							<Loader2Icon className="!h-5 !w-5 animate-spin" />
+							<Spinner />
 							Add User
 						</Button>
 					}

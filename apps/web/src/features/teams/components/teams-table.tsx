@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Loader2Icon, MoreHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 
@@ -11,6 +11,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Spinner } from "@/components/ui/spinner";
 import {
 	Table,
 	TableBody,
@@ -95,7 +96,7 @@ function FilledRow({ name, teamId, createdAt, members }: Team) {
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button variant="ghost" size="sm" disabled>
-									<Loader2Icon className="h-4 w-4 animate-spin" />
+									<Spinner />
 								</Button>
 							</DropdownMenuTrigger>
 						</DropdownMenu>

@@ -3,7 +3,7 @@ import { db } from "@remote-cache/db/client";
 import { team, teamMember, user } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { Loader2Icon, SquarePlusIcon } from "lucide-react";
+import { SquarePlusIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 import { z } from "zod";
@@ -16,6 +16,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
@@ -66,7 +67,7 @@ function AllTeamMembershipsForUserCard({ userId }: Params) {
 					<React.Suspense
 						fallback={
 							<Button className="gap-2" disabled>
-								<Loader2Icon className="animate-spin" />
+								<Spinner />
 							</Button>
 						}
 					>
