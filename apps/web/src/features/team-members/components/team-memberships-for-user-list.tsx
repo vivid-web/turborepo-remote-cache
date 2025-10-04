@@ -18,6 +18,14 @@ import {
 	EmptyMedia,
 	EmptyTitle,
 } from "@/components/ui/empty";
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemGroup,
+	ItemMedia,
+	ItemTitle,
+} from "@/components/ui/item";
 import { Spinner } from "@/components/ui/spinner";
 
 const { AttachTeamMembersToUserDialog } = lazily(
@@ -39,56 +47,55 @@ type Team = {
 
 function FilledListItem({ name, teamId, userId }: Params & Team) {
 	return (
-		<div className="flex items-center justify-between rounded-lg border bg-card p-3">
-			<div className="flex items-center gap-3">
-				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-					<UsersIcon className="h-4 w-4 text-primary" />
-				</div>
-				<div>
-					<p className="text-sm font-medium">{name}</p>
-					<p className="text-xs text-muted-foreground">Member</p>
-				</div>
-			</div>
-			<React.Suspense
-				fallback={
+		<Item variant="outline">
+			<ItemMedia variant="icon">
+				<UsersIcon />
+			</ItemMedia>
+			<ItemContent>
+				<ItemTitle>{name}</ItemTitle>
+			</ItemContent>
+			<ItemActions>
+				<React.Suspense
+					fallback={
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="outline" size="sm" disabled>
+									<Spinner />
+								</Button>
+							</DropdownMenuTrigger>
+						</DropdownMenu>
+					}
+				>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" disabled>
-								<Spinner />
+							<Button variant="outline" size="sm">
+								<MoreVerticalIcon className="h-4 w-4" />
 							</Button>
 						</DropdownMenuTrigger>
-					</DropdownMenu>
-				}
-			>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="outline" size="sm">
-							<MoreVerticalIcon className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem asChild>
-							<Link to="/teams/$teamId" params={{ teamId }}>
-								View
-							</Link>
-						</DropdownMenuItem>
-						<DetachTeamMemberFromUserAlertDialog
-							teamId={teamId}
-							userId={userId}
-						>
-							<DropdownMenuItem
-								className="text-destructive"
-								onSelect={(e) => {
-									e.preventDefault();
-								}}
-							>
-								Detach
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem asChild>
+								<Link to="/teams/$teamId" params={{ teamId }}>
+									View
+								</Link>
 							</DropdownMenuItem>
-						</DetachTeamMemberFromUserAlertDialog>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</React.Suspense>
-		</div>
+							<DetachTeamMemberFromUserAlertDialog
+								teamId={teamId}
+								userId={userId}
+							>
+								<DropdownMenuItem
+									className="text-destructive"
+									onSelect={(e) => {
+										e.preventDefault();
+									}}
+								>
+									Detach
+								</DropdownMenuItem>
+							</DetachTeamMemberFromUserAlertDialog>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</React.Suspense>
+			</ItemActions>
+		</Item>
 	);
 }
 
@@ -124,10 +131,6 @@ function EmptyListItem({ userId }: Params) {
 	);
 }
 
-function Layout({ children }: React.PropsWithChildren) {
-	return <div className="grid gap-2">{children}</div>;
-}
-
 function TeamMembershipsForUserList({
 	teams,
 	userId,
@@ -137,11 +140,11 @@ function TeamMembershipsForUserList({
 	}
 
 	return (
-		<Layout>
+		<ItemGroup className="gap-4">
 			{teams.map((team) => (
 				<FilledListItem {...team} key={team.teamId} userId={userId} />
 			))}
-		</Layout>
+		</ItemGroup>
 	);
 }
 
