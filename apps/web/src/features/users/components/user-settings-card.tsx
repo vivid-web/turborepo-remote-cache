@@ -20,7 +20,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { useAppForm } from "@/components/ui/form-next";
+import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";

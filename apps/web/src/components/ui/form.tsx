@@ -1,151 +1,70 @@
 import { Slot } from "@radix-ui/react-slot";
-import {
-	createFormHook,
-	createFormHookContexts,
-	useStore,
-} from "@tanstack/react-form";
+import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import * as React from "react";
 
-import { Label } from "@/components/ui/label";
-import { useSafeContext } from "@/hooks/use-safe-context";
-import { cn } from "@/lib/utils";
+import * as FieldPrimitive from "@/components/ui/field";
 
-const {
-	fieldContext,
-	formContext,
-	useFieldContext: _useFieldContext,
-	useFormContext,
-} = createFormHookContexts();
+const { fieldContext, formContext, useFieldContext, useFormContext } =
+	createFormHookContexts();
 
 const { useAppForm, withForm } = createFormHook({
 	fieldContext,
 	formContext,
 	fieldComponents: {
-		FormLabel,
+		Field,
+		FieldError,
+		FieldLabel,
 		FormControl,
-		FormDescription,
-		FormMessage,
-		FormItem,
+		FieldContent: FieldPrimitive.FieldContent,
+		FieldDescription: FieldPrimitive.FieldDescription,
+		FieldLegend: FieldPrimitive.FieldLegend,
+		FieldSet: FieldPrimitive.FieldSet,
+		FieldTitle: FieldPrimitive.FieldTitle,
 	},
-	formComponents: {},
+	formComponents: {
+		FieldSeparator: FieldPrimitive.FieldSeparator,
+		FieldGroup: FieldPrimitive.FieldGroup,
+	},
 });
 
-type FormItemContextValue = {
-	id: string;
-};
-
-const FormItemContext = React.createContext<FormItemContextValue | undefined>(
-	undefined,
-);
-
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
-	const id = React.useId();
-
-	return (
-		<FormItemContext.Provider value={{ id }}>
-			<div
-				data-slot="form-item"
-				className={cn("grid gap-2", className)}
-				{...props}
-			/>
-		</FormItemContext.Provider>
-	);
-}
-
-function useFormItem() {
-	return useSafeContext(FormItemContext, {
-		errorMessage: "useFormItem must be used within a FormItem.",
-	});
-}
-
-const useFieldContext = () => {
-	const { id } = useFormItem();
-	const { name, store, ...fieldContext } = _useFieldContext();
-
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-	const errors = useStore(store, (state) => state.meta.errors);
-
-	return {
-		id,
-		name,
-		formItemId: `${id}-form-item`,
-		formDescriptionId: `${id}-form-item-description`,
-		formMessageId: `${id}-form-item-message`,
-		errors,
-		store,
-		...fieldContext,
-	};
-};
-
-function FormLabel({
-	className,
+function Field({
 	...props
-}: React.ComponentProps<typeof Label>) {
-	const { formItemId, errors } = useFieldContext();
+}: React.ComponentProps<typeof FieldPrimitive.Field>) {
+	const { state } = useFieldContext();
 
-	return (
-		<Label
-			data-slot="form-label"
-			data-error={!!errors.length}
-			className={cn("data-[error=true]:text-destructive", className)}
-			htmlFor={formItemId}
-			{...props}
-		/>
-	);
+	const isInvalid = state.meta.isTouched && !state.meta.isValid;
+
+	return <FieldPrimitive.Field data-invalid={isInvalid} {...props} />;
+}
+
+function FieldLabel({
+	...props
+}: React.ComponentProps<typeof FieldPrimitive.FieldLabel>) {
+	const { name } = useFieldContext();
+
+	return <FieldPrimitive.FieldLabel htmlFor={name} {...props} />;
+}
+
+function FieldError({
+	...props
+}: React.ComponentProps<typeof FieldPrimitive.FieldError>) {
+	const { state } = useFieldContext();
+
+	const isInvalid = state.meta.isTouched && !state.meta.isValid;
+
+	if (!isInvalid) {
+		return null;
+	}
+
+	return <FieldPrimitive.FieldError errors={state.meta.errors} {...props} />;
 }
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-	const { errors, formItemId, formDescriptionId, formMessageId } =
-		useFieldContext();
+	const { state, name } = useFieldContext();
 
-	return (
-		<Slot
-			data-slot="form-control"
-			id={formItemId}
-			aria-describedby={
-				!errors.length
-					? formDescriptionId
-					: `${formDescriptionId} ${formMessageId}`
-			}
-			aria-invalid={!!errors.length}
-			{...props}
-		/>
-	);
-}
+	const isInvalid = state.meta.isTouched && !state.meta.isValid;
 
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
-	const { formDescriptionId } = useFieldContext();
-
-	return (
-		<p
-			data-slot="form-description"
-			id={formDescriptionId}
-			className={cn("text-sm text-muted-foreground", className)}
-			{...props}
-		/>
-	);
-}
-
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
-	const { errors, formMessageId } = useFieldContext();
-
-	const body = errors.length
-		? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			String(errors.at(0)?.message ?? "")
-		: props.children;
-
-	if (!body) return null;
-
-	return (
-		<p
-			data-slot="form-message"
-			id={formMessageId}
-			className={cn("text-sm text-destructive", className)}
-			{...props}
-		>
-			{body}
-		</p>
-	);
+	return <Slot id={name} aria-invalid={isInvalid} {...props} />;
 }
 
 export { useAppForm, useFieldContext, useFormContext, withForm };
