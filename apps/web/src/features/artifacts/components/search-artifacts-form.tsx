@@ -3,7 +3,11 @@ import * as React from "react";
 import { z } from "zod";
 
 import { useAppForm } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from "@/components/ui/input-group";
 
 import { QuerySchema } from "../schemas";
 
@@ -38,22 +42,23 @@ function SearchArtifactsForm({ query, onSearch }: Props) {
 				<form.AppField
 					name="query"
 					children={(field) => (
-						<field.FormItem className="relative w-64">
-							<field.FormLabel className="absolute top-1/2 left-3 -translate-y-1/2 transform text-muted-foreground">
-								<SearchIcon className="h-4 w-4" />
-							</field.FormLabel>
-							<field.FormControl>
-								<Input
-									placeholder="Search artifacts..."
-									className="pl-10"
-									name={field.name}
-									value={field.state.value}
-									onChange={(e) => {
-										field.handleChange(e.target.value);
-									}}
-									onBlur={field.handleBlur}
-								/>
-							</field.FormControl>
+						<field.FormItem>
+							<InputGroup>
+								<field.FormControl>
+									<InputGroupInput
+										placeholder="Search artifacts..."
+										name={field.name}
+										value={field.state.value}
+										onChange={(e) => {
+											field.handleChange(e.target.value);
+										}}
+										onBlur={field.handleBlur}
+									/>
+								</field.FormControl>
+								<InputGroupAddon>
+									<SearchIcon />
+								</InputGroupAddon>
+							</InputGroup>
 						</field.FormItem>
 					)}
 				/>
