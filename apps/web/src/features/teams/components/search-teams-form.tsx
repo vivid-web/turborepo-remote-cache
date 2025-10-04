@@ -2,7 +2,7 @@ import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -42,7 +42,7 @@ function SearchTeamsForm({ query, onSearch }: Props) {
 				<form.AppField
 					name="query"
 					children={(field) => (
-						<field.FormItem>
+						<field.Field>
 							<InputGroup>
 								<field.FormControl>
 									<InputGroupInput
@@ -59,7 +59,7 @@ function SearchTeamsForm({ query, onSearch }: Props) {
 									<SearchIcon />
 								</InputGroupAddon>
 							</InputGroup>
-						</field.FormItem>
+						</field.Field>
 					)}
 				/>
 			</form>

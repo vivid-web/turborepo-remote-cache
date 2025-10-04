@@ -15,7 +15,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { ButtonWithPendingState } from "@/components/ui/button";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { IdSchema } from "@/lib/schemas";
 
 import { deleteTeam } from "../actions/delete-team";

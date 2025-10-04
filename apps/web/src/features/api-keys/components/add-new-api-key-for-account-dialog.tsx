@@ -18,7 +18,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { Input } from "@/components/ui/input";
 import {
 	Popover,
@@ -86,75 +86,76 @@ function AddNewApiKeyForAccountDialog({ children }: React.PropsWithChildren) {
 					<form
 						noValidate
 						onSubmit={handleSubmit}
-						className="grid gap-4"
 						id={ADD_NEW_API_KEY_FOR_ACCOUNT_FORM_ID}
 					>
-						<form.AppField
-							name="name"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Name</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="My Secret API Key"
-											name={field.name}
-											value={field.state.value ?? ""}
-											onChange={(e) => {
-												field.handleChange(e.target.value || null);
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-						<form.AppField
-							name="expiresAt"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Expiration date</field.FormLabel>
-									<Popover
-										modal
-										open={datePickerOpen}
-										onOpenChange={setDatePickerOpen}
-									>
-										<PopoverTrigger asChild>
-											<field.FormControl>
-												<Button
-													variant={"outline"}
-													className="pl-3 text-left font-normal"
-												>
-													{field.state.value ? (
-														format(field.state.value, "PPP")
-													) : (
-														<span className="text-muted-foreground">
-															Pick a date
-														</span>
-													)}
-													<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-												</Button>
-											</field.FormControl>
-										</PopoverTrigger>
-										<PopoverContent className="w-auto p-0" align="start">
-											<Calendar
-												mode="single"
-												selected={field.state.value ?? undefined}
-												onSelect={(date) => {
-													field.handleChange(date ?? null);
-
-													setDatePickerOpen(false);
+						<form.FieldGroup>
+							<form.AppField
+								name="name"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Name</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="My Secret API Key"
+												name={field.name}
+												value={field.state.value ?? ""}
+												onChange={(e) => {
+													field.handleChange(e.target.value || null);
 												}}
-												disabled={isNot(isValidExpirationDate)}
-												autoFocus
+												onBlur={field.handleBlur}
+												type="text"
 											/>
-										</PopoverContent>
-									</Popover>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+							<form.AppField
+								name="expiresAt"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Expiration date</field.FieldLabel>
+										<Popover
+											modal
+											open={datePickerOpen}
+											onOpenChange={setDatePickerOpen}
+										>
+											<PopoverTrigger asChild>
+												<field.FormControl>
+													<Button
+														variant={"outline"}
+														className="pl-3 text-left font-normal"
+													>
+														{field.state.value ? (
+															format(field.state.value, "PPP")
+														) : (
+															<span className="text-muted-foreground">
+																Pick a date
+															</span>
+														)}
+														<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+													</Button>
+												</field.FormControl>
+											</PopoverTrigger>
+											<PopoverContent className="w-auto p-0" align="start">
+												<Calendar
+													mode="single"
+													selected={field.state.value ?? undefined}
+													onSelect={(date) => {
+														field.handleChange(date ?? null);
+
+														setDatePickerOpen(false);
+													}}
+													disabled={isNot(isValidExpirationDate)}
+													autoFocus
+												/>
+											</PopoverContent>
+										</Popover>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+						</form.FieldGroup>
 					</form>
 				</form.AppForm>
 				<DialogFooter>

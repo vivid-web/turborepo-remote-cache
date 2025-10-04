@@ -20,7 +20,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IdSchema } from "@/lib/schemas";
@@ -123,99 +123,101 @@ function TeamSettingsCard({ teamId }: Params) {
 			</CardHeader>
 			<CardContent>
 				<form.AppForm>
-					<form noValidate onSubmit={handleSubmit} className="grid gap-4">
-						<form.AppField
-							name="teamId"
-							children={(field) => (
-								<input
-									type="hidden"
-									name={field.name}
-									value={field.state.value}
-								/>
-							)}
-						/>
-
-						<form.AppField
-							name="name"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Name</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="Dream Team"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												const value = e.target.value;
-
-												field.handleChange(value);
-												form.setFieldValue("slug", slugify(value));
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-
-						<form.AppField
-							name="slug"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Slug</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="dream-team"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												field.handleChange(e.target.value);
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-
-						<form.AppField
-							name="description"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Description</field.FormLabel>
-									<field.FormControl>
-										<Textarea
-											name={field.name}
-											value={field.state.value ?? ""}
-											onChange={(e) => {
-												field.handleChange(e.target.value || null);
-											}}
-											onBlur={field.handleBlur}
-										></Textarea>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-
-						<div className="flex justify-start">
-							<form.Subscribe
-								selector={(state) => [state.canSubmit, state.isSubmitting]}
-								children={([canSubmit, isSubmitting]) => (
-									<ButtonWithPendingState
-										type="submit"
-										disabled={!canSubmit}
-										isPending={isSubmitting}
-									>
-										Save changes
-									</ButtonWithPendingState>
+					<form noValidate onSubmit={handleSubmit}>
+						<form.FieldGroup>
+							<form.AppField
+								name="teamId"
+								children={(field) => (
+									<input
+										type="hidden"
+										name={field.name}
+										value={field.state.value}
+									/>
 								)}
 							/>
-						</div>
+
+							<form.AppField
+								name="name"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Name</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="Dream Team"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													const value = e.target.value;
+
+													field.handleChange(value);
+													form.setFieldValue("slug", slugify(value));
+												}}
+												onBlur={field.handleBlur}
+												type="text"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+
+							<form.AppField
+								name="slug"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Slug</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="dream-team"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													field.handleChange(e.target.value);
+												}}
+												onBlur={field.handleBlur}
+												type="text"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+
+							<form.AppField
+								name="description"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Description</field.FieldLabel>
+										<field.FormControl>
+											<Textarea
+												name={field.name}
+												value={field.state.value ?? ""}
+												onChange={(e) => {
+													field.handleChange(e.target.value || null);
+												}}
+												onBlur={field.handleBlur}
+											></Textarea>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+
+							<div className="flex justify-start">
+								<form.Subscribe
+									selector={(state) => [state.canSubmit, state.isSubmitting]}
+									children={([canSubmit, isSubmitting]) => (
+										<ButtonWithPendingState
+											type="submit"
+											disabled={!canSubmit}
+											isPending={isSubmitting}
+										>
+											Save changes
+										</ButtonWithPendingState>
+									)}
+								/>
+							</div>
+						</form.FieldGroup>
 					</form>
 				</form.AppForm>
 			</CardContent>

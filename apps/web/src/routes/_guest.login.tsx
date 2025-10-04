@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { Input } from "@/components/ui/input";
 import { signIn } from "@/lib/auth.client";
 
@@ -72,8 +72,8 @@ function RouteComponent() {
 			<CardContent className="grid p-0 md:grid-cols-2">
 				<form.AppForm>
 					<form className="p-6 md:p-8" onSubmit={handleSubmit}>
-						<div className="flex flex-col gap-6">
-							<div className="flex flex-col items-center text-center">
+						<form.FieldGroup>
+							<div className="flex flex-col items-center gap-2 text-center">
 								<h1 className="text-2xl font-bold">Welcome back</h1>
 								<p className="text-balance text-muted-foreground">
 									Login to the remote cache dashboard
@@ -82,8 +82,8 @@ function RouteComponent() {
 							<form.AppField
 								name="email"
 								children={(field) => (
-									<field.FormItem>
-										<field.FormLabel>Email</field.FormLabel>
+									<field.Field>
+										<field.FieldLabel>Email</field.FieldLabel>
 										<field.FormControl>
 											<Input
 												placeholder="m@example.com"
@@ -97,16 +97,16 @@ function RouteComponent() {
 												required
 											/>
 										</field.FormControl>
-										<field.FormMessage className="text-xs" />
-									</field.FormItem>
+										<field.FieldError />
+									</field.Field>
 								)}
 							/>
 
 							<form.AppField
 								name="password"
 								children={(field) => (
-									<field.FormItem>
-										<field.FormLabel>Password</field.FormLabel>{" "}
+									<field.Field>
+										<field.FieldLabel>Password</field.FieldLabel>{" "}
 										<field.FormControl>
 											<Input
 												name={field.name}
@@ -119,8 +119,8 @@ function RouteComponent() {
 												required
 											/>
 										</field.FormControl>
-										<field.FormMessage className="text-xs" />
-									</field.FormItem>
+										<field.FieldError />
+									</field.Field>
 								)}
 							/>
 
@@ -137,7 +137,7 @@ function RouteComponent() {
 									</ButtonWithPendingState>
 								)}
 							/>
-						</div>
+						</form.FieldGroup>
 					</form>
 				</form.AppForm>
 				<div className="relative hidden bg-muted md:block">
