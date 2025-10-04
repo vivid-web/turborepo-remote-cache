@@ -74,12 +74,7 @@ function RemoveUserAlertDialog({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<form.AppForm>
-					<form
-						noValidate
-						onSubmit={handleSubmit}
-						className="grid gap-4"
-						id={REMOVE_USER_FORM_ID}
-					>
+					<form noValidate onSubmit={handleSubmit} id={REMOVE_USER_FORM_ID}>
 						<form.AppField
 							name="userId"
 							children={(field) => (

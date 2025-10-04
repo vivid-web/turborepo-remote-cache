@@ -74,7 +74,6 @@ function DetachTeamMemberFromUserAlertDialog({
 					<form
 						noValidate
 						onSubmit={handleSubmit}
-						className="grid gap-4"
 						id={DETACH_TEAM_MEMBER_FROM_USER_FORM_ID}
 					>
 						<form.AppField
