@@ -20,7 +20,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
@@ -126,76 +126,78 @@ function UserSettingsCard({ userId }: Params) {
 			</CardHeader>
 			<CardContent>
 				<form.AppForm>
-					<form noValidate onSubmit={handleSubmit} className="grid gap-4">
-						<form.AppField
-							name="userId"
-							children={(field) => (
-								<input
-									type="hidden"
-									name={field.name}
-									value={field.state.value}
-								/>
-							)}
-						/>
-
-						<form.AppField
-							name="name"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Name</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="John Doe"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												field.handleChange(e.target.value);
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-
-						<form.AppField
-							name="email"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Email</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="john@doe.com"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												field.handleChange(e.target.value);
-											}}
-											onBlur={field.handleBlur}
-											type="email"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-
-						<div className="flex justify-start">
-							<form.Subscribe
-								selector={(state) => [state.canSubmit, state.isSubmitting]}
-								children={([canSubmit, isSubmitting]) => (
-									<ButtonWithPendingState
-										type="submit"
-										disabled={!canSubmit}
-										isPending={isSubmitting}
-									>
-										Save changes
-									</ButtonWithPendingState>
+					<form noValidate onSubmit={handleSubmit}>
+						<form.FieldGroup>
+							<form.AppField
+								name="userId"
+								children={(field) => (
+									<input
+										type="hidden"
+										name={field.name}
+										value={field.state.value}
+									/>
 								)}
 							/>
-						</div>
+
+							<form.AppField
+								name="name"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Name</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="John Doe"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													field.handleChange(e.target.value);
+												}}
+												onBlur={field.handleBlur}
+												type="text"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+
+							<form.AppField
+								name="email"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Email</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="john@doe.com"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													field.handleChange(e.target.value);
+												}}
+												onBlur={field.handleBlur}
+												type="email"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+
+							<div className="flex justify-start">
+								<form.Subscribe
+									selector={(state) => [state.canSubmit, state.isSubmitting]}
+									children={([canSubmit, isSubmitting]) => (
+										<ButtonWithPendingState
+											type="submit"
+											disabled={!canSubmit}
+											isPending={isSubmitting}
+										>
+											Save changes
+										</ButtonWithPendingState>
+									)}
+								/>
+							</div>
+						</form.FieldGroup>
 					</form>
 				</form.AppForm>
 			</CardContent>

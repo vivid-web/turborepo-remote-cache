@@ -24,7 +24,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
@@ -143,39 +143,40 @@ function AttachTeamMembersToUserDialog({
 				<form
 					noValidate
 					onSubmit={handleSubmit}
-					className="grid gap-4"
 					id={ATTACH_TEAM_MEMBERS_TO_USER_FORM_ID}
 				>
-					<form.AppField
-						name="userId"
-						children={(field) => (
-							<input
-								type="hidden"
-								name={field.name}
-								value={field.state.value}
-							/>
-						)}
-					/>
-					<form.AppField
-						name="teamIds"
-						children={(field) => (
-							<field.FormItem>
-								<field.FormLabel>Search Teams</field.FormLabel>
-								<field.FormControl>
-									<MultiSelect
-										placeholder="Search for teams"
-										name={field.name}
-										value={field.state.value}
-										onChange={(items) => {
-											field.handleChange(items);
-										}}
-										options={query.data}
-									/>
-								</field.FormControl>
-								<field.FormMessage className="text-xs" />
-							</field.FormItem>
-						)}
-					/>
+					<form.FieldGroup>
+						<form.AppField
+							name="userId"
+							children={(field) => (
+								<input
+									type="hidden"
+									name={field.name}
+									value={field.state.value}
+								/>
+							)}
+						/>
+						<form.AppField
+							name="teamIds"
+							children={(field) => (
+								<field.Field>
+									<field.FieldLabel>Search Teams</field.FieldLabel>
+									<field.FormControl>
+										<MultiSelect
+											placeholder="Search for teams"
+											name={field.name}
+											value={field.state.value}
+											onChange={(items) => {
+												field.handleChange(items);
+											}}
+											options={query.data}
+										/>
+									</field.FormControl>
+									<field.FieldError />
+								</field.Field>
+							)}
+						/>
+					</form.FieldGroup>
 				</form>
 				<DialogFooter>
 					<DialogClose asChild>

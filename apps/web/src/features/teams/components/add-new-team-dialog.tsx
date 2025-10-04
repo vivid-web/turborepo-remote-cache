@@ -14,7 +14,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppForm } from "@/components/ui/form";
+import { useAppForm } from "@/components/ui/form-next";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -88,76 +88,73 @@ function AddNewTeamDialog({ children }: React.PropsWithChildren) {
 					<DialogDescription>Create a new team.</DialogDescription>
 				</DialogHeader>
 				<form.AppForm>
-					<form
-						noValidate
-						onSubmit={handleSubmit}
-						className="grid gap-4"
-						id={ADD_NEW_TEAM_FORM_ID}
-					>
-						<form.AppField
-							name="name"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Name</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="Dream Team"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												const value = e.target.value;
+					<form noValidate onSubmit={handleSubmit} id={ADD_NEW_TEAM_FORM_ID}>
+						<form.FieldGroup>
+							<form.AppField
+								name="name"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Name</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="Dream Team"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													const value = e.target.value;
 
-												field.handleChange(value);
-												form.setFieldValue("slug", slugify(value));
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-						<form.AppField
-							name="slug"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Slug</field.FormLabel>
-									<field.FormControl>
-										<Input
-											placeholder="dream-team"
-											name={field.name}
-											value={field.state.value}
-											onChange={(e) => {
-												field.handleChange(e.target.value);
-											}}
-											onBlur={field.handleBlur}
-											type="text"
-										/>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
-						<form.AppField
-							name="description"
-							children={(field) => (
-								<field.FormItem>
-									<field.FormLabel>Description</field.FormLabel>
-									<field.FormControl>
-										<Textarea
-											name={field.name}
-											value={field.state.value ?? ""}
-											onChange={(e) => {
-												field.handleChange(e.target.value || null);
-											}}
-											onBlur={field.handleBlur}
-										></Textarea>
-									</field.FormControl>
-									<field.FormMessage className="text-xs" />
-								</field.FormItem>
-							)}
-						/>
+													field.handleChange(value);
+													form.setFieldValue("slug", slugify(value));
+												}}
+												onBlur={field.handleBlur}
+												type="text"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+							<form.AppField
+								name="slug"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Slug</field.FieldLabel>
+										<field.FormControl>
+											<Input
+												placeholder="dream-team"
+												name={field.name}
+												value={field.state.value}
+												onChange={(e) => {
+													field.handleChange(e.target.value);
+												}}
+												onBlur={field.handleBlur}
+												type="text"
+											/>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+							<form.AppField
+								name="description"
+								children={(field) => (
+									<field.Field>
+										<field.FieldLabel>Description</field.FieldLabel>
+										<field.FormControl>
+											<Textarea
+												name={field.name}
+												value={field.state.value ?? ""}
+												onChange={(e) => {
+													field.handleChange(e.target.value || null);
+												}}
+												onBlur={field.handleBlur}
+											></Textarea>
+										</field.FormControl>
+										<field.FieldError />
+									</field.Field>
+								)}
+							/>
+						</form.FieldGroup>
 					</form>
 				</form.AppForm>
 				<DialogFooter>
