@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Loader2Icon, PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
 import { QuerySchema } from "@/features/teams/schemas";
@@ -50,7 +51,7 @@ function RouteComponent() {
 				<React.Suspense
 					fallback={
 						<Button className="gap-2" disabled>
-							<Loader2Icon className="!h-5 !w-5 animate-spin" />
+							<Spinner />
 							Add Team
 						</Button>
 					}

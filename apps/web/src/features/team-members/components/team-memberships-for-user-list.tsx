@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Loader2Icon, MoreVerticalIcon, UsersIcon } from "lucide-react";
+import { MoreVerticalIcon, UsersIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 
@@ -10,6 +10,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Spinner } from "@/components/ui/spinner";
 
 const { DetachTeamMemberFromUserAlertDialog } = lazily(
 	() => import("./detach-team-member-from-user-alert-dialog"),
@@ -41,7 +42,7 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="outline" size="sm" disabled>
-								<Loader2Icon className="h-4 w-4 animate-spin" />
+								<Spinner />
 							</Button>
 						</DropdownMenuTrigger>
 					</DropdownMenu>
