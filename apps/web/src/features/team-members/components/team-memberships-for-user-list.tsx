@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MoreVerticalIcon, UsersIcon } from "lucide-react";
+import { MoreVerticalIcon, SquarePlusIcon, UsersIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 
@@ -10,7 +10,19 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+	Empty,
+	EmptyContent,
+	EmptyDescription,
+	EmptyHeader,
+	EmptyMedia,
+	EmptyTitle,
+} from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";
+
+const { AttachTeamMembersToUserDialog } = lazily(
+	() => import("./attach-team-members-to-user-dialog"),
+);
 
 const { DetachTeamMemberFromUserAlertDialog } = lazily(
 	() => import("./detach-team-member-from-user-alert-dialog"),
@@ -80,21 +92,35 @@ function FilledListItem({ name, teamId, userId }: Params & Team) {
 	);
 }
 
-function EmptyListItem() {
+function EmptyListItem({ userId }: Params) {
 	return (
-		<div className="flex items-center justify-between rounded-lg border border-dashed bg-card p-3">
-			<div className="flex items-center gap-3">
-				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-					<UsersIcon className="h-4 w-4 text-primary" />
-				</div>
-				<div>
-					<p className="text-sm font-medium">No teams found</p>
-					<p className="text-xs text-muted-foreground">
-						This user is not a member of any teams
-					</p>
-				</div>
-			</div>
-		</div>
+		<Empty className="border border-dashed">
+			<EmptyHeader>
+				<EmptyMedia variant="icon">
+					<UsersIcon />
+				</EmptyMedia>
+				<EmptyTitle>No Teams Found</EmptyTitle>
+				<EmptyDescription>
+					This user is not a member of any teams
+				</EmptyDescription>
+			</EmptyHeader>
+			<EmptyContent>
+				<React.Suspense
+					fallback={
+						<Button className="gap-2" disabled>
+							<Spinner />
+						</Button>
+					}
+				>
+					<AttachTeamMembersToUserDialog userId={userId}>
+						<Button className="gap-2">
+							<SquarePlusIcon className="!h-4 !w-4" />
+							Attach Teams
+						</Button>
+					</AttachTeamMembersToUserDialog>
+				</React.Suspense>
+			</EmptyContent>
+		</Empty>
 	);
 }
 
@@ -107,11 +133,7 @@ function TeamMembershipsForUserList({
 	userId,
 }: Params & { teams: Array<Team> }) {
 	if (teams.length === 0) {
-		return (
-			<Layout>
-				<EmptyListItem />
-			</Layout>
-		);
+		return <EmptyListItem userId={userId} />;
 	}
 
 	return (

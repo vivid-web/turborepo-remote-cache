@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MoreVerticalIcon, UserIcon } from "lucide-react";
+import { MoreVerticalIcon, SquarePlusIcon, UserIcon } from "lucide-react";
 import * as React from "react";
 import { lazily } from "react-lazily";
 
@@ -11,8 +11,20 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+	Empty,
+	EmptyContent,
+	EmptyDescription,
+	EmptyHeader,
+	EmptyMedia,
+	EmptyTitle,
+} from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";
 import { getAvatarFallback } from "@/features/users/utils";
+
+const { AttachTeamMembersToTeamDialog } = lazily(
+	() => import("./attach-team-members-to-team-dialog"),
+);
 
 const { DetachTeamMemberFromTeamAlertDialog } = lazily(
 	() => import("./detach-team-member-from-team-alert-dialog"),
@@ -88,21 +100,35 @@ function FilledListItem({ name, userId, image, teamId }: Params & User) {
 	);
 }
 
-function EmptyListItem() {
+function EmptyListItem({ teamId }: Params) {
 	return (
-		<div className="flex items-center justify-between rounded-lg border border-dashed bg-card p-3">
-			<div className="flex items-center gap-3">
-				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-					<UserIcon className="h-4 w-4 text-primary" />
-				</div>
-				<div>
-					<p className="text-sm font-medium">No team members found</p>
-					<p className="text-xs text-muted-foreground">
-						This team does not have any team members
-					</p>
-				</div>
-			</div>
-		</div>
+		<Empty className="border border-dashed">
+			<EmptyHeader>
+				<EmptyMedia variant="icon">
+					<UserIcon />
+				</EmptyMedia>
+				<EmptyTitle>No Team Members Found</EmptyTitle>
+				<EmptyDescription>
+					This team does not have any team members
+				</EmptyDescription>
+			</EmptyHeader>
+			<EmptyContent>
+				<React.Suspense
+					fallback={
+						<Button className="gap-2" disabled>
+							<Spinner />
+						</Button>
+					}
+				>
+					<AttachTeamMembersToTeamDialog teamId={teamId}>
+						<Button className="gap-2">
+							<SquarePlusIcon className="!h-4 !w-4" />
+							Attach Members
+						</Button>
+					</AttachTeamMembersToTeamDialog>
+				</React.Suspense>
+			</EmptyContent>
+		</Empty>
 	);
 }
 
@@ -115,11 +141,7 @@ function TeamMembersForTeamList({
 	teamId,
 }: Params & { users: Array<User> }) {
 	if (!users.length) {
-		return (
-			<Layout>
-				<EmptyListItem />
-			</Layout>
-		);
+		return <EmptyListItem teamId={teamId} />;
 	}
 
 	return (
