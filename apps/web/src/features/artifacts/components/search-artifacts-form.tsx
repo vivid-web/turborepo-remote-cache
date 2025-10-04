@@ -2,7 +2,7 @@ import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";
 
-import { useAppForm } from "@/components/ui/form-next";
+import { useAppForm } from "@/components/ui/form";
 import {
 	InputGroup,
 	InputGroupAddon,

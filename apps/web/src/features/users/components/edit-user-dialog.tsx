@@ -23,7 +23,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppForm } from "@/components/ui/form-next";
+import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";

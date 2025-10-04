@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { ButtonWithPendingState } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAppForm } from "@/components/ui/form-next";
+import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signIn } from "@/lib/auth.client";
 

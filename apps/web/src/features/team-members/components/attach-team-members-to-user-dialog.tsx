@@ -24,7 +24,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAppForm } from "@/components/ui/form-next";
+import { useAppForm } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
