@@ -8,6 +8,7 @@ import * as React from "react";
 import { lazily } from "react-lazily";
 import { z } from "zod";
 
+import { Show } from "@/components/show";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -16,12 +17,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { ItemGroup } from "@/components/ui/item";
 import { Spinner } from "@/components/ui/spinner";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAM_MEMBERS_QUERY_KEY } from "../constants";
-import { TeamMembershipsForUserList } from "./team-memberships-for-user-list";
+import { NoTeamMembershipsPlaceholder } from "./no-team-memberships-placeholder";
+import { TeamMembershipItem } from "./team-membership-item";
 
 const { AttachTeamMembersToUserDialog } = lazily(
 	() => import("./attach-team-members-to-user-dialog"),
@@ -81,7 +84,20 @@ function AllTeamMembershipsForUserCard({ userId }: Params) {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<TeamMembershipsForUserList teams={query.data} userId={userId} />
+				<Show
+					when={query.data.length > 0}
+					fallback={<NoTeamMembershipsPlaceholder userId={userId} />}
+				>
+					<ItemGroup className="gap-4">
+						{query.data.map((teamMembership) => (
+							<TeamMembershipItem
+								key={teamMembership.teamId}
+								userId={userId}
+								{...teamMembership}
+							/>
+						))}
+					</ItemGroup>
+				</Show>
 			</CardContent>
 		</Card>
 	);
