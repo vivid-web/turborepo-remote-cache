@@ -31,6 +31,7 @@ export default defineConfig([
 			},
 		},
 		rules: {
+			"react/no-children-prop": "off",
 			"react/function-component-definition": [
 				"error",
 				{ namedComponents: "function-declaration" },
