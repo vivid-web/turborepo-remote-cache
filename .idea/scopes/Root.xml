@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Root" pattern="file[remote-cache]:*/&amp;&amp;!file[remote-cache]:apps//*&amp;&amp;!file[remote-cache]:packages//*&amp;&amp;!file[remote-cache]:tooling//*" />
+</component>
