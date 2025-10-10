@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="@remote-cache/tsconfig" pattern="file[remote-cache]:tooling/typescript//*" />
+</component>

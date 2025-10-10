@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="@remote-cache/storage" pattern="file[remote-cache]:packages/storage//*" />
+</component>
