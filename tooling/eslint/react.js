@@ -3,6 +3,7 @@ import react from "eslint-plugin-react";
 import * as reactHooks from "eslint-plugin-react-hooks";
 import { defineConfig } from "eslint/config";
 
+/** @type {import("@eslint/core").ConfigObject} */
 export default defineConfig([
 	{
 		files: ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"],

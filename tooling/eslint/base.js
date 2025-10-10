@@ -7,6 +7,7 @@ import { defineConfig } from "eslint/config";
 import globals from "globals";
 import * as ts from "typescript-eslint";
 
+/** @type {import("@eslint/core").ConfigObject} */
 export default defineConfig(
 	prettierConfig,
 	perfectionist.configs["recommended-natural"],
