@@ -5,7 +5,26 @@ import { defineConfig } from "eslint/config";
 /** @type {import("@eslint/core").ConfigObject} */
 export default defineConfig([
 	{
-		files: ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"],
+		files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+		...react.configs.flat.recommended,
+	},
+	{
+		files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+		...react.configs.flat["jsx-runtime"],
+	},
+	{
+		files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+		...reactHooks.configs.flat["recommended-latest"],
+	},
+	{
+		files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+		languageOptions: {
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+			},
+		},
 		settings: {
 			react: {
 				version: "detect",
@@ -17,14 +36,5 @@ export default defineConfig([
 				{ namedComponents: "function-declaration" },
 			],
 		},
-	},
-	{
-		files: ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"],
-		...reactHooks.configs.flat["recommended-latest"],
-	},
-	{
-		files: ["**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs}"],
-		...react.configs.flat.recommended,
-		...react.configs.flat["jsx-runtime"],
 	},
 ]);
