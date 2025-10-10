@@ -16,8 +16,9 @@
 		"seed": "turbo run seed",
 		"lint": "turbo run lint",
 		"typecheck": "turbo run typecheck",
-		"format": "turbo run format",
-		"format:fix": "turbo run format -- --write",
+		"format": "turbo run format format:root",
+		"format:fix": "turbo run format format:root -- --write",
+		"format:root": "prettier --cache --cache-location .cache/prettier --check .",
 		"prepare": "husky",
 		"postinstall": "manypkg check"
 	},

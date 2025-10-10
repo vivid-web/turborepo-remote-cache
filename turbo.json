@@ -29,6 +29,9 @@
 		},
 		"format": {
 			"outputLogs": "new-only"
+		},
+		"//#format:root": {
+			"outputLogs": "new-only"
 		}
 	}
 }
