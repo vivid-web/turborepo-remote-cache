@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@remote-cache/prettier-config": "workspace:*",
-		"prettier": "^3.6.2"
+		"prettier": "catalog:"
 	},
 	"prettier": "@remote-cache/prettier-config"
 }
