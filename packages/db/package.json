@@ -38,9 +38,9 @@
 		"@remote-cache/prettier-config": "workspace:*",
 		"@remote-cache/tsconfig": "workspace:*",
 		"@types/pg": "^8.15.5",
-		"eslint": "^9.37.0",
-		"prettier": "^3.6.2",
-		"typescript": "^5.9.3"
+		"eslint": "catalog:",
+		"prettier": "catalog:",
+		"typescript": "catalog:"
 	},
 	"prettier": "@remote-cache/prettier-config"
 }

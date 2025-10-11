@@ -4,6 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    eslint:
+      specifier: ^9.37.0
+      version: 9.37.0
+    prettier:
+      specifier: ^3.6.2
+      version: 3.6.2
+    typescript:
+      specifier: ^5.9.3
+      version: 5.9.3
+
 importers:
 
   .:
@@ -21,7 +33,7 @@ importers:
         specifier: ^16.2.3
         version: 16.2.3
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       turbo:
         specifier: ^2.5.8
@@ -196,10 +208,10 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(drizzle-orm@0.44.6(@opentelemetry/api@1.9.0)(@types/pg@8.15.5)(kysely@0.28.7)(pg@8.16.3))
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       tailwindcss:
         specifier: ^4.1.14
@@ -211,7 +223,7 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       vite:
         specifier: ^7.1.9
@@ -266,13 +278,13 @@ importers:
         specifier: workspace:*
         version: link:../../tooling/typescript
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/core:
@@ -290,13 +302,13 @@ importers:
         specifier: workspace:*
         version: link:../../tooling/typescript
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/db:
@@ -336,13 +348,13 @@ importers:
         specifier: ^8.15.5
         version: 8.15.5
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/storage:
@@ -369,13 +381,13 @@ importers:
         specifier: ^22.18.9
         version: 22.18.9
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   tooling/eslint:
@@ -424,25 +436,32 @@ importers:
         specifier: workspace:*
         version: link:../typescript
       eslint:
-        specifier: ^9.37.0
+        specifier: 'catalog:'
         version: 9.37.0(jiti@2.6.0)
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       typescript:
-        specifier: ^5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   tooling/prettier:
     dependencies:
       prettier:
-        specifier: ^3.6.2
+        specifier: 'catalog:'
         version: 3.6.2
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
         version: 0.6.14(prettier@3.6.2)
 
-  tooling/typescript: {}
+  tooling/typescript:
+    devDependencies:
+      '@remote-cache/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
 
 packages:
 
