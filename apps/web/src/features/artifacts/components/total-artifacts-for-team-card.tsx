@@ -1,5 +1,4 @@
 import { count, eq } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { artifact, artifactTeam, team } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound } from "@tanstack/react-router";
@@ -8,6 +7,7 @@ import { PackageIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/lib/db";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 

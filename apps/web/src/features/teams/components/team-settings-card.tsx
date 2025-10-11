@@ -1,5 +1,4 @@
 import { eq } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { team } from "@remote-cache/db/schema";
 import {
 	queryOptions,
@@ -23,6 +22,7 @@ import {
 import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/lib/db";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 

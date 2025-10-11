@@ -1,15 +1,21 @@
+import type { Database } from "@remote-cache/db";
+import type { Database as LocalDatabase } from "@remote-cache/db/providers/local";
+import type { Database as NetlifyNeonDatabase } from "@remote-cache/db/providers/netlify-neon";
+
 import { eq } from "@remote-cache/db";
-import { client, db } from "@remote-cache/db/client";
 import { user } from "@remote-cache/db/schema";
-import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
+import { migrate as migrateNeonDatabase } from "drizzle-orm/neon-http/migrator";
+import { migrate as migrateNodeDatabase } from "drizzle-orm/node-postgres/migrator";
 import * as R from "remeda";
 
-import { auth } from "../src/lib/auth.server";
+import { env } from "@/env.server";
+import { auth } from "@/lib/auth.server";
+import { client, db } from "@/lib/db";
 
 async function migrateAdminUser() {
-	const name = process.env.ADMIN_NAME;
-	const email = process.env.ADMIN_EMAIL;
-	const password = process.env.ADMIN_PASSWORD;
+	const name = env.ADMIN_NAME;
+	const email = env.ADMIN_EMAIL;
+	const password = env.ADMIN_PASSWORD;
 
 	if (!name || !email || !password) {
 		console.log("👨‍💼 Missing admin information...");
@@ -37,12 +43,27 @@ async function migrateAdminUser() {
 	await auth.api.signUpEmail({ body: { name, email, password } });
 }
 
+async function migrateDatabase(db: Database) {
+	if (env.DATABASE_PROVIDER === "local") {
+		return migrateNodeDatabase(db as LocalDatabase, {
+			migrationsFolder: "./migrations",
+		});
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if (env.DATABASE_PROVIDER === "netlify-neon") {
+		return migrateNeonDatabase(db as NetlifyNeonDatabase, {
+			migrationsFolder: "./migrations",
+		});
+	}
+
+	throw new Error("Invalid DATABASE_PROVIDER environment variable");
+}
+
 async function migrate() {
 	console.log("🗄️ Migrating database...");
 
-	await baseMigrate(db, {
-		migrationsFolder: "./migrations",
-	});
+	await migrateDatabase(db);
 
 	console.log("🔒 Migrating auth...");
 
@@ -57,5 +78,7 @@ try {
 	console.error(e);
 	process.exit(1);
 } finally {
-	await client.end();
+	if ("end" in client) {
+		await client.end();
+	}
 }

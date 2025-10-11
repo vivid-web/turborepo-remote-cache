@@ -1,8 +1,8 @@
-import { db } from "@remote-cache/db/client";
 import { user } from "@remote-cache/db/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+import { db } from "@/lib/db";
 import { auth } from "@/middlewares/auth";
 
 import { EmailSchema, NameSchema } from "../schemas";

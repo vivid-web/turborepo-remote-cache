@@ -3,12 +3,15 @@
 	"extends": ["//"],
 	"tasks": {
 		"migrate": {
-			"env": [
+			"passThroughEnv": [
 				"ADMIN_NAME",
 				"ADMIN_EMAIL",
 				"ADMIN_PASSWORD",
 				"BETTER_AUTH_SECRET",
-				"DATABASE_URL"
+				"DATABASE_PROVIDER",
+				"DATABASE_URL",
+				"NETLIFY_DATABASE_URL",
+				"NETLIFY_DATABASE_URL_UNPOOLED"
 			]
 		},
 		"build": {

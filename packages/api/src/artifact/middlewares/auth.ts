@@ -1,3 +1,4 @@
+import type { Database } from "@remote-cache/db";
 import type { MiddlewareHandler } from "hono";
 
 import * as HttpStatusCodes from "stoker/http-status-codes";
@@ -11,7 +12,11 @@ export type User = {
 
 const AUTH_REGEX = new RegExp(`^Bearer +([A-Za-z0-9._~+/-]+=*) *$`);
 
-export function auth(): MiddlewareHandler {
+type Options = {
+	database: Database;
+};
+
+export function auth({ database }: Options): MiddlewareHandler {
 	return async (c, next) => {
 		const header = c.req.header("Authorization");
 
@@ -25,13 +30,13 @@ export function auth(): MiddlewareHandler {
 			return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
 		}
 
-		const user = await getUserForToken(token);
+		const user = await getUserForToken(database)(token);
 
 		if (!user) {
 			return c.json("Unauthorized", HttpStatusCodes.UNAUTHORIZED);
 		}
 
-		await touchApiKeyForToken(token);
+		await touchApiKeyForToken(database)(token);
 
 		c.set("user", user);
 
