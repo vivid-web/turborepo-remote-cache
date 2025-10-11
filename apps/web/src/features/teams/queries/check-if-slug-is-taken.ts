@@ -1,9 +1,9 @@
 import { and, eq, not, SQL } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { team } from "@remote-cache/db/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+import { db } from "@/lib/db";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 

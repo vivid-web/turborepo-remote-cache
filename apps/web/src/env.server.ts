@@ -1,11 +1,10 @@
-import { env as db } from "@remote-cache/db";
 import { createEnv } from "@t3-oss/env-core";
 import { netlify } from "@t3-oss/env-core/presets-zod";
 import { process } from "std-env";
 import { z } from "zod";
 
 export const env = createEnv({
-	extends: [netlify(), db],
+	extends: [netlify()],
 	server: {
 		BASE_URL: z.url().optional().default("http://localhost:3000"),
 
@@ -23,12 +22,28 @@ export const env = createEnv({
 		NETLIFY_BLOBS_SITE_ID: z.string().min(1).optional(),
 		NETLIFY_BLOBS_TOKEN: z.string().min(1).optional(),
 
+		// Netlify Neon database
+		NETLIFY_DATABASE_URL: z.url().optional(),
+		NETLIFY_DATABASE_URL_UNPOOLED: z.url().optional(),
+
 		// Sentry
 		VITE_SENTRY_DSN: z.url().optional(),
 
 		// Better auth
 		BETTER_AUTH_SECRET: z.string().min(32).max(128).optional(),
 		BETTER_AUTH_URL: z.url().optional(),
+
+		// Database
+		DATABASE_URL: z.url().optional(),
+		DATABASE_PROVIDER: z
+			.literal(["local", "netlify-neon"])
+			.optional()
+			.default("local"),
+
+		// Admin user (for initial setup)
+		ADMIN_NAME: z.string().min(1).optional(),
+		ADMIN_EMAIL: z.email().optional(),
+		ADMIN_PASSWORD: z.string().min(8).optional(),
 
 		// Netlify override as the `netlify` preset doesn't cast NETLIFY to a boolean
 		NETLIFY: z.stringbool().optional(),
@@ -40,9 +55,16 @@ export const env = createEnv({
 		NETLIFY_BLOBS_STORE_NAME: process.env.NETLIFY_BLOBS_STORE_NAME,
 		NETLIFY_BLOBS_SITE_ID: process.env.NETLIFY_BLOBS_SITE_ID,
 		NETLIFY_BLOBS_TOKEN: process.env.NETLIFY_BLOBS_TOKEN,
+		NETLIFY_DATABASE_URL: process.env.NETLIFY_DATABASE_URL,
+		NETLIFY_DATABASE_URL_UNPOOLED: process.env.NETLIFY_DATABASE_URL_UNPOOLED,
 		VITE_SENTRY_DSN: process.env.VITE_SENTRY_DSN,
 		BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
 		BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+		DATABASE_URL: process.env.DATABASE_URL,
+		DATABASE_PROVIDER: process.env.DATABASE_PROVIDER,
+		ADMIN_NAME: process.env.ADMIN_NAME,
+		ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+		ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 		NETLIFY: process.env.NETLIFY,
 	},
 	emptyStringAsUndefined: true,
