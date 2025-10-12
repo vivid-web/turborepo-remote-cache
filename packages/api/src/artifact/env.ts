@@ -1,11 +1,10 @@
-import { env as db } from "@remote-cache/db";
 import { createEnv } from "@t3-oss/env-core";
 import { netlify } from "@t3-oss/env-core/presets-zod";
 import { process } from "std-env";
 import { z } from "zod";
 
 export const env = createEnv({
-	extends: [netlify(), db],
+	extends: [netlify()],
 	server: {
 		BASE_URL: z.url(),
 
