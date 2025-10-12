@@ -12,6 +12,10 @@
 			"types": "./dist/providers/local/index.d.ts",
 			"default": "./dist/providers/local/index.js"
 		},
+		"./providers/neon": {
+			"types": "./dist/providers/neon/index.d.ts",
+			"default": "./dist/providers/neon/index.js"
+		},
 		"./schema": {
 			"types": "./dist/schema.d.ts",
 			"default": "./dist/schema.js"
@@ -32,10 +36,12 @@
 		"zod": "^4.1.12"
 	},
 	"peerDependencies": {
+		"@neondatabase/serverless": "^1.0.2",
 		"pg": "^8.16.3"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
+		"@neondatabase/serverless": "^1.0.2",
 		"@remote-cache/eslint-config": "workspace:*",
 		"@remote-cache/prettier-config": "workspace:*",
 		"@remote-cache/tsconfig": "workspace:*",
