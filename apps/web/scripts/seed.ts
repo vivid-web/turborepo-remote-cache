@@ -1,4 +1,3 @@
-import { client, db } from "@remote-cache/db/client";
 import {
 	account,
 	apiKey,
@@ -11,6 +10,8 @@ import {
 	verification,
 } from "@remote-cache/db/schema";
 import { seed } from "drizzle-seed";
+
+import { client, db } from "@/lib/db";
 
 async function run() {
 	console.log("🌱 Seeding...");
@@ -52,5 +53,7 @@ try {
 	console.error(e);
 	process.exit(1);
 } finally {
-	await client.end();
+	if ("end" in client) {
+		await client.end();
+	}
 }

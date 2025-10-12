@@ -1,10 +1,10 @@
-import { db } from "@remote-cache/db/client";
 import { user } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { UserIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/lib/db";
 import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";

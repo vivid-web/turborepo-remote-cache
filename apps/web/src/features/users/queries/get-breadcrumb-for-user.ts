@@ -1,10 +1,10 @@
 import { eq } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { user } from "@remote-cache/db/schema";
 import { notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+import { db } from "@/lib/db";
 import { IdSchema } from "@/lib/schemas";
 
 const getBreadcrumbForUser = createServerFn({ method: "GET" })
