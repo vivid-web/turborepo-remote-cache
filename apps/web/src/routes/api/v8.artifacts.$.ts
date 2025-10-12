@@ -1,10 +1,12 @@
 import { createHandler } from "@remote-cache/api/artifact";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { db } from "@/lib/db";
 import { storage } from "@/lib/storage";
 
 const handler = createHandler({
 	storage,
+	database: db,
 	basePath: "/api/v8/artifacts",
 });
 

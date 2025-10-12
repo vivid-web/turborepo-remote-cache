@@ -1,3 +1,4 @@
+import type { Database } from "@remote-cache/db";
 import type { Storage } from "@remote-cache/storage";
 
 import { zValidator } from "@hono/zod-validator";
@@ -18,13 +19,14 @@ import { getBaseUrl } from "../lib/utils.js";
 import { auth } from "../middlewares/auth.js";
 
 type Options = {
+	database: Database;
 	storage: Storage;
 };
 
-function createRouter({ storage }: Options) {
+function createRouter({ storage, database }: Options) {
 	const router = new Hono();
 
-	router.use(auth());
+	router.use(auth({ database }));
 
 	// https://turborepo.com/docs/openapi/artifacts/record-events
 	router.post("/events", (c) => {
@@ -53,7 +55,7 @@ function createRouter({ storage }: Options) {
 				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
 			}
 
-			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+			const team = await getTeamForUserWithTeamIdOrSlug(database)(user.id, {
 				teamId,
 				slug,
 			});
@@ -65,7 +67,7 @@ function createRouter({ storage }: Options) {
 			const blob = await c.req.blob();
 
 			await storage.set(hash, blob);
-			await createArtifact({ hash, teamId: team.id });
+			await createArtifact(database)({ hash, teamId: team.id });
 
 			const baseUrl = getBaseUrl();
 
@@ -91,7 +93,7 @@ function createRouter({ storage }: Options) {
 				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
 			}
 
-			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+			const team = await getTeamForUserWithTeamIdOrSlug(database)(user.id, {
 				teamId,
 				slug,
 			});
@@ -100,7 +102,7 @@ function createRouter({ storage }: Options) {
 				return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
 			}
 
-			const artifact = await getArtifactForTeam(team.id, hash);
+			const artifact = await getArtifactForTeam(database)(team.id, hash);
 
 			if (!artifact) {
 				return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
@@ -135,7 +137,7 @@ function createRouter({ storage }: Options) {
 				return c.json("Bad Request", HttpStatusCodes.BAD_REQUEST);
 			}
 
-			const team = await getTeamForUserWithTeamIdOrSlug(user.id, {
+			const team = await getTeamForUserWithTeamIdOrSlug(database)(user.id, {
 				teamId,
 				slug,
 			});
@@ -144,7 +146,7 @@ function createRouter({ storage }: Options) {
 				return c.json("Forbidden", HttpStatusCodes.FORBIDDEN);
 			}
 
-			const artifact = await getArtifactForTeam(team.id, hash);
+			const artifact = await getArtifactForTeam(database)(team.id, hash);
 
 			if (!artifact) {
 				return c.json("Not Found", HttpStatusCodes.NOT_FOUND);
