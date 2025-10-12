@@ -8,13 +8,14 @@ import { migrate as migrateNeonDatabase } from "drizzle-orm/neon-http/migrator";
 import { migrate as migrateNodeDatabase } from "drizzle-orm/node-postgres/migrator";
 import * as R from "remeda";
 
+import { env } from "@/env.server";
 import { auth } from "@/lib/auth.server";
 import { client, db } from "@/lib/db";
 
 async function migrateAdminUser() {
-	const name = process.env.ADMIN_NAME;
-	const email = process.env.ADMIN_EMAIL;
-	const password = process.env.ADMIN_PASSWORD;
+	const name = env.ADMIN_NAME;
+	const email = env.ADMIN_EMAIL;
+	const password = env.ADMIN_PASSWORD;
 
 	if (!name || !email || !password) {
 		console.log("👨‍💼 Missing admin information...");
@@ -43,13 +44,14 @@ async function migrateAdminUser() {
 }
 
 async function migrateDatabase(db: Database) {
-	if (process.env.DATABASE_PROVIDER === "local") {
+	if (env.DATABASE_PROVIDER === "local") {
 		return migrateNodeDatabase(db as LocalDatabase, {
 			migrationsFolder: "./migrations",
 		});
 	}
 
-	if (process.env.DATABASE_PROVIDER === "neon") {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if (env.DATABASE_PROVIDER === "neon") {
 		return migrateNeonDatabase(db as NeonDatabase, {
 			migrationsFolder: "./migrations",
 		});

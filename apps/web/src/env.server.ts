@@ -33,6 +33,11 @@ export const env = createEnv({
 		DATABASE_URL: z.url(),
 		DATABASE_PROVIDER: z.literal(["local", "neon"]).optional().default("local"),
 
+		// Admin user (for initial setup)
+		ADMIN_NAME: z.string().min(1).optional(),
+		ADMIN_EMAIL: z.email().optional(),
+		ADMIN_PASSWORD: z.string().min(8).optional(),
+
 		// Netlify override as the `netlify` preset doesn't cast NETLIFY to a boolean
 		NETLIFY: z.stringbool().optional(),
 	},
@@ -48,6 +53,9 @@ export const env = createEnv({
 		BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
 		DATABASE_URL: process.env.DATABASE_URL,
 		DATABASE_PROVIDER: process.env.DATABASE_PROVIDER,
+		ADMIN_NAME: process.env.ADMIN_NAME,
+		ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+		ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 		NETLIFY: process.env.NETLIFY,
 	},
 	emptyStringAsUndefined: true,
