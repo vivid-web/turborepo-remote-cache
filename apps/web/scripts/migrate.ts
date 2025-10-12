@@ -1,10 +1,15 @@
+import type { Database } from "@remote-cache/db";
+import type { Database as LocalDatabase } from "@remote-cache/db/providers/local";
+import type { Database as NeonDatabase } from "@remote-cache/db/providers/neon";
+
 import { eq } from "@remote-cache/db";
-import { client, db } from "@remote-cache/db/client";
 import { user } from "@remote-cache/db/schema";
-import { migrate as baseMigrate } from "drizzle-orm/node-postgres/migrator";
+import { migrate as migrateNeonDatabase } from "drizzle-orm/neon-http/migrator";
+import { migrate as migrateNodeDatabase } from "drizzle-orm/node-postgres/migrator";
 import * as R from "remeda";
 
-import { auth } from "../src/lib/auth.server";
+import { auth } from "@/lib/auth.server";
+import { client, db } from "@/lib/db";
 
 async function migrateAdminUser() {
 	const name = process.env.ADMIN_NAME;
@@ -37,12 +42,26 @@ async function migrateAdminUser() {
 	await auth.api.signUpEmail({ body: { name, email, password } });
 }
 
+async function migrateDatabase(db: Database) {
+	if (process.env.DATABASE_PROVIDER === "local") {
+		return migrateNodeDatabase(db as LocalDatabase, {
+			migrationsFolder: "./migrations",
+		});
+	}
+
+	if (process.env.DATABASE_PROVIDER === "neon") {
+		return migrateNeonDatabase(db as NeonDatabase, {
+			migrationsFolder: "./migrations",
+		});
+	}
+
+	throw new Error("Invalid DATABASE_PROVIDER environment variable");
+}
+
 async function migrate() {
 	console.log("🗄️ Migrating database...");
 
-	await baseMigrate(db, {
-		migrationsFolder: "./migrations",
-	});
+	await migrateDatabase(db);
 
 	console.log("🔒 Migrating auth...");
 
@@ -57,5 +76,7 @@ try {
 	console.error(e);
 	process.exit(1);
 } finally {
-	await client.end();
+	if ("end" in client) {
+		await client.end();
+	}
 }

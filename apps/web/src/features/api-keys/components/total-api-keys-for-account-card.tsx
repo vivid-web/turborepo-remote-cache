@@ -1,12 +1,12 @@
 import { invariant } from "@remote-cache/core";
 import { count, eq } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { apiKey } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { KeyRoundIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/lib/db";
 import { auth } from "@/middlewares/auth";
 
 import { API_KEYS_QUERY_KEY } from "../constants";

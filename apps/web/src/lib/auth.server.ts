@@ -1,9 +1,9 @@
-import { db } from "@remote-cache/db/client";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { reactStartCookies } from "better-auth/react-start";
 
 import { env } from "@/env.server";
+import { db } from "@/lib/db";
 
 function getNetlifyBaseUrl() {
 	if (env.CONTEXT === "production" && env.URL) {

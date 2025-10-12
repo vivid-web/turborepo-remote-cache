@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from "react";
 
 import { and, asc, eq, isNull, SQL } from "@remote-cache/db";
-import { db } from "@remote-cache/db/client";
 import { team, teamMember } from "@remote-cache/db/schema";
 import {
 	queryOptions,
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { db } from "@/lib/db";
 import { IdSchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
