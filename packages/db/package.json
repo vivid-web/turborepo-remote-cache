@@ -8,9 +8,9 @@
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
-		"./client": {
-			"types": "./dist/client.d.ts",
-			"default": "./dist/client.js"
+		"./providers/local": {
+			"types": "./dist/providers/local/index.d.ts",
+			"default": "./dist/providers/local/index.js"
 		},
 		"./schema": {
 			"types": "./dist/schema.d.ts",
@@ -28,9 +28,11 @@
 		"@paralleldrive/cuid2": "^2.2.2",
 		"@t3-oss/env-core": "^0.13.8",
 		"drizzle-orm": "^0.44.6",
-		"pg": "^8.16.3",
 		"std-env": "^3.9.0",
 		"zod": "^4.1.12"
+	},
+	"peerDependencies": {
+		"pg": "^8.16.3"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -39,6 +41,7 @@
 		"@remote-cache/tsconfig": "workspace:*",
 		"@types/pg": "^8.15.5",
 		"eslint": "catalog:",
+		"pg": "^8.16.3",
 		"prettier": "catalog:",
 		"typescript": "catalog:"
 	},
