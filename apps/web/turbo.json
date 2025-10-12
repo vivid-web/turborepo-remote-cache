@@ -3,7 +3,7 @@
 	"extends": ["//"],
 	"tasks": {
 		"migrate": {
-			"env": [
+			"passThroughEnv": [
 				"ADMIN_NAME",
 				"ADMIN_EMAIL",
 				"ADMIN_PASSWORD",
