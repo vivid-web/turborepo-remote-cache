@@ -1,14 +1,4 @@
-import { invariant } from "@remote-cache/core";
-import {
-	and,
-	count,
-	desc,
-	eq,
-	ilike,
-	inArray,
-	or,
-	SQL,
-} from "@remote-cache/db";
+import { and, desc, eq, ilike, inArray, or, SQL } from "@remote-cache/db";
 import { artifact, artifactTeam, team } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
@@ -31,19 +21,18 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { db } from "@/lib/db";
+import { PaginationSchema, withPagination } from "@/lib/pagination";
 import { auth } from "@/middlewares/auth";
 
 import { ARTIFACTS_QUERY_KEY } from "../constants";
-import { PageSchema, PageSizeSchema, QuerySchema } from "../schemas";
+import { QuerySchema } from "../schemas";
 import { ArtifactsTable } from "./artifacts-table";
 import { SearchArtifactsForm } from "./search-artifacts-form";
 
 type Params = z.input<typeof ParamsSchema>;
 
-const ParamsSchema = z.object({
+const ParamsSchema = PaginationSchema.extend({
 	query: QuerySchema.optional(),
-	page: PageSchema.optional().default(1),
-	limit: PageSizeSchema.optional().default(10),
 });
 
 const getAllArtifacts = createServerFn({ method: "GET" })
@@ -56,9 +45,7 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 			filters.push(or(ilike(artifact.hash, `%${query}%`)));
 		}
 
-		const offset = (page - 1) * limit;
-
-		const artifacts = await db
+		const artifactQuery = db
 			.select({
 				artifactId: artifact.id,
 				hash: artifact.hash,
@@ -67,8 +54,12 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 			.from(artifact)
 			.where(and(...filters))
 			.orderBy(desc(artifact.createdAt))
-			.limit(limit)
-			.offset(offset);
+			.$dynamic();
+
+		const [artifacts, pagination] = await withPagination(artifactQuery, {
+			limit,
+			page,
+		});
 
 		const artifactTeamCollection = await db
 			.selectDistinct({
@@ -82,16 +73,6 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 			.innerJoin(artifact, eq(artifactTeam.artifactId, artifact.id))
 			.where(inArray(artifact.id, artifacts.map(R.prop("artifactId"))));
 
-		const totalArtifactResult = await db
-			.select({ totalArtifacts: count() })
-			.from(artifact)
-			.where(and(...filters))
-			.then(R.first());
-
-		invariant(totalArtifactResult, "Count query should return a result");
-
-		const { totalArtifacts } = totalArtifactResult;
-
 		const data = artifacts.map((artifact) => {
 			const teams = artifactTeamCollection.filter(
 				(team) => team.artifactId === artifact.artifactId,
@@ -99,13 +80,6 @@ const getAllArtifacts = createServerFn({ method: "GET" })
 
 			return { ...artifact, teams };
 		});
-
-		const pagination = {
-			page,
-			limit,
-			totalPages: Math.ceil(totalArtifacts / limit),
-			totalItems: totalArtifacts,
-		};
 
 		return {
 			data,
@@ -152,18 +126,7 @@ function AllArtifactsCard({
 			<CardContent className="flex flex-col gap-4">
 				<ArtifactsTable artifacts={artifacts.data} />
 				<div className="flex flex-1 flex-row justify-between">
-					<Select>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Number of items" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="10">10</SelectItem>
-							<SelectItem value="25">25</SelectItem>
-							<SelectItem value="50">50</SelectItem>
-							<SelectItem value="100">100</SelectItem>
-						</SelectContent>
-					</Select>
-					<Pagination {...artifacts.pagination} className="mx-0 flex w-auto" />
+					<Pagination {...artifacts.pagination} />
 				</div>
 			</CardContent>
 		</Card>

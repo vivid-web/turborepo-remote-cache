@@ -1,20 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
 
 import { AllArtifactsCard } from "@/features/artifacts/components/all-artifacts-card";
 import { TotalArtifactsCard } from "@/features/artifacts/components/total-artifacts-card";
-import {
-	PageSchema,
-	PageSizeSchema,
-	QuerySchema,
-} from "@/features/artifacts/schemas";
+import { QuerySchema } from "@/features/artifacts/schemas";
+import { PaginationSchema } from "@/lib/pagination";
 
 export const Route = createFileRoute("/_authenticated/artifacts/")({
 	component: RouteComponent,
-	validateSearch: z.object({
+	validateSearch: PaginationSchema.extend({
 		query: QuerySchema.optional(),
-		pageSize: PageSizeSchema.optional(),
-		page: PageSchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
 	loader: async ({ context: { queryClient }, deps: search }) => {
