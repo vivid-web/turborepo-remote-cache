@@ -30,11 +30,11 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@hono/node-server": "^1.19.5",
-		"@netlify/blobs": "^10.0.11",
+		"@netlify/blobs": "^10.1.0",
 		"@remote-cache/eslint-config": "workspace:*",
 		"@remote-cache/prettier-config": "workspace:*",
 		"@remote-cache/tsconfig": "workspace:*",
-		"@types/node": "^22.18.9",
+		"@types/node": "^22.18.10",
 		"eslint": "catalog:",
 		"prettier": "catalog:",
 		"typescript": "catalog:"
