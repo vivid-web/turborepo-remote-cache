@@ -17,12 +17,12 @@
 		"format": "prettier --cache --cache-location .cache/prettier --check ."
 	},
 	"dependencies": {
-		"@hono/zod-validator": "^0.7.3",
+		"@hono/zod-validator": "^0.7.4",
 		"@remote-cache/core": "workspace:*",
 		"@remote-cache/db": "workspace:*",
 		"@remote-cache/storage": "workspace:*",
 		"@t3-oss/env-core": "^0.13.8",
-		"hono": "^4.9.10",
+		"hono": "^4.9.11",
 		"remeda": "^2.32.0",
 		"std-env": "^3.9.0",
 		"stoker": "^2.0.1",
