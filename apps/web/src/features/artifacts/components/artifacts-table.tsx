@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 
 import { formatCreatedDate } from "../utils";
+import { formatDistance } from "date-fns";
 
 type Team = {
 	slug: string;
@@ -37,7 +38,7 @@ function FilledRow({ hash, createdAt, teams }: Artifact) {
 				))}
 			</TableCell>
 			<TableCell className="text-muted-foreground">
-				{formatCreatedDate(createdAt)}
+				{formatDistance(createdAt, new Date(), { addSuffix: true })}
 			</TableCell>
 		</TableRow>
 	);

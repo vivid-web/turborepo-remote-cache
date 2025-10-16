@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import * as React from "react";
 
 import { AllArtifactsCard } from "@/features/artifacts/components/all-artifacts-card";
 import { TotalArtifactsCard } from "@/features/artifacts/components/total-artifacts-card";
@@ -42,7 +43,9 @@ function RouteComponent() {
 				<TotalArtifactsCard />
 			</div>
 
-			<AllArtifactsCard {...search} onSearch={handleSearch} />
+			<React.Suspense fallback={<div>Loading...</div>}>
+				<AllArtifactsCard {...search} onSearch={handleSearch} />
+			</React.Suspense>
 		</div>
 	);
 }

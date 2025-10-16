@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import * as React from "react";
 
 import {
@@ -8,8 +9,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-
-import { formatCreatedDate } from "../utils";
 
 type Artifact = {
 	artifactId: string;
@@ -24,7 +23,7 @@ function FilledRow({ hash, createdAt }: Artifact) {
 				{hash}
 			</TableCell>
 			<TableCell className="text-muted-foreground">
-				{formatCreatedDate(createdAt)}
+				{formatDistance(createdAt, new Date(), { addSuffix: true })}
 			</TableCell>
 		</TableRow>
 	);
