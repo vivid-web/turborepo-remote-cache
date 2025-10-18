@@ -29,15 +29,6 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 });
 
 function RouteComponent() {
-	const navigate = Route.useNavigate();
-	const search = Route.useSearch();
-
-	const handleSearch = async (query?: string) => {
-		await navigate({
-			search: (curr) => ({ ...curr, query }),
-		});
-	};
-
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -69,7 +60,7 @@ function RouteComponent() {
 				<TotalTeamsCard />
 			</div>
 
-			<AllTeamsCard query={search.query} onSearch={handleSearch} />
+			<AllTeamsCard />
 		</div>
 	);
 }
