@@ -1,10 +1,12 @@
 import { asc, eq, ilike, inArray, or, SQL } from "@remote-cache/db";
 import { team, teamMember, user } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import * as R from "remeda";
 import { z } from "zod";
 
+import { SearchForm } from "@/components/search-form";
 import {
 	Card,
 	CardContent,
@@ -13,11 +15,10 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
+import { QuerySchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
-import { QuerySchema } from "../schemas";
-import { SearchTeamsForm } from "./search-teams-form";
 import { TeamsTable } from "./teams-table";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -77,10 +78,13 @@ function allTeamsQueryOptions(params: Params) {
 	});
 }
 
-function AllTeamsCard({
-	query,
-	onSearch,
-}: Params & { onSearch: (query?: string) => Promise<void> | void }) {
+const routeApi = getRouteApi("/_authenticated/teams/");
+
+function AllTeamsCard() {
+	const query = routeApi.useSearch({
+		select: (state) => state.query,
+	});
+
 	const { data: teams } = useSuspenseQuery(allTeamsQueryOptions({ query }));
 
 	return (
@@ -94,7 +98,7 @@ function AllTeamsCard({
 						</CardDescription>
 					</div>
 
-					<SearchTeamsForm query={query} onSearch={onSearch} />
+					<SearchForm placeholder="Search teams..." />
 				</div>
 			</CardHeader>
 			<CardContent>

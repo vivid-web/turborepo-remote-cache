@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
-import { QuerySchema } from "@/features/teams/schemas";
+import { QuerySchema } from "@/lib/schemas";
 
 const { AddNewTeamDialog } = lazily(
 	() => import("@/features/teams/components/add-new-team-dialog"),
@@ -29,15 +29,6 @@ export const Route = createFileRoute("/_authenticated/teams/")({
 });
 
 function RouteComponent() {
-	const navigate = Route.useNavigate();
-	const search = Route.useSearch();
-
-	const handleSearch = async (query?: string) => {
-		await navigate({
-			search: (curr) => ({ ...curr, query }),
-		});
-	};
-
 	return (
 		<div className="grid gap-6">
 			<div className="flex items-center justify-between">
@@ -69,7 +60,7 @@ function RouteComponent() {
 				<TotalTeamsCard />
 			</div>
 
-			<AllTeamsCard query={search.query} onSearch={handleSearch} />
+			<AllTeamsCard />
 		</div>
 	);
 }

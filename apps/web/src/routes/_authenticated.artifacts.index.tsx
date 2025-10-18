@@ -3,12 +3,14 @@ import { z } from "zod";
 
 import { AllArtifactsCard } from "@/features/artifacts/components/all-artifacts-card";
 import { TotalArtifactsCard } from "@/features/artifacts/components/total-artifacts-card";
-import { QuerySchema } from "@/features/artifacts/schemas";
+import { LimitSchema, PageSchema, QuerySchema } from "@/lib/schemas";
 
 export const Route = createFileRoute("/_authenticated/artifacts/")({
 	component: RouteComponent,
 	validateSearch: z.object({
 		query: QuerySchema.optional(),
+		limit: LimitSchema.optional(),
+		page: PageSchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
 	loader: async ({ context: { queryClient }, deps: search }) => {
@@ -20,15 +22,6 @@ export const Route = createFileRoute("/_authenticated/artifacts/")({
 });
 
 function RouteComponent() {
-	const navigate = Route.useNavigate();
-	const search = Route.useSearch();
-
-	const handleSearch = async (query?: string) => {
-		await navigate({
-			search: (curr) => ({ ...curr, query }),
-		});
-	};
-
 	return (
 		<div className="grid gap-6">
 			<div>
@@ -42,7 +35,7 @@ function RouteComponent() {
 				<TotalArtifactsCard />
 			</div>
 
-			<AllArtifactsCard query={search.query} onSearch={handleSearch} />
+			<AllArtifactsCard />
 		</div>
 	);
 }

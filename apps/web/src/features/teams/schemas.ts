@@ -18,6 +18,4 @@ const DescriptionSchema = z
 	.max(1024, "Description must be less than 1024 characters")
 	.nullable();
 
-const QuerySchema = z.string("Query must be a string");
-
-export { DescriptionSchema, NameSchema, QuerySchema, SlugSchema };
+export { DescriptionSchema, NameSchema, SlugSchema };

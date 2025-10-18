@@ -9,19 +9,27 @@ import { TeamDangerZoneCard } from "@/features/teams/components/team-danger-zone
 import { TeamSettingsCard } from "@/features/teams/components/team-settings-card";
 import { getBreadcrumbForTeam } from "@/features/teams/queries/get-breadcrumb-for-team";
 import { TotalUsersForTeamCard } from "@/features/users/components/total-users-for-team-card";
-import { IdSchema } from "@/lib/schemas";
+import { IdSchema, LimitSchema, PageSchema, QuerySchema } from "@/lib/schemas";
 
 const TabSchema = z.enum(["members", "artifacts", "settings"]);
 
 export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 	component: RouteComponent,
 	validateSearch: z.object({
+		query: QuerySchema.optional(),
+		limit: LimitSchema.optional(),
+		page: PageSchema.optional(),
 		tab: TabSchema.optional().default("members"),
+	}),
+	loaderDeps: ({ search }) => ({
+		query: search.query,
+		limit: search.limit,
+		page: search.page,
 	}),
 	params: {
 		parse: (params) => z.object({ teamId: IdSchema }).parse(params),
 	},
-	loader: async ({ context: { queryClient }, params }) => {
+	loader: async ({ context: { queryClient }, params, deps }) => {
 		const crumb = await getBreadcrumbForTeam({ data: params });
 
 		// prettier-ignore
@@ -29,7 +37,7 @@ export const Route = createFileRoute("/_authenticated/teams/$teamId")({
 			queryClient.ensureQueryData(TotalUsersForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(TotalArtifactsForTeamCard.queryOptions(params)),
 			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
-			queryClient.ensureQueryData(AllArtifactsForTeamCard.queryOptions(params)),
+			queryClient.ensureQueryData(AllArtifactsForTeamCard.queryOptions({...params, ...deps})),
 			queryClient.ensureQueryData(TeamSettingsCard.queryOptions(params)),
 			queryClient.ensureQueryData(AllTeamMembersForTeamCard.queryOptions(params)),
 		]);

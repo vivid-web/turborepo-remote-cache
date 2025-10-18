@@ -1,10 +1,12 @@
 import { asc, desc, eq, ilike, inArray, or, SQL } from "@remote-cache/db";
 import { session, user } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import * as R from "remeda";
 import { z } from "zod";
 
+import { SearchForm } from "@/components/search-form";
 import {
 	Card,
 	CardContent,
@@ -13,11 +15,10 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
+import { QuerySchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
-import { QuerySchema } from "../schemas";
-import { SearchUsersForm } from "./search-users-form";
 import { UsersTable } from "./users-table";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -77,10 +78,13 @@ function allUsersQueryOptions(params: Params) {
 	});
 }
 
-function AllUsersCard({
-	query,
-	onSearch,
-}: Params & { onSearch: (query?: string) => Promise<void> | void }) {
+const routeApi = getRouteApi("/_authenticated/users/");
+
+function AllUsersCard() {
+	const query = routeApi.useSearch({
+		select: (state) => state.query,
+	});
+
 	const { data: users } = useSuspenseQuery(allUsersQueryOptions({ query }));
 
 	return (
@@ -94,7 +98,7 @@ function AllUsersCard({
 						</CardDescription>
 					</div>
 
-					<SearchUsersForm onSearch={onSearch} query={query} />
+					<SearchForm placeholder="Search users..." />
 				</div>
 			</CardHeader>
 			<CardContent>

@@ -1,13 +1,15 @@
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { FormDevtools as ReactFormDevtoolsPanel } from "@tanstack/react-form-devtools";
 import { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 import * as React from "react";
@@ -61,10 +63,24 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
 			</head>
 			<body>
 				{children}
-				<TanStackRouterDevtools position="bottom-right" />
-				<ReactQueryDevtools buttonPosition="bottom-left" />
 				<Toaster />
 				<Scripts />
+				<TanStackDevtools
+					plugins={[
+						{
+							name: "TanStack Query",
+							render: <ReactQueryDevtoolsPanel />,
+						},
+						{
+							name: "TanStack Router",
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+						{
+							name: "TanStack Form",
+							render: <ReactFormDevtoolsPanel />,
+						},
+					]}
+				/>
 			</body>
 		</html>
 	);

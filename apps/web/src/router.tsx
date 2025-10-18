@@ -9,8 +9,9 @@ export function getRouter() {
 	const router = createRouter({
 		context: { queryClient },
 		routeTree,
-		scrollRestoration: true,
+		scrollRestoration: false,
 		defaultPreload: "intent",
+		defaultPreloadStaleTime: 0,
 	});
 
 	setupRouterSsrQueryIntegration({ router, queryClient });
