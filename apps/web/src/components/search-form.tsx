@@ -12,9 +12,10 @@ import {
 	InputGroupInput,
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
+import { QuerySchema } from "@/lib/schemas";
 
 const FormDataSchema = z.object({
-	query: z.string().nullable(),
+	query: QuerySchema.nullable(),
 });
 
 type FormData = z.output<typeof FormDataSchema>;
@@ -23,22 +24,15 @@ const FORM_DEBOUNCE_MS = 500;
 const SPIN_DELAY_MS = 400;
 const SPIN_MIN_DURATION_MS = 300;
 
-type RouteIdWithQuery =
-	| "/_authenticated/artifacts/"
-	| "/_authenticated/teams/"
-	| "/_authenticated/users/";
-
 type Props = Omit<
 	React.ComponentProps<typeof InputGroupInput>,
 	"name" | "onBlur" | "onChange" | "value"
-> & {
-	routeId: RouteIdWithQuery;
-};
+>;
 
-function SearchForm({ routeId, ...props }: Props) {
+function SearchForm(props: Props) {
 	const navigate = useNavigate();
 	const query = useSearch({
-		from: routeId,
+		strict: false,
 		select: (state) => state.query ?? null,
 	});
 

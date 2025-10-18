@@ -15,10 +15,10 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
+import { QuerySchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { USERS_QUERY_KEY } from "../constants";
-import { QuerySchema } from "../schemas";
 import { UsersTable } from "./users-table";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -98,10 +98,7 @@ function AllUsersCard() {
 						</CardDescription>
 					</div>
 
-					<SearchForm
-						routeId="/_authenticated/users/"
-						placeholder="Search users..."
-					/>
+					<SearchForm placeholder="Search users..." />
 				</div>
 			</CardHeader>
 			<CardContent>

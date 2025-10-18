@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { AllTeamsCard } from "@/features/teams/components/all-teams-card";
 import { TotalTeamsCard } from "@/features/teams/components/total-teams-card";
-import { QuerySchema } from "@/features/teams/schemas";
+import { QuerySchema } from "@/lib/schemas";
 
 const { AddNewTeamDialog } = lazily(
 	() => import("@/features/teams/components/add-new-team-dialog"),

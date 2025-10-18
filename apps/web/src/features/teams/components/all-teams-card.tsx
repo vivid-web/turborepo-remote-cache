@@ -15,10 +15,10 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
+import { QuerySchema } from "@/lib/schemas";
 import { auth } from "@/middlewares/auth";
 
 import { TEAMS_QUERY_KEY } from "../constants";
-import { QuerySchema } from "../schemas";
 import { TeamsTable } from "./teams-table";
 
 type Params = z.input<typeof ParamsSchema>;
@@ -98,10 +98,7 @@ function AllTeamsCard() {
 						</CardDescription>
 					</div>
 
-					<SearchForm
-						routeId="/_authenticated/teams/"
-						placeholder="Search teams..."
-					/>
+					<SearchForm placeholder="Search teams..." />
 				</div>
 			</CardHeader>
 			<CardContent>
