@@ -5,6 +5,13 @@ import { lazily } from "react-lazily";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { AllUsersCard } from "@/features/users/components/all-users-card";
 import { TotalUsersCard } from "@/features/users/components/total-users-card";
@@ -65,6 +72,16 @@ function RouteComponent() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-3">
+				<Select>
+					<SelectTrigger className="w-[180px]">
+						<SelectValue placeholder="Theme" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="light">Light</SelectItem>
+						<SelectItem value="dark">Dark</SelectItem>
+						<SelectItem value="system">System</SelectItem>
+					</SelectContent>
+				</Select>
 				<TotalUsersCard />
 			</div>
 

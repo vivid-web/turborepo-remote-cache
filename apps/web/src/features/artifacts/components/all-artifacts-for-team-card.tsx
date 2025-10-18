@@ -2,6 +2,7 @@ import { eq } from "@remote-cache/db";
 import { artifact, artifactTeam, team } from "@remote-cache/db/schema";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
+import { desc } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -37,7 +38,8 @@ const getAllArtifactsForTeam = createServerFn({ method: "GET" })
 			.from(artifact)
 			.innerJoin(artifactTeam, eq(artifact.id, artifactTeam.artifactId))
 			.innerJoin(team, eq(artifactTeam.teamId, team.id))
-			.where(eq(team.id, teamId));
+			.where(eq(team.id, teamId))
+			.orderBy(desc(artifact.createdAt));
 	});
 
 function allArtifactsForTeamQueryOptions(params: Params) {

@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
+import * as React from "react";
 
 import { AllArtifactsCard } from "@/features/artifacts/components/all-artifacts-card";
 import { TotalArtifactsCard } from "@/features/artifacts/components/total-artifacts-card";
 import { QuerySchema } from "@/features/artifacts/schemas";
+import { PaginationSchema } from "@/lib/pagination";
 
 export const Route = createFileRoute("/_authenticated/artifacts/")({
 	component: RouteComponent,
-	validateSearch: z.object({
+	validateSearch: PaginationSchema.extend({
 		query: QuerySchema.optional(),
 	}),
 	loaderDeps: ({ search }) => search,
@@ -42,7 +43,9 @@ function RouteComponent() {
 				<TotalArtifactsCard />
 			</div>
 
-			<AllArtifactsCard query={search.query} onSearch={handleSearch} />
+			<React.Suspense fallback={<div>Loading...</div>}>
+				<AllArtifactsCard {...search} onSearch={handleSearch} />
+			</React.Suspense>
 		</div>
 	);
 }
